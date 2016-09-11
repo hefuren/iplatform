@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns="public" targetNamespace="public">
+	<xsd:element name="fm_formview" type="fm_formview__type" />
+	<xsd:element name="st_rolefunction" type="st_rolefunction__type" />
+	<xsd:element name="st_codetable" type="st_codetable__type" />
+	<xsd:element name="dbmaintain_scripts" type="dbmaintain_scripts__type" />
+	<xsd:element name="st_company" type="st_company__type" />
+	<xsd:element name="fm_formfield" type="fm_formfield__type" />
+	<xsd:element name="test_user" type="test_user__type" />
+	<xsd:element name="fm_formviewitem" type="fm_formviewitem__type" />
+	<xsd:element name="fm_formschema" type="fm_formschema__type" />
+	<xsd:element name="st_userrolerelation" type="st_userrolerelation__type" />
+	<xsd:element name="st_user" type="st_user__type" />
+	<xsd:element name="fm_formfilteritem" type="fm_formfilteritem__type" />
+	<xsd:element name="st_function" type="st_function__type" />
+	<xsd:element name="st_userprofile" type="st_userprofile__type" />
+	<xsd:element name="fm_formfilter" type="fm_formfilter__type" />
+	<xsd:element name="fm_formlist" type="fm_formlist__type" />
+	<xsd:element name="st_role" type="st_role__type" />
+	<xsd:element name="fm_formlistitem" type="fm_formlistitem__type" />
+	<xsd:element name="st_department" type="st_department__type" />
+	<xsd:element name="st_codetablefield" type="st_codetablefield__type" />
+	<xsd:element name="st_userlogininfo" type="st_userlogininfo__type" />
+	<xsd:element name="st_menu" type="st_menu__type" />
+	<xsd:complexType name="fm_formview__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="applicablestatus" use="optional" />
+		<xsd:attribute name="applicableroleid" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="schemaid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_rolefunction__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="roleid" use="optional" />
+		<xsd:attribute name="objecttype" use="optional" />
+		<xsd:attribute name="functionid" use="optional" />
+		<xsd:attribute name="groupid" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="objectid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_codetable__type">
+		<xsd:attribute name="sortby" use="optional" />
+		<xsd:attribute name="idrule" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="createby" use="optional" />
+		<xsd:attribute name="description1" use="optional" />
+		<xsd:attribute name="parentid" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="createtime" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="category" use="optional" />
+		<xsd:attribute name="lastupdatetime" use="optional" />
+		<xsd:attribute name="source" use="optional" />
+		<xsd:attribute name="tablename" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="lastupdateby" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="owner" use="optional" />
+		<xsd:attribute name="name1" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="dbmaintain_scripts__type">
+		<xsd:attribute name="succeeded" use="optional" />
+		<xsd:attribute name="file_last_modified_at" use="optional" />
+		<xsd:attribute name="executed_at" use="optional" />
+		<xsd:attribute name="checksum" use="optional" />
+		<xsd:attribute name="file_name" use="optional" />
+		<xsd:attribute name="version" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_company__type">
+		<xsd:attribute name="contactfax" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="zip" use="optional" />
+		<xsd:attribute name="adress" use="optional" />
+		<xsd:attribute name="contactname" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="contactemail" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="contactphone" use="optional" />
+		<xsd:attribute name="employess" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="url" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formfield__type">
+		<xsd:attribute name="fieldtype" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="fieldid" use="optional" />
+		<xsd:attribute name="schemaid" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="lablename" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="dateprecision" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="tips" use="optional" />
+		<xsd:attribute name="datatype" use="optional" />
+		<xsd:attribute name="numprecision" use="optional" />
+		<xsd:attribute name="defaultvalue" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="test_user__type">
+		<xsd:attribute name="birthday" use="optional" />
+		<xsd:attribute name="zip" use="optional" />
+		<xsd:attribute name="departmentid" use="optional" />
+		<xsd:attribute name="sex" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="createby" use="optional" />
+		<xsd:attribute name="tel" use="optional" />
+		<xsd:attribute name="sourcename" use="optional" />
+		<xsd:attribute name="lastname" use="optional" />
+		<xsd:attribute name="firstname" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="password" use="optional" />
+		<xsd:attribute name="createtime" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="jobnumber" use="optional" />
+		<xsd:attribute name="lastupdatetime" use="optional" />
+		<xsd:attribute name="email" use="optional" />
+		<xsd:attribute name="lastupdateby" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="sourceid" use="optional" />
+		<xsd:attribute name="sourcetype" use="optional" />
+		<xsd:attribute name="displayname" use="optional" />
+		<xsd:attribute name="mobile" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formviewitem__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="height" use="optional" />
+		<xsd:attribute name="viewid" use="optional" />
+		<xsd:attribute name="fieldid" use="optional" />
+		<xsd:attribute name="width" use="optional" />
+		<xsd:attribute name="controltype" use="optional" />
+		<xsd:attribute name="defaultvalue" use="optional" />
+		<xsd:attribute name="editflag" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formschema__type">
+		<xsd:attribute name="createtime" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="lastupdatetime" use="optional" />
+		<xsd:attribute name="referenceid" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="lastupdateby" use="optional" />
+		<xsd:attribute name="createby" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_userrolerelation__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="roleid" use="optional" />
+		<xsd:attribute name="userid" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_user__type">
+		<xsd:attribute name="birthday" use="optional" />
+		<xsd:attribute name="zip" use="optional" />
+		<xsd:attribute name="departmentid" use="optional" />
+		<xsd:attribute name="sex" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="createby" use="optional" />
+		<xsd:attribute name="tel" use="optional" />
+		<xsd:attribute name="sourcename" use="optional" />
+		<xsd:attribute name="lastname" use="optional" />
+		<xsd:attribute name="firstname" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="password" use="optional" />
+		<xsd:attribute name="createtime" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="jobnumber" use="optional" />
+		<xsd:attribute name="lastupdatetime" use="optional" />
+		<xsd:attribute name="email" use="optional" />
+		<xsd:attribute name="lastupdateby" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="sourceid" use="optional" />
+		<xsd:attribute name="sourcetype" use="optional" />
+		<xsd:attribute name="displayname" use="optional" />
+		<xsd:attribute name="mobile" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formfilteritem__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="fieldtype" use="optional" />
+		<xsd:attribute name="fieldid" use="optional" />
+		<xsd:attribute name="filterid" use="optional" />
+		<xsd:attribute name="schemaid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_function__type">
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="parentid" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="clienturl" use="optional" />
+		<xsd:attribute name="applicationid" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="functionname" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="folderurl" use="optional" />
+		<xsd:attribute name="policy" use="optional" />
+		<xsd:attribute name="imageurl" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_userprofile__type">
+		<xsd:attribute name="createtime" use="optional" />
+		<xsd:attribute name="position" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="leavetime" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="lastupdatetime" use="optional" />
+		<xsd:attribute name="jointime" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="lastupdateby" use="optional" />
+		<xsd:attribute name="createby" use="optional" />
+		<xsd:attribute name="userid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formfilter__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="referenceid" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="schemaid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formlist__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="orderby" use="optional" />
+		<xsd:attribute name="ordertype" use="optional" />
+		<xsd:attribute name="schemaid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_role__type">
+		<xsd:attribute name="createtime" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="lastupdatetime" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="lastupdateby" use="optional" />
+		<xsd:attribute name="createby" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="parentid" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="fm_formlistitem__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="widht" use="optional" />
+		<xsd:attribute name="fieldid" use="optional" />
+		<xsd:attribute name="align" use="optional" />
+		<xsd:attribute name="ordertype" use="optional" />
+		<xsd:attribute name="listid" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_department__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="managers" use="optional" />
+		<xsd:attribute name="level" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="sourceid" use="optional" />
+		<xsd:attribute name="sourcename" use="optional" />
+		<xsd:attribute name="parentid" use="optional" />
+		<xsd:attribute name="sourcetype" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_codetablefield__type">
+		<xsd:attribute name="fieldtype" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="fieldlevel" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="fieldid" use="optional" />
+		<xsd:attribute name="usecount" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="tableid" use="optional" />
+		<xsd:attribute name="dataprecision" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="datalength" use="optional" />
+		<xsd:attribute name="datatype" use="optional" />
+		<xsd:attribute name="defaultvalue" use="optional" />
+		<xsd:attribute name="dataformat" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_userlogininfo__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="sessiontime" use="optional" />
+		<xsd:attribute name="lastlogintime" use="optional" />
+		<xsd:attribute name="userid" use="optional" />
+		<xsd:attribute name="currentlogintime" use="optional" />
+		<xsd:attribute name="logintimes" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="st_menu__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="companyid" use="optional" />
+		<xsd:attribute name="seqno" use="optional" />
+		<xsd:attribute name="status" use="optional" />
+		<xsd:attribute name="description" use="optional" />
+		<xsd:attribute name="menukey" use="optional" />
+		<xsd:attribute name="folderurl" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="policy" use="optional" />
+		<xsd:attribute name="parentid" use="optional" />
+		<xsd:attribute name="imageurl" use="optional" />
+		<xsd:attribute name="type" use="optional" />
+		<xsd:attribute name="clienturl" use="optional" />
+		<xsd:attribute name="applicationid" use="optional" />
+	</xsd:complexType>
+</xsd:schema>

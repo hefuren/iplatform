@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+	 http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.bluesky">
+	</context:component-scan>
+
+
+	<!-- 设置动态代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!--  
+	<bean id="dataSourcetarget" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/BSDataSource"></property>
+	</bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.UserCredentialsDataSourceAdapter">
+		<property name="targetDataSource">
+			<ref bean="dataSourcetarget" />
+		</property>
+	</bean>
+	-->
+	<!-- 测试专用数据源配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost/platform" />
+		<property name="username" value="easytrack" />
+		<property name="password" value="easytrack" />
+	</bean>
+
+
+	<!-- mybatis配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mapper/*.xml</value>
+			</array>
+		</property>
+		<property name="typeAliasesPackage" value="com.isea533.mybatis.model" />
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<value>
+							dialect=PostgreSql
+							offsetAsPageNum=true
+							rowBoundsWithCount=true
+							pageSizeZero=true
+							reasonable=false
+							params=pageNum=pageHelperStart;pageSize=pageHelperRows;
+							supportMethodsArguments=false
+							returnPageInfo=none
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="sqlMapper" class="com.github.abel533.sql.SqlMapper"
+		scope="prototype">
+		<constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="com.bluesky.iplatform.**.dao,com.bluesky.iplatform.**.mapper" />
+		<property name="properties">
+			<value>
+				mappers=tk.mybatis.mapper.common.Mapper
+			</value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+</beans>

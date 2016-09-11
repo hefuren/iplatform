@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.bluesky.iplatform.component.function.mapper.FunctionRelationMapper">
+	<!-- 定义ResultMap -->
+	<resultMap id="BaseResultMap"
+		type="com.bluesky.iplatform.component.function.model.FunctionRelation">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="roleid" property="roleID" jdbcType="INTEGER" />
+		<result column="functionid" property="functionID" jdbcType="INTEGER" />
+		<result column="objectid" property="objectID" jdbcType="INTEGER" />
+		<result column="objecttype" property="objectType" jdbcType="INTEGER" />
+		<result column="groupid" property="groupID" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="companyid" property="companyID" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="functionDataMap" type="java.util.HashMap">
+		<result column="name" property="name"  jdbcType="String"/>
+		<collection property="function" ofType="com.bluesky.iplatform.component.function.model.Function">
+			<id column="id" property="id" jdbcType="INTEGER"/>
+			<result column="name" property="name" jdbcType="String"/>
+			<result column="parentid" property="parentID" jdbcType="INTEGER"/>
+			<result column="functionname" property="functionname" jdbcType="String"/>
+			<result column="description" property="description" jdbcType="String"/>
+			<result column="type" property="type" jdbcType="INTEGER"/>
+			<result column="status" property="status" jdbcType="INTEGER"/>
+			<result column="seqno" property="seqno" jdbcType="INTEGER"/>
+			<result column="applicationid" property="applicationid" jdbcType="INTEGER"/>
+			<result column="policy" property="policy" jdbcType="String"/>
+			<result column="clineturl" property="clineturl" jdbcType="String"/>
+			<result column="folderurl" property="folderurl" jdbcType="String"/>
+			<result column="imageurl" property="imageurl" jdbcType="String"/>
+			<result column="companyid" property="companyid" jdbcType="INTEGER"/>
+		</collection>
+	</resultMap>
+	<!-- 定义通用的SQL -->
+	<sql id="Table">
+		st_functionrelation
+	</sql>
+	<sql id="selectId">
+		a.id,  
+		a.roleid, 
+		a.functionid, 
+		a.objectid, 
+		a.objecttype, 
+		a.groupid, 
+		a.status, 
+		a.type, 
+		a.companyid
+	</sql>
+	<sql id="order">
+		<if test="order != null">
+			order by #{order}
+		</if>
+		<if test="!isAsc">
+			desc
+		</if>
+	</sql>
+	<!-- 自定义SQL -->
+	<delete id="deleteModesByFunctionID" parameterType="array">
+		delete from  st_functionrelation
+		<where>   
+			<choose>
+				<when test="array != null and array.length &lt; 0">
+	                functionid in  
+					<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+	            		#{item}
+	       			 </foreach>
+	            </when>			
+				<otherwise> 1 != 1 </otherwise> 
+			</choose>
+		</where>
+	</delete>
+	
+	<delete id="deleteModesByRoleID" parameterType="java.lang.Integer">
+		delete from  st_functionrelation where 
+		roleID = #{roleID}
+	</delete>
+	
+	<insert id="insertModes" parameterType="java.util.List">
+		insert into st_functionrelation (
+		id,  
+		roleid, 
+		functionid, 
+		objectid, 
+		objecttype, 
+		groupid, 
+		status, 
+		type, 
+		companyid )
+		values 
+		<foreach collection="list" item="item" index="index" separator="," > 
+		(
+		#{item.id},
+		#{item.roleid},
+		#{item.functionid},
+		#{item.objectid},
+		#{item.objecttype},
+		#{item.groupid},
+		#{item.status},
+		#{item.type},
+		#{item.companyid})
+		</foreach>
+	</insert>
+	
+	<select id="selectOneMode" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		select 
+		<include refid="selectId" /> 
+		from st_functionrelation a 
+		where id = #{id}
+	</select>
+	
+	<select id="selectFunctionByRoleID" parameterType="java.lang.Integer" resultMap="java.util.HashMap">
+		select 
+		a.id,
+		a.name,
+		a.parentid,
+		a.functionname,
+		a.description,
+		a.type,
+		a.status,
+		a.seqno,
+		a.applicationid,
+		a.policy,
+		a.clienturl,
+		a.folderurl,
+		a.imageurl,
+		a.companyid 
+		from st_function a 
+		left join st_functionRelation b on a.id=b.functionid 
+		<where>
+			b.roleID = #{roleID}
+		</where>
+	
+	</select>
+
+	
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:dflt="public">
+	<xsd:import namespace="public" schemaLocation="public.xsd" />
+	<xsd:element name="dataset">
+		<xsd:complexType>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="fm_formview" type="dflt:fm_formview__type" />
+				<xsd:element name="st_rolefunction" type="dflt:st_rolefunction__type" />
+				<xsd:element name="st_codetable" type="dflt:st_codetable__type" />
+				<xsd:element name="dbmaintain_scripts" type="dflt:dbmaintain_scripts__type" />
+				<xsd:element name="st_company" type="dflt:st_company__type" />
+				<xsd:element name="fm_formfield" type="dflt:fm_formfield__type" />
+				<xsd:element name="test_user" type="dflt:test_user__type" />
+				<xsd:element name="fm_formviewitem" type="dflt:fm_formviewitem__type" />
+				<xsd:element name="fm_formschema" type="dflt:fm_formschema__type" />
+				<xsd:element name="st_userrolerelation" type="dflt:st_userrolerelation__type" />
+				<xsd:element name="st_user" type="dflt:st_user__type" />
+				<xsd:element name="fm_formfilteritem" type="dflt:fm_formfilteritem__type" />
+				<xsd:element name="st_function" type="dflt:st_function__type" />
+				<xsd:element name="st_userprofile" type="dflt:st_userprofile__type" />
+				<xsd:element name="fm_formfilter" type="dflt:fm_formfilter__type" />
+				<xsd:element name="fm_formlist" type="dflt:fm_formlist__type" />
+				<xsd:element name="st_role" type="dflt:st_role__type" />
+				<xsd:element name="fm_formlistitem" type="dflt:fm_formlistitem__type" />
+				<xsd:element name="st_department" type="dflt:st_department__type" />
+				<xsd:element name="st_codetablefield" type="dflt:st_codetablefield__type" />
+				<xsd:element name="st_userlogininfo" type="dflt:st_userlogininfo__type" />
+				<xsd:element name="st_menu" type="dflt:st_menu__type" />
+				<xsd:any namespace="public" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
