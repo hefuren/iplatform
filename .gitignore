@@ -1,0 +1,10 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+/src/.metadata
+/src/iplatform/.settings
+/src/Servers
+/.svn

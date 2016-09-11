@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<url>
+    <hometemp><![CDATA[http://localhost/platform]]></hometemp>
+    <home>/platform</home>
+</url>
+<config>
+    <app-server>TOMCAT</app-server>
+	<db-type>SQLServer</db-type>	
+</config>
+
+<event>
+    <queue-name>queue/A</queue-name>
+    <queue-factory>ConnectionFactory</queue-factory>
+</event>
+<mail-server>
+	<smtp_host>mail.easytrack.com.cn111111111111</smtp_host>
+	<port>25</port>
+	<in-port></in-port>
+	<user>system@easytrack.com.cn</user>
+	<password>easytrack</password>
+	<addmin-name>Admin</addmin-name>
+	<addmin-email>system@easytrack.com.cn</addmin-email>	
+	<send-by-event-user>false</send-by-event-user> <!-- If set to true, some email server will prevent mail because of trash mail setting  -->
+	<starttls>false</starttls>
+	<debug>false</debug>
+	<authenticate>true</authenticate>
+	<connect-timeout>60000</connect-timeout>
+	<send-timeout>600000</send-timeout>
+</mail-server>
+
+
+</root>
