@@ -111,7 +111,7 @@
 		where id = #{id}
 	</select>
 	
-	<select id="selectFunctionByRoleID" parameterType="java.lang.Integer" resultMap="java.util.HashMap">
+	<select id="selectFunctionByRoleID" parameterType="java.lang.Integer" resultMap="functionDataMap">
 		select 
 		a.id,
 		a.name,
