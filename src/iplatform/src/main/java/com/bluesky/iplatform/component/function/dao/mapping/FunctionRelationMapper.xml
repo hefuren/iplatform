@@ -73,6 +73,21 @@
 		</where>
 	</delete>
 	
+	<delete id="deleteModes" parameterType="list">
+		delete from  st_functionrelation 
+		<where>
+			<choose>
+				<when test="list != null and list.size() &lt; 0">
+					 functionid in  
+					<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+	            		#{item.id}
+	       			 </foreach>
+				</when>
+				<otherwise> 1 != 1 </otherwise>
+			</choose>
+		</where>
+	</delete>
+	
 	<delete id="deleteModesByRoleID" parameterType="java.lang.Integer">
 		delete from  st_functionrelation where 
 		roleID = #{roleID}
@@ -111,7 +126,7 @@
 		where id = #{id}
 	</select>
 	
-	<select id="selectFunctionByRoleID" parameterType="java.lang.Integer" resultMap="java.util.HashMap">
+	<select id="selectFunctionByRoleID" parameterType="java.lang.Integer" resultMap="functionDataMap">
 		select 
 		a.id,
 		a.name,
@@ -132,8 +147,41 @@
 		<where>
 			b.roleID = #{roleID}
 		</where>
-	
 	</select>
 
+	<update id="updateModes" parameterType="list">
+		<if test="list != null and list.size() &lt; 0 ">
+			<foreach collection="list" item="item" index="index" open="" close=""  separator=";">
+				update st_functionRelation 
+				<set>
+					<if test="item.roleid != null">
+						roleid = #{item.roleid},
+					</if>
+					<if test="item.functionid != null">
+						functionid = #{item.functionid},
+					</if>
+					<if test="item.objectid != null">
+						objectid = #{item.objectid},
+					</if>
+					<if test="item.objecttype != null">
+						objecttype = #{item.objecttype},
+					</if>
+					<if test="item.groupid != null">
+						groupid = #{item.groupid},
+					</if>
+					<if test="item.status != null">
+						status = #{item.status},
+					</if>
+					<if test="item.type != null">
+						type=#{item.type},
+					</if>
+					<if test="item.companyid != null">
+						companyid = #{item.companyid}
+					</if>
+				</set>
+				where id = #{item.id}
+     		</foreach>
+		</if>
+	</update>
 	
 </mapper>

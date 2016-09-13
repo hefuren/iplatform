@@ -14,8 +14,10 @@ import tk.mybatis.mapper.common.Mapper;
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
 import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.component.profile.dao.RoleDAO;
+import com.bluesky.iplatform.component.profile.mapper.CompanyMapper;
 import com.bluesky.iplatform.component.profile.mapper.RoleMapper;
 import com.bluesky.iplatform.component.profile.mapper.RoleRelationMapper;
+import com.bluesky.iplatform.component.profile.model.Company;
 import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.RoleRelation;
 import com.bluesky.iplatform.component.profile.model.User;
@@ -23,7 +25,7 @@ import com.bluesky.iplatform.component.profile.model.User;
 @Repository(value = "RoleDAOImpl")
 public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleDAO<Role> {
 	
-	 /**
+	/**
      * 初始化通用的Mapper
      */
 	@PostConstruct 

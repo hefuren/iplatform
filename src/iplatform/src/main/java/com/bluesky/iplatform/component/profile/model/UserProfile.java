@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -36,12 +37,14 @@ public class UserProfile extends BaseObject implements java.io.Serializable {
 	// Fields
 
 	private Integer id;
-	private User user;
+	private Integer userID;
 	private Integer position;
 	private Integer status;
 	private Date jointime;
 	private Date leavetime;
 
+	@Transient
+	private User user;
 	// Constructors
 
 	/** default constructor */
@@ -85,6 +88,15 @@ public class UserProfile extends BaseObject implements java.io.Serializable {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid", nullable = false)
+	public Integer getUserID() {
+		return userID;
+	}
+
+	public void setUserID(Integer userID) {
+		this.userID = userID;
+	}
+
+	@Transient
 	public User getUser() {
 		return this.user;
 	}

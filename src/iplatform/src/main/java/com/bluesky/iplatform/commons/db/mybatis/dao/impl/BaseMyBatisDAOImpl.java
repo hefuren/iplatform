@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository(value="BaseMybatisDAOImpl")
-public class BaseMybatisDAOImpl extends SqlSessionDaoSupport{
+@Repository(value = "BaseMyBatisDAOImpl")
+public class BaseMyBatisDAOImpl extends SqlSessionDaoSupport{
 	
 	@Resource(name = "sqlSessionFactory")  
 	protected SqlSessionFactory sqlSessionFactory;  
@@ -24,7 +24,7 @@ public class BaseMybatisDAOImpl extends SqlSessionDaoSupport{
 	
 	protected SqlSession sqlSession;  
 	
-	public static final Logger log = LoggerFactory.getLogger(BaseMybatisDAOImpl.class);
+	public static final Logger log = LoggerFactory.getLogger(BaseMyBatisDAOImpl.class);
 
 
 }

@@ -13,6 +13,12 @@ public interface FunctionRelationDAO{
 	 * @param functionIDs
 	 */
 	public void deleteModesByFunctionID(int[] ids) ;
+	
+	/**
+	 * 根据对象List删除
+	 * @param modes
+	 */
+	public void deleteModes(List<FunctionRelation> modes);
 
 	/**
 	 * 根据角色ID，删除角色对应的权限分配关系
@@ -25,6 +31,12 @@ public interface FunctionRelationDAO{
 	 * @param modes
 	 */
 	public void insertModes(List<FunctionRelation> modes);
+	
+	/**
+	 * 更新权限分配关系
+	 * @param modes
+	 */
+	public void updateModes(List<FunctionRelation> modes);
 	
 	/**
 	 * 通过权限分配对象ID，查询Function对象

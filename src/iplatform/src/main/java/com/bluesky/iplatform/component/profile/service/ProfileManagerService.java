@@ -20,10 +20,10 @@ public class ProfileManagerService implements ProfileManager {
 	@Resource(name="CompanyDAOImpl")
 	private CompanyDAO companyDAO;
 	
-	@Resource(name="userDAOImpl")
+	@Resource(name="UserDAOImpl")
 	private UserDAO userDAO;
 	
-	@Resource(name="userProfileDAOImpl")
+	@Resource(name="UserProfileDAOImpl")
 	private UserProfileDAO userProfileDAO;
 	
 //	@PostConstruct  

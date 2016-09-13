@@ -4,14 +4,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -38,6 +36,7 @@ public class Role extends BaseObject implements java.io.Serializable {
 	private Integer type;
 	private Integer status;
 	
+	@Transient
 	private Set<FunctionRelation> roleFunctions = new HashSet<FunctionRelation>(0);
 
 	// Constructors
@@ -139,8 +138,7 @@ public class Role extends BaseObject implements java.io.Serializable {
 		this.status = status;
 	}
 
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+	@Transient
 	public Set<FunctionRelation> getRoleFunctions() {
 		return this.roleFunctions;
 	}

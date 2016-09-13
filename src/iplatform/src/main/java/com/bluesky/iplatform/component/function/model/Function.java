@@ -2,13 +2,12 @@ package com.bluesky.iplatform.component.function.model;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -45,6 +44,8 @@ public class Function implements Hierarchyable,java.io.Serializable {
 	private String folderurl;
 	private String imageurl;
 	private Integer companyID;
+	
+	@Transient
 	private Set<FunctionRelation> roleFunctions = new HashSet<FunctionRelation>(0);
 
 	// Constructors
@@ -200,7 +201,7 @@ public class Function implements Hierarchyable,java.io.Serializable {
 		this.companyID = companyID;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "function")
+	@Transient
 	public Set<FunctionRelation> getRoleFunctions() {
 		return this.roleFunctions;
 	}

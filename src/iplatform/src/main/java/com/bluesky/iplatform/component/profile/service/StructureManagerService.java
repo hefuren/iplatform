@@ -1,24 +1,24 @@
 package com.bluesky.iplatform.component.profile.service;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.bluesky.iplatform.commons.hierarchy.Hierarchy;
 import com.bluesky.iplatform.component.profile.dao.DepartmentDAO;
-import com.bluesky.iplatform.component.profile.dao.ProfileDAOFactory;
 import com.bluesky.iplatform.component.profile.model.Department;
 import com.bluesky.iplatform.component.profile.model.User;
 
 @Service(value = "StructureManagerService")
 public class StructureManagerService implements StructureManager {
 
+	@Resource(name="DepartmentDAOImpl")
 	private DepartmentDAO departmentDAO;
 	
-	@PostConstruct  
-	public void initDAO(){
-		departmentDAO = ProfileDAOFactory.getDepartmentDAO();
-	}
+//	@PostConstruct  
+//	public void initDAO(){
+//		departmentDAO = ProfileDAOFactory.getDepartmentDAO();
+//	}
 
 
 	@Override

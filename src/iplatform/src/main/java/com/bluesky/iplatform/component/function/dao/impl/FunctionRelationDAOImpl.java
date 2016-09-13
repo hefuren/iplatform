@@ -7,14 +7,14 @@ import org.apache.ibatis.session.ExecutorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseMybatisDAOImpl;
+import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseMyBatisDAOImpl;
 import com.bluesky.iplatform.component.function.dao.FunctionRelationDAO;
 import com.bluesky.iplatform.component.function.mapper.FunctionRelationMapper;
 import com.bluesky.iplatform.component.function.model.Function;
 import com.bluesky.iplatform.component.function.model.FunctionRelation;
 
-@Repository(value="FunctionRelationDAOImpl")
-public class FunctionRelationDAOImpl extends BaseMybatisDAOImpl implements FunctionRelationDAO{
+@Repository(value = "FunctionRelationDAOImpl")
+public class FunctionRelationDAOImpl extends BaseMyBatisDAOImpl implements FunctionRelationDAO{
 	
 	@Autowired
 	private FunctionRelationMapper mapper ;
@@ -92,6 +92,18 @@ public class FunctionRelationDAOImpl extends BaseMybatisDAOImpl implements Funct
 		}finally{
 			sqlSession.close();
 		}
+	}
+
+	@Override
+	public void deleteModes(List<FunctionRelation> modes) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateModes(List<FunctionRelation> modes) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

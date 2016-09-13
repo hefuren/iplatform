@@ -1,4 +1,4 @@
-package com.bluesky.iplatform.component.profile;
+package com.bluesky.iplatform.component.profile.company;
 
 import static org.junit.Assert.*;
 
@@ -11,11 +11,10 @@ import com.bluesky.iplatform.component.profile.model.Company;
 import com.bluesky.iplatform.component.profile.service.ProfileManager;
 import com.bluesky.iplatform.component.utils.ComponentFactory;
 
-public class TestCompanyManager extends BaseUnitlsTest{
+public class CompanyTest extends BaseUnitlsTest {
 
 	@Test
 	public void testNewCompany() {
-		
 		try{
 			ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");		
 			Company company = ctx.getBean("Company", Company.class);	
@@ -30,8 +29,6 @@ public class TestCompanyManager extends BaseUnitlsTest{
 			fail("Not yet implemented");
 			ex.printStackTrace();
 		}
-		
-		
 	}
 
 }

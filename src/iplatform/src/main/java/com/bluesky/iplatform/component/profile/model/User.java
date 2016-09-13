@@ -66,6 +66,8 @@ public class User extends BaseObject implements java.io.Serializable {
 	public Date createTime;
 	public Date lastUpdateTime;
 	public Integer companyID;
+	
+	@Transient
 	private UserProfile userProfile;
 
 	// Constructors
@@ -344,7 +346,7 @@ public class User extends BaseObject implements java.io.Serializable {
 		this.companyID = companyID;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	@Transient
 	public UserProfile getUserProfile() {
 		return userProfile;
 	}

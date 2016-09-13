@@ -23,6 +23,7 @@ public class CipherUtils {
 	private SecretKey deskey;
 	private Cipher c;
 	private byte[] cipherByte;
+	
 	private BASE64Encoder encoder = new BASE64Encoder();
 
 	private BASE64Decoder decoder = new BASE64Decoder();

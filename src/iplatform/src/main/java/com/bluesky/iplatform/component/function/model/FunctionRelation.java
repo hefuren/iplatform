@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.bluesky.iplatform.commons.object.BatchObject;
+
 /**
  * StRolefunction entity. 
  * @author ElwinHe
@@ -19,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Scope(value = "prototype")
 @Entity
 @Table(name = "st_functionRelation", schema = "public")
-public class FunctionRelation implements java.io.Serializable {
+public class FunctionRelation extends BatchObject implements java.io.Serializable {
 	
 	private static final long serialVersionUID = -968987862346300800L;
 	

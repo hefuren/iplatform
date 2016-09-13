@@ -2,11 +2,10 @@ package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.bluesky.iplatform.component.profile.dao.ProfileDAOFactory;
 import com.bluesky.iplatform.component.profile.dao.RoleDAO;
 import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.RoleRelation;
@@ -15,12 +14,13 @@ import com.bluesky.iplatform.component.profile.model.User;
 @Service(value = "RoleManagerService")
 public class RoleManagerService implements RoleManager {
 
+	@Resource(name="RoleDAOImpl")
 	private RoleDAO roleDAO;
 	
-	@PostConstruct  
-	public void initDAO(){
-		roleDAO = ProfileDAOFactory.getRoleDAO();
-	}
+//	@PostConstruct  
+//	public void initDAO(){
+//		roleDAO = ProfileDAOFactory.getRoleDAO();
+//	}
 
 
 	@Override

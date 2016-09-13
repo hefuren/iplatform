@@ -16,9 +16,8 @@
 
 	<aop:config>
 		<aop:pointcut id="allServiceMethods"
-			expression="execution(* com.bluesky.platform.component.schema.service.SchemaManager.*(..)) or
-			execution(* com.bluesky.platform.component.profile.service.ProfileManager.*(..)) or
-			execution(* com.bluesky.platform.component.codetable.service.CodeTableManager.*(..))"/>
+			expression="execution(* com.bluesky.iplatform.component.profile.service.ProfileManager.*(..)) or
+			execution(* com.bluesky.iplatform.component.codetable.service.CodeTableManager.*(..))"/>
 		<!-- 
 		<aop:pointcut id="profileAllServiceMethods"
 			expression="execution(* com.bluesky.platform.component.profile.service.ProfileManager.*(..))"/>	
