@@ -106,7 +106,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("getting " + className + " instance with ids. ");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			Example example = new Example(entityClass.getClass());
+			Example example = new Example(entityClass);
 			Set idSet = new HashSet<>();
 			for(int id : ids){
 				idSet.add(new Integer(id));
@@ -248,7 +248,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("finding all " + className + " instances");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			Example example = new Example(entityClass.getClass());
+			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo("companyID", new Integer(user.getCompanyID()));
 			List<T> modes = mapper.selectByExample(example);
 			return modes;
@@ -265,7 +265,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("finding all " + className + " instances");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			Example example = new Example(entityClass.getClass());
+			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo(propertyName, value);
 			List<T> modes = mapper.selectByExample(example);
 			T mode = null;
@@ -286,7 +286,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("finding all " + className + " instances");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			Example example = new Example(entityClass.getClass());
+			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo(propertyName, value);
 			List<T> modes = mapper.selectByExample(example);
 			return modes;
@@ -320,7 +320,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 			Map<String, Object> conditions = (Map<String, Object>) pageInfo.getConditions();
 			List items = new ArrayList();
 			String[] paramNames = null;
-			Example example = new Example(entityClass.getClass());
+			Example example = new Example(entityClass);
 			if (conditions != null && conditions.size() > 0) {
 				// 带条件查询
 				paramNames = new String[conditions.size()];
