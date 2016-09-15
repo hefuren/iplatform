@@ -11,6 +11,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.Data;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +20,10 @@ import com.bluesky.iplatform.commons.object.BaseObject;
 import com.bluesky.iplatform.component.function.model.FunctionRelation;
 
 /**
- * StRole entity. @author ElwinHe
+ * Role entity.
+ * @author ElwinHe
  */
+@Data
 @Component(value = "Role")
 @Scope(value = "prototype")
 @Entity
@@ -28,12 +32,27 @@ public class Role extends BaseObject implements java.io.Serializable {
 
 	private static final long serialVersionUID = -3602593857566728663L;
 	// Fields
+	@Id
+	@OrderBy
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "name", length = 50)
 	private String name;
+	
+	@Column(name = "description", length = 500)
 	private String description;
+	
+	@Column(name = "parentid")
 	private Integer parentID;
+	
+	@Column(name = "seqno")
 	private Integer seqno;
+	
+	@Column(name = "type")
 	private Integer type;
+	
+	@Column(name = "status")
 	private Integer status;
 	
 	@Transient
@@ -73,71 +92,6 @@ public class Role extends BaseObject implements java.io.Serializable {
 	}
 
 	// Property accessors
-	@Id
-	@OrderBy
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Column(name = "name", length = 50)
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "description", length = 500)
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Column(name = "parentid")
-	public Integer getParentID() {
-		return this.parentID;
-	}
-
-	public void setParentID(Integer parentID) {
-		this.parentID = parentID;
-	}
-
-	@Column(name = "seqno")
-	public Integer getSeqno() {
-		return this.seqno;
-	}
-
-	public void setSeqno(Integer seqno) {
-		this.seqno = seqno;
-	}
-
-	@Column(name = "type")
-	public Integer getType() {
-		return this.type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	@Column(name = "status")
-	public Integer getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
 	@Transient
 	public Set<FunctionRelation> getRoleFunctions() {
 		return this.roleFunctions;

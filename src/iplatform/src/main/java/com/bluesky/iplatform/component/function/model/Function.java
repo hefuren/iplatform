@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.Data;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
  * Function entity.
  *  @author ElwinHe
  */
+@Data
 @Component(value = "Function")
 @Scope(value = "prototype")
 @Entity
@@ -25,24 +28,50 @@ import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
 public class Function implements Hierarchyable,java.io.Serializable {
 
 	// Fields
-
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	
 	/**
 	 * 权限Key
 	 */
+	@Column(name = "name", length = 50)
 	private String name;
+	
+	@Column(name = "parentID", nullable = false)
 	private Integer parentID;
+	
+	@Column(name = "functionname", length = 50)
 	private String functionname;
+	
+	@Column(name = "description", length = 200)
 	private String description;
+	
+	@Column(name = "type")
 	private Integer type;
+	
+	@Column(name = "status")
 	private Integer status;
+	
+	@Column(name = "seqno")
 	private Integer seqno;
+	
+	@Column(name = "applicationid")
 	private Integer applicationid;
+
+	@Column(name = "policy", length = 10)
 	private String policy;
+	
+	@Column(name = "clienturl", length = 100)
 	private String clienturl;
+	
+	@Column(name = "folderurl", length = 100)
 	private String folderurl;
+	
+	@Column(name = "imageurl", length = 100)
 	private String imageurl;
+	
+	@Column(name = "companyID", nullable = false)
 	private Integer companyID;
 	
 	@Transient
@@ -83,124 +112,6 @@ public class Function implements Hierarchyable,java.io.Serializable {
 	}
 
 	// Property accessors
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Column(name = "name", length = 50)
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "functionname", length = 50)
-	public String getFunctionname() {
-		return this.functionname;
-	}
-
-	public void setFunctionname(String functionname) {
-		this.functionname = functionname;
-	}
-
-	@Column(name = "description", length = 200)
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Column(name = "type")
-	public Integer getType() {
-		return this.type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	@Column(name = "status")
-	public Integer getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	@Column(name = "seqno")
-	public Integer getSeqno() {
-		return this.seqno;
-	}
-
-	public void setSeqno(Integer seqno) {
-		this.seqno = seqno;
-	}
-
-	@Column(name = "applicationid")
-	public Integer getApplicationid() {
-		return this.applicationid;
-	}
-
-	public void setApplicationid(Integer applicationid) {
-		this.applicationid = applicationid;
-	}
-
-	@Column(name = "policy")
-	public String getPolicy() {
-		return this.policy;
-	}
-
-	public void setPolicy(String policy) {
-		this.policy = policy;
-	}
-
-	@Column(name = "clienturl", length = 100)
-	public String getClienturl() {
-		return this.clienturl;
-	}
-
-	public void setClienturl(String clienturl) {
-		this.clienturl = clienturl;
-	}
-
-	@Column(name = "folderurl", length = 100)
-	public String getFolderurl() {
-		return this.folderurl;
-	}
-
-	public void setFolderurl(String folderurl) {
-		this.folderurl = folderurl;
-	}
-
-	@Column(name = "imageurl", length = 100)
-	public String getImageurl() {
-		return this.imageurl;
-	}
-
-	public void setImageurl(String imageurl) {
-		this.imageurl = imageurl;
-	}
-
-	@Column(name = "companyID", nullable = false)
-	public Integer getCompanyID() {
-		return this.companyID;
-	}
-
-	public void setCompanyID(Integer companyID) {
-		this.companyID = companyID;
-	}
-
 	@Transient
 	public Set<FunctionRelation> getRoleFunctions() {
 		return this.roleFunctions;
@@ -208,15 +119,6 @@ public class Function implements Hierarchyable,java.io.Serializable {
 
 	public void setRoleFunctions(Set<FunctionRelation> rolefunctions) {
 		this.roleFunctions = rolefunctions;
-	}
-
-	@Column(name = "parentID", nullable = false)
-	public Integer getParentID() {
-		return parentID;
-	}
-
-	public void setParentID(Integer parentID) {
-		this.parentID = parentID;
 	}
 
 	

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import com.bluesky.iplatform.commons.hierarchy.SerializableComparator;
  * StDepartment entity. 
  * @author ElwinHe
  */
+@Data
 @Component(value = "Department")
 @Scope(value = "prototype")
 @Entity
@@ -32,17 +35,39 @@ public class Department implements Hierarchyable, Serializable {
 	public static final int ROOTNODE = 100;
 
 	// Fields
-
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "name", length = 50)
 	private String name;
+	
+	@Column(name = "description", length = 500)
 	private String description;
+	
+	@Column(name = "parentid")
 	private Integer parentID;
+	
+	@Column(name = "level")
 	private Integer level;
+	
+	@OrderBy
+	@Column(name = "seqno")
 	private Integer seqno;
+	
+	@Column(name = "companyID", nullable = false)
 	private Integer companyID;
+	
+	@Column(name = "managers", length = 200)
 	private String managers;
+	
+	@Column(name = "sourcetype")
 	private Integer sourcetype;
+
+	@Column(name = "sourcename", length = 50)
 	private String sourcename;
+	
+	@Column(name = "sourceid")
 	private Integer sourceid;
 
 	// Constructors
@@ -84,107 +109,5 @@ public class Department implements Hierarchyable, Serializable {
 			return dept1.getSeqno() - dept2.getSeqno();
 		}
 	};
-
-	// Property accessors
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Column(name = "name", length = 50)
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "description", length = 500)
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Column(name = "parentid")
-	public Integer getParentID() {
-		return this.parentID;
-	}
-
-	public void setParentID(Integer parentID) {
-		this.parentID = parentID;
-	}
-
-	@Column(name = "level")
-	public Integer getLevel() {
-		return this.level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
-	}
-
-	@OrderBy
-	@Column(name = "seqno")
-	public Integer getSeqno() {
-		return this.seqno;
-	}
-
-	public void setSeqno(Integer seqno) {
-		this.seqno = seqno;
-	}
-
-	@Column(name = "companyID", nullable = false)
-	public Integer getCompanyID() {
-		return this.companyID;
-	}
-
-	public void setCompanyID(Integer companyID) {
-		this.companyID = companyID;
-	}
-
-	@Column(name = "managers", length = 200)
-	public String getManagers() {
-		return this.managers;
-	}
-
-	public void setManagers(String managers) {
-		this.managers = managers;
-	}
-
-	@Column(name = "sourcetype")
-	public Integer getSourcetype() {
-		return this.sourcetype;
-	}
-
-	public void setSourcetype(Integer sourcetype) {
-		this.sourcetype = sourcetype;
-	}
-
-	@Column(name = "sourcename", length = 50)
-	public String getSourcename() {
-		return this.sourcename;
-	}
-
-	public void setSourcename(String sourcename) {
-		this.sourcename = sourcename;
-	}
-
-	@Column(name = "sourceid")
-	public Integer getSourceid() {
-		return this.sourceid;
-	}
-
-	public void setSourceid(Integer sourceid) {
-		this.sourceid = sourceid;
-	}
 
 }

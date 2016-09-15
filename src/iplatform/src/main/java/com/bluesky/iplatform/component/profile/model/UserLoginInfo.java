@@ -7,12 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
  * StUserlogininfo entity. @author ElwinHe
  */
+@Data
 @Component(value = "UserLoginInfo")
 @Scope(value = "prototype")
 @Entity
@@ -22,12 +25,27 @@ public class UserLoginInfo implements java.io.Serializable {
 	private static final long serialVersionUID = -6702843292314551287L;
 	
 	// Fields
+	
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "userid")
 	private Integer userid;
+	
+	@Column(name = "logintimes")
 	private Integer logintimes;
+	
+	@Column(name = "sessiontime")
 	private Date sessiontime;
+	
+	@Column(name = "lastlogintime")
 	private Date lastlogintime;
+	
+	@Column(name = "currentlogintime")
 	private Date currentlogintime;
+	
+	@Column(name = "companyID", nullable = false)
 	private Integer companyID;
 
 	// Constructors
@@ -55,69 +73,5 @@ public class UserLoginInfo implements java.io.Serializable {
 		this.companyID = companyID;
 	}
 
-	// Property accessors
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Column(name = "userid")
-	public Integer getUserid() {
-		return this.userid;
-	}
-
-	public void setUserid(Integer userid) {
-		this.userid = userid;
-	}
-
-	@Column(name = "logintimes")
-	public Integer getLogintimes() {
-		return this.logintimes;
-	}
-
-	public void setLogintimes(Integer logintimes) {
-		this.logintimes = logintimes;
-	}
-
-	@Column(name = "sessiontime")
-	public Date getSessiontime() {
-		return this.sessiontime;
-	}
-
-	public void setSessiontime(Date sessiontime) {
-		this.sessiontime = sessiontime;
-	}
-
-	@Column(name = "lastlogintime")
-	public Date getLastlogintime() {
-		return this.lastlogintime;
-	}
-
-	public void setLastlogintime(Date lastlogintime) {
-		this.lastlogintime = lastlogintime;
-	}
-
-	@Column(name = "currentlogintime")
-	public Date getCurrentlogintime() {
-		return this.currentlogintime;
-	}
-
-	public void setCurrentlogintime(Date currentlogintime) {
-		this.currentlogintime = currentlogintime;
-	}
-
-	@Column(name = "companyID", nullable = false)
-	public Integer getCompanyID() {
-		return this.companyID;
-	}
-
-	public void setCompanyID(Integer companyID) {
-		this.companyID = companyID;
-	}
 
 }

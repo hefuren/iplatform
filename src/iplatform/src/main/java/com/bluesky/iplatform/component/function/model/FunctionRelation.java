@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,7 @@ import com.bluesky.iplatform.commons.object.BatchObject;
  * StRolefunction entity. 
  * @author ElwinHe
  */
+@Data
 @Component(value = "FunctionRelation")
 @Scope(value = "prototype")
 @Entity
@@ -37,14 +40,33 @@ public class FunctionRelation extends BatchObject implements java.io.Serializabl
 	
 	
 	// Fields
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "roleid", nullable = false)
 	private Integer roleID;
+	
+	@JoinColumn(name = "functionid", nullable = false)
 	private Integer functionID;
+	
+	@Column(name = "objectid")
 	private Integer objectid;
+	
+	@Column(name = "objecttype")
 	private Integer objecttype;
+	
+	@Column(name = "groupid")
 	private Integer groupid;
+	
+	@Column(name = "status")
 	private Integer status;
+	
+	@Column(name = "type")
 	private Integer type;
+	
+	@Column(name = "companyID", nullable = false)
 	private Integer companyID;
 
 	// Constructors
@@ -78,88 +100,5 @@ public class FunctionRelation extends BatchObject implements java.io.Serializabl
 	}
 
 	// Property accessors
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "roleid", nullable = false)
-	public Integer getRoleID() {
-		return this.roleID;
-	}
-
-	public void setRoleID(Integer roleID) {
-		this.roleID = roleID;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "functionid", nullable = false)
-	public Integer getFunctionID() {
-		return this.functionID;
-	}
-
-	public void setFunctionID(Integer functionID) {
-		this.functionID = functionID;
-	}
-
-	@Column(name = "objectid")
-	public Integer getObjectid() {
-		return this.objectid;
-	}
-
-	public void setObjectid(Integer objectid) {
-		this.objectid = objectid;
-	}
-
-	@Column(name = "objecttype")
-	public Integer getObjecttype() {
-		return this.objecttype;
-	}
-
-	public void setObjecttype(Integer objecttype) {
-		this.objecttype = objecttype;
-	}
-
-	@Column(name = "groupid")
-	public Integer getGroupid() {
-		return this.groupid;
-	}
-
-	public void setGroupid(Integer groupid) {
-		this.groupid = groupid;
-	}
-
-	@Column(name = "status")
-	public Integer getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	@Column(name = "type")
-	public Integer getType() {
-		return this.type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	@Column(name = "companyID", nullable = false)
-	public Integer getCompanyID() {
-		return this.companyID;
-	}
-
-	public void setCompanyID(Integer companyID) {
-		this.companyID = companyID;
-	}
 
 }
