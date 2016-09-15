@@ -80,6 +80,26 @@ public class ProfileManagerService implements ProfileManager {
 		}
 		return null;
 	}
+	
+	@Override
+	public void activateCompany(User user, Company company) {
+		try {
+			this.companyDAO.activateCompany(user, company);;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void expireCompany(User user, Company company) {
+		try {
+			this.companyDAO.expireCompany(null, company);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
 
 	@Override
 	public void newUser(User user) {
@@ -243,5 +263,7 @@ public class ProfileManagerService implements ProfileManager {
 		}
 		return null;
 	}
+
+	
 
 }

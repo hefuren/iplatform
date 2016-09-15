@@ -91,7 +91,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("getting " + className + " instance with id: " + id);
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			T instance = mapper.selectByPrimaryKey(id);
+			T instance = mapper.selectByPrimaryKey(new Integer(id));
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

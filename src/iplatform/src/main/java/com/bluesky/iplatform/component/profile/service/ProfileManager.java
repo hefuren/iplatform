@@ -33,6 +33,7 @@ public interface ProfileManager {
 	
 	/**
 	 * 删除公司
+	 * (删除公司时，需要删除该公司/租户所有的数据)
 	 * @param companyID
 	 * @
 	 */
@@ -46,6 +47,19 @@ public interface ProfileManager {
 	 */
 	public Company getCompany(String companyName) ;
 	
+	/**
+	 * 激活公司/租户账号
+	 * @param user
+	 * @param mode
+	 */
+	public void activateCompany(User user, Company mode) ;
+	
+	/**
+	 * 失效公司/租户账号
+	 * @param user
+	 * @param mode
+	 */
+	public void expireCompany(User user, Company mode);
 	
 	/**
 	 * 新建用户

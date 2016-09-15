@@ -1,6 +1,5 @@
 package com.bluesky.iplatform.commons.db;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +17,11 @@ public class SQLUtils {
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 		for (String table : tables) {
-			String sql = "select max(id) from " + table + " where 1=1";
-			List list = sqlMapper.selectList(sql);
+			String sql = "select max(id) as maxid from " + table + " where 1=1";
+			Map<String,Object> result = sqlMapper.selectOne(sql);
 			long maxID = 1000;
-			if (list != null && list.size() == 1) {
-				Object object = list.get(0);
+			if (result != null && result.size() == 1) {
+				Object object = result.get("maxid");
 				if (object instanceof Integer) {
 					Integer temp = (Integer) object;
 					maxID = (new Long(temp)).longValue();
