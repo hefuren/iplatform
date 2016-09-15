@@ -7,6 +7,9 @@ import org.unitils.spring.annotation.SpringApplicationContext;
 
 import com.bluesky.iplatform.commons.cache.EhcacheUtils;
 import com.bluesky.iplatform.commons.db.SequenceUtils;
+import com.bluesky.iplatform.component.profile.model.User;
+import com.bluesky.iplatform.component.profile.service.ProfileManager;
+import com.bluesky.iplatform.component.utils.ComponentFactory;
 
 @SpringApplicationContext({ "/spring/applicationContext.xml" })
 public class BaseUnitlsTest extends UnitilsJUnit4 {
@@ -14,12 +17,19 @@ public class BaseUnitlsTest extends UnitilsJUnit4 {
 	// 加载Spring上下文
 	@SpringApplicationContext
 	public ApplicationContext ctx;
+	
+	protected User systemAdmin;
+	
+	@Before
+	public void setup(){
+		initCacheManagerServlet();
+		setAdminUser();
+	}
 
 	/**
-	 * 初始化Cache
+	 * 初始化cache
 	 */
-	@Before
-	public void initCacheManagerServlet() {
+	private void initCacheManagerServlet() {
 		try {
 			EhcacheUtils cacheUtils = EhcacheUtils.getInstance(EhcacheUtils.EHCACHE_KEY_PLATFORM);
 			SequenceUtils.initSequence(cacheUtils);// 初始化序列緩存
@@ -27,6 +37,14 @@ public class BaseUnitlsTest extends UnitilsJUnit4 {
 			e.printStackTrace();
 			System.exit(0);
 		}
+	}
+	
+	/**
+	 * 设置System Admin
+	 */
+	private void setAdminUser(){
+		ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");	
+		systemAdmin = manager.getAdminUser();
 	}
 
 }

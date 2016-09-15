@@ -36,7 +36,7 @@ public class CompanyTest extends BaseUnitlsTest {
 			manager.newCompany(company);
 			
 			Company mode = manager.getCompany(id);
-			assertNotNull("新增公司成功", mode);
+			assertNotNull("新增公司失败", mode);
 		}catch(Exception ex){
 			fail("Not yet implemented");
 			ex.printStackTrace();

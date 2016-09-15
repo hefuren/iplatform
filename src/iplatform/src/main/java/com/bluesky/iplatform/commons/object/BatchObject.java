@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 
 
+import javax.persistence.Transient;
+
 import com.bluesky.iplatform.commons.cache.CacheKey;
 import com.bluesky.iplatform.commons.cache.CacheObject;
 
@@ -15,10 +17,20 @@ public class BatchObject implements Serializable, CacheObject {
 
 	private static final long serialVersionUID = -4601357344844634511L;
 
+	@Transient
 	private boolean isNew;
+	
+	@Transient
 	private boolean deleted;
+	
+	@Transient
 	private boolean modified;
+	
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	public Integer id;
+	
+	@Column(name = "companyID", nullable = false)
 	public Integer companyID;
 
 	public CacheKey getKey() {
@@ -49,8 +61,7 @@ public class BatchObject implements Serializable, CacheObject {
 		this.modified = modified;
 	}
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -59,7 +70,6 @@ public class BatchObject implements Serializable, CacheObject {
 		this.id = id;
 	}
 
-	@Column(name = "companyID", nullable = false)
 	public Integer getCompanyID() {
 		return this.companyID;
 	}

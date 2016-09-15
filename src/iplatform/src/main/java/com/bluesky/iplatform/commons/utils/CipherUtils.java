@@ -47,7 +47,7 @@ public class CipherUtils {
 	private void init() {
 		try {
 			String className = "com.sun.crypto.provider.SunJCE";
-			String appServer = Config.getConfig("CONFIG", "APP-SERVER");
+			String appServer = TypeUtils.nullToString(Config.getConfig("CONFIG", "APP-SERVER"));
 			if (appServer.equalsIgnoreCase("WEBSPHERE")) {
 				className = "com.ibm.crypto.provider.IBMJCE";
 			}

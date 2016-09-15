@@ -94,7 +94,7 @@ public class ProfileManagerService implements ProfileManager {
 	@Override
 	public void expireCompany(User user, Company company) {
 		try {
-			this.companyDAO.expireCompany(null, company);
+			this.companyDAO.expireCompany(user, company);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
