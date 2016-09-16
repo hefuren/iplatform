@@ -15,12 +15,16 @@ public class StructureManagerService implements StructureManager {
 	@Resource(name="DepartmentDAOImpl")
 	private DepartmentDAO departmentDAO;
 	
-//	@PostConstruct  
-//	public void initDAO(){
-//		departmentDAO = ProfileDAOFactory.getDepartmentDAO();
-//	}
 
-
+	@Override
+	public void newDepartment(User user, Department mode) {
+		try {
+			this.departmentDAO.newMode(user, mode);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void saveDepartment(User user, Hierarchy hierarchy) {
 		try {
@@ -28,7 +32,6 @@ public class StructureManagerService implements StructureManager {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -59,5 +62,7 @@ public class StructureManagerService implements StructureManager {
 		}
 		return null;
 	}
+
+	
 
 }

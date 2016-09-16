@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.bluesky.iplatform.commons.cache.EhcacheUtils;
 import com.bluesky.iplatform.commons.utils.BaseContext;
+import com.bluesky.iplatform.commons.utils.TypeUtils;
 import  com.bluesky.iplatform.component.utils.ComponentFactory;
 import com.bluesky.iplatform.component.codetable.model.CodeTable;
 import com.bluesky.iplatform.component.codetable.service.CodeTableManager;
@@ -46,7 +47,7 @@ public class SequenceUtils {
 			
 			map = (Map)cacheUtils.get(sequenceEhcache, SEQUENCECACHE_KEY);
 			
-			Long maxID = (Long)map.get(table);
+			Long maxID = TypeUtils.nullToLong(map.get(table));
 			maxID = (maxID < 1000) ? 1000 : maxID + 1;
 			map.put(table, new Long(maxID));
 			seq = maxID.longValue();

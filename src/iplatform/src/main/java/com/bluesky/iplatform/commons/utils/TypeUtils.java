@@ -109,12 +109,35 @@ public class TypeUtils {
 		return result;
 	}
 
+	/**
+	 * 将对象转换成Int
+	 * @param inObject
+	 * @return
+	 */
 	public static int nullToInt(Object inObject) {
 		int iRet = 0;
 		if (inObject != null) {
 			try {
 				Double temp = new Double(inObject.toString());
 				iRet = temp.intValue();
+			} catch (Exception e) {
+				iRet = 0;
+			}
+		}
+		return iRet;
+	}
+	
+	/**
+	 * 将对象转换成long
+	 * @param inObject
+	 * @return
+	 */
+	public static long nullToLong(Object inObject) {
+		long iRet = 0;
+		if (inObject != null) {
+			try {
+				Double temp = new Double(inObject.toString());
+				iRet = temp.longValue();
 			} catch (Exception e) {
 				iRet = 0;
 			}

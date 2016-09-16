@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
 import com.bluesky.iplatform.commons.hierarchy.SerializableComparator;
-import com.bluesky.iplatform.commons.object.BatchObject;
+import com.bluesky.iplatform.commons.object.BaseObject;
 
 /**
  * StDepartment entity. 
@@ -26,7 +26,7 @@ import com.bluesky.iplatform.commons.object.BatchObject;
 @Scope(value = "prototype")
 @Entity
 @Table(name = "st_department", schema = "public")
-public class Department extends BatchObject implements Hierarchyable, Serializable {
+public class Department extends BaseObject implements Hierarchyable, Serializable {
 	
 	private static final long serialVersionUID = 1766362179794549189L;
 
@@ -59,8 +59,12 @@ public class Department extends BatchObject implements Hierarchyable, Serializab
 	@Column(name = "companyID", nullable = false)
 	private Integer companyID;
 	
-	@Column(name = "managers", length = 200)
-	private String managers;
+	/**
+	 * 部门经理IDs
+	 * （如果一个部门有多个部门经理时，显示：1000,1001,...）
+	 */
+	@Column(name = "managerids", length = 200)
+	private String managerids;
 	
 	@Column(name = "sourcetype")
 	private Integer sourcetype;
@@ -86,7 +90,7 @@ public class Department extends BatchObject implements Hierarchyable, Serializab
 	/** full constructor */
 	public Department(Integer id, String name, String description,
 			Integer parentID, Integer level, Integer seqno, Integer companyID,
-			String managers, Integer sourcetype, String sourcename,
+			String managerids, Integer sourcetype, String sourcename,
 			Integer sourceid) {
 		this.id = id;
 		this.name = name;
@@ -95,7 +99,7 @@ public class Department extends BatchObject implements Hierarchyable, Serializab
 		this.level = level;
 		this.seqno = seqno;
 		this.companyID = companyID;
-		this.managers = managers;
+		this.managerids = managerids;
 		this.sourcetype = sourcetype;
 		this.sourcename = sourcename;
 		this.sourceid = sourceid;
