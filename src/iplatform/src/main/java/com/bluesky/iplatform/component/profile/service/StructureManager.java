@@ -30,6 +30,20 @@ public interface StructureManager {
 	public void updateDepartment(User user, Department department) ;
 	
 	/**
+	 * 删除部门对象
+	 * @param user
+	 * @param id
+	 */
+	public void deleteDepartment(User user, Department mode);
+	
+	/**
+	 * 通过ID集批量删除部门对象
+	 * @param user
+	 * @param ids
+	 */
+	public void deleteDepartments(User user, int[] ids);
+	
+	/**
 	 * 获取部门
 	 * @param user
 	 * @param departmentID

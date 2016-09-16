@@ -63,6 +63,26 @@ public class StructureManagerService implements StructureManager {
 		return null;
 	}
 
+	@Override
+	public void deleteDepartment(User user, Department mode) {
+		try {
+			this.departmentDAO.deleteMode(user, mode);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void deleteDepartments(User user, int[] ids) {
+		try {
+			this.departmentDAO.batchDeleteModes(user, ids);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+
 	
 
 }

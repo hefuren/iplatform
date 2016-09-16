@@ -1,4 +1,4 @@
-package com.bluesky.iplatform.component.profile.Department;
+package com.bluesky.iplatform.component.profile.department;
 
 import static org.junit.Assert.*;
 
@@ -55,7 +55,26 @@ public class DepartmentTest extends BaseUnitlsTest {
 			e.printStackTrace();
 			fail("Not yet implemented");
 		}
-		
+	}
+	
+	@Test
+	public void testDeleteDepartment(){
+		try {
+			StructureManager manager = (StructureManager)ComponentFactory.getManager("StructureManager");	
+			int departmentID = 1000;
+			Department mode = manager.getDepartment(systemAdmin, departmentID);
+			
+			manager.deleteDepartment(systemAdmin, mode);
+			
+			Department newMode = manager.getDepartment(systemAdmin, departmentID);
+			if(newMode == null){
+				System.out.println("删除部门成功！");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Not yet implemented");
+		}
 	}
 
 }
