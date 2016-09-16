@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
 import com.bluesky.iplatform.commons.hierarchy.SerializableComparator;
+import com.bluesky.iplatform.commons.object.BatchObject;
 
 /**
  * StDepartment entity. 
@@ -25,7 +26,7 @@ import com.bluesky.iplatform.commons.hierarchy.SerializableComparator;
 @Scope(value = "prototype")
 @Entity
 @Table(name = "st_department", schema = "public")
-public class Department implements Hierarchyable, Serializable {
+public class Department extends BatchObject implements Hierarchyable, Serializable {
 	
 	private static final long serialVersionUID = 1766362179794549189L;
 

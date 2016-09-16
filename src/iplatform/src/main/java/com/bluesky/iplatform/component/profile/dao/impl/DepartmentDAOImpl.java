@@ -1,6 +1,8 @@
 package com.bluesky.iplatform.component.profile.dao.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -53,23 +55,38 @@ public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> impl
 		log.debug("saving Department instance");
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH); 
 		try{
+			//查询数据库获取该公司的所有组织结构
+			List<Department> departments = this.getCompanyAllModes(user);
+			Set<Integer> depidSet = new HashSet<Integer>();
+			for(Department dep : departments){
+				depidSet.add(new Integer(dep.getId()));
+			}
+			//获取当前Deartment hierarchy中的对象
 			Hierarchyable rootNode = hierarchy.getRootNode();
 			List<Hierarchyable> modes = hierarchy.getAllChildren(rootNode);
 			modes.add(rootNode);
-			
-			//删除该公司的组织结构
-			//String hql = "delete from Department as a where a.companyID = ? and a.id <> ?";
+			//查找被删部门的ID
+			Set<Integer> delDepidSet = new HashSet<Integer>();
+			for(Hierarchyable mode : modes){
+				boolean flag = depidSet.contains(new Integer(mode.getId()));
+				if(!flag){
+					delDepidSet.add(new Integer(mode.getId()));
+				}
+			}
+			//删除指定被删除的部门
 			Example example = new Example(Department.class);
 			example.createCriteria().andEqualTo("companyID", new Integer(user.getCompanyID()));
-			example.createCriteria().andNotEqualTo("id", new Integer(Department.ROOTNODE));
+			example.createCriteria().andIn("id", delDepidSet);
 			this.mapper.deleteByExample(example);
 
+			//新增和更新当前 hierarchy 中的department 对象
 			for(Hierarchyable mode : modes){
 				Department dept = (Department)mode;
-				if(mode.getId() != Department.ROOTNODE)
+				if(dept.isNew()){
 					this.mapper.insert(dept);
-				else
+				} else {
 					this.mapper.updateByPrimaryKey(dept);
+				}
 			}
 		}catch (RuntimeException re) {
 			log.error("save failed", re);
