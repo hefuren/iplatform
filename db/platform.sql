@@ -260,21 +260,26 @@ create table st_company (
    constraint PK_ST_COMPANY primary key (id)
 );
 
+
 /*==============================================================*/
 /* Table: st_department                                         */
 /*==============================================================*/
 create table st_department (
    id                   int                  not null,
-   name                 varchar(50)         null,
-   description          varchar(500)        null,
+   name                 varchar(50)          null,
+   description          varchar(500)         null,
    parentID             int                  null,
    level                int                  null,
    seqno                int                  null,
    companyID            int                  not null,
-   managers             varchar(200)        null,
+   managerids           varchar(200)         null,
    sourceType           int                  null,
-   sourceName           varchar(50)         null,
+   sourceName           varchar(50)          null,
    sourceID             int                  null,
+   createby             int                  null,
+   createTime           timestamp            null,
+   lastupdateby         int                  null,
+   lastupdatetime       timestamp            null,
    constraint PK_ST_DEPARTMENT primary key (id)
 );
 
