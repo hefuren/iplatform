@@ -88,6 +88,7 @@ public class SequenceUtils {
 		tableLists.add("st_user");
 		tableLists.add("st_codetable");
 		tableLists.add("st_company");
+		tableLists.add("st_role");
 		
 		//CodeTable 
 //		List<String> codeTables = getCodeTableList();

@@ -52,4 +52,38 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 		}
 	}
 
+	@Override
+	public void activateRole(User user, Role role) {
+		log.debug("updating " + className + " instance");
+		sqlSession = sqlSessionFactory.openSession();
+		try {
+			role.setStatus(Role.STATUS_ACTIVE);
+			mapper.updateByPrimaryKey(role);
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			log.error("update failed", re);
+			throw re;
+		}finally{
+			sqlSession.close();
+		}	
+		
+	}
+
+	@Override
+	public void inactivatingRole(User user, Role role) {
+		log.debug("updating " + className + " instance");
+		sqlSession = sqlSessionFactory.openSession();
+		try {
+			role.setStatus(Role.STATUS_INACTIVE);
+			mapper.updateByPrimaryKey(role);
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			log.error("update failed", re);
+			throw re;
+		}finally{
+			sqlSession.close();
+		}	
+		
+	}
+
 }

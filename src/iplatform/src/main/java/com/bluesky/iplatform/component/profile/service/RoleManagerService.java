@@ -70,4 +70,46 @@ public class RoleManagerService implements RoleManager {
 		}
 	}
 
+	@Override
+	public void activateRole(User user, Role role) {
+		try {
+			this.roleDAO.activateRole(user, role);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void inactivatingRole(User user, Role role) {
+		try {
+			this.roleDAO.inactivatingRole(user, role);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public Role getRole(User user, int id) {
+		try {
+			Role mode = (Role)this.roleDAO.getMode(user, id);
+			return mode;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Role> getRoles(User user, int[] ids) {
+		try {
+			List<Role> modes = this.roleDAO.getModes(user, ids);
+			return modes;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
 }

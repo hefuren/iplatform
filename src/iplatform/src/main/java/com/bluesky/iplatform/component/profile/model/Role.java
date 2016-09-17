@@ -31,6 +31,27 @@ import com.bluesky.iplatform.component.function.model.FunctionRelation;
 public class Role extends BaseObject implements java.io.Serializable {
 
 	private static final long serialVersionUID = -3602593857566728663L;
+	
+	/**
+	 * 系统固有角色
+	 */
+	public static final int TYPE_SYSTEM_ROLE = 0;
+
+	/**
+	 * 用户自定义角色
+	 */
+	public static final int TYPE_CUSTOMERIZATION_ROLE = 1;
+	
+	/**
+	 * 状态：活动，可用的
+	 */
+	public static final int STATUS_ACTIVE = 0;
+	
+	/**
+	 * 状态：不可用状态
+	 */
+	public static final int STATUS_INACTIVE = -1;
+	
 	// Fields
 	@Id
 	@OrderBy
@@ -56,7 +77,7 @@ public class Role extends BaseObject implements java.io.Serializable {
 	private Integer status;
 	
 	@Transient
-	private Set<FunctionRelation> roleFunctions = new HashSet<FunctionRelation>(0);
+	private Set<FunctionRelation> functionRelations = new HashSet<FunctionRelation>(0);
 
 	// Constructors
 
@@ -75,7 +96,7 @@ public class Role extends BaseObject implements java.io.Serializable {
 			Integer parentID, Integer seqno, Integer companyID, Integer type,
 			Integer status, Integer createby, Date ceateTime,
 			Integer lastupdateby, Date lastUpdateTime,
-			Set<FunctionRelation> roleFunctions) {
+			Set<FunctionRelation> functionRelations) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -88,17 +109,17 @@ public class Role extends BaseObject implements java.io.Serializable {
 		this.createTime = ceateTime;
 		this.lastUpdateBy = lastupdateby;
 		this.lastUpdateTime = lastUpdateTime;
-		this.roleFunctions = roleFunctions;
+		this.functionRelations = functionRelations;
 	}
 
 	// Property accessors
 	@Transient
 	public Set<FunctionRelation> getRoleFunctions() {
-		return this.roleFunctions;
+		return this.functionRelations;
 	}
 
-	public void setRoleFunctions(Set<FunctionRelation> roleFunctions) {
-		this.roleFunctions = roleFunctions;
+	public void setRoleFunctions(Set<FunctionRelation> functionRelations) {
+		this.functionRelations = functionRelations;
 	}
 
 }

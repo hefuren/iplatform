@@ -25,12 +25,42 @@ public interface RoleManager {
 	public void updateRole(User user, Role role) ;
 	
 	/**
+	 * 激活角色
+	 * @param user
+	 * @param role
+	 */
+	public void activateRole(User user, Role role);
+	
+	/**
+	 * 使角色失效
+	 * @param user
+	 * @param role
+	 */
+	public void inactivatingRole(User user, Role role);
+	
+	/**
 	 * 删除角色
 	 * @param user
 	 * @param role
 	 * @
 	 */
 	public void deleteRole(User user, Role role) ;
+	
+	/**
+	 * 通过ID获取Role
+	 * @param user
+	 * @param id
+	 * @return
+	 */
+	public Role getRole(User user, int id);
+	
+	/**
+	 * 通过IDS集获取Role
+	 * @param user
+	 * @param ids
+	 * @return
+	 */
+	public List<Role> getRoles(User user, int[] ids);
 	
 	/**
 	 * 通过角色获取角色对应的用户
