@@ -35,7 +35,7 @@ public class Function implements Hierarchyable,java.io.Serializable {
 	/**
 	 * 权限Key
 	 */
-	@Column(name = "name", length = 50)
+	@Column(name = "name", unique = true, length = 50)
 	private String name;
 	
 	@Column(name = "parentID", nullable = false)

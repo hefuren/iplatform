@@ -40,6 +40,14 @@ public interface FunctionManager {
 	public Function getFunction(User user, int id);
 	
 	/**
+	 * 通过Function Key(Name)获取权限对象
+	 * @param user
+	 * @param key
+	 * @return
+	 */
+	public Function getFunction(User user, String key);
+	
+	/**
 	 * 通过权限IDS获取权限List
 	 * @param user
 	 * @param ids
@@ -64,6 +72,14 @@ public interface FunctionManager {
 	 * Map<String, Function> Key 为权限的Key, Function 为权限对象
 	 */
 	public Map<String, Function> getFunctionsByRoleID(User user, int roleID) ;
-
+	
+	/**
+	 * 通过Function Key (Name) 判断权限是否存在
+	 * 不允许存在相同key的权限
+	 * @param user
+	 * @param key
+	 * @return
+	 */
+	public boolean isExistFuncion(User user ,String key);
 	
 }

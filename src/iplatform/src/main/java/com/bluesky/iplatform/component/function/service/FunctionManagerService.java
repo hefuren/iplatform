@@ -108,5 +108,26 @@ public class FunctionManagerService implements FunctionManager {
 		return null;
 	}
 
+	@Override
+	public Function getFunction(User user, String key) {
+		try {
+			Function mode = (Function)this.functionDAO.getModeByProperty("name", key);
+			return mode;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isExistFuncion(User user, String key) {
+		try {
+			return this.functionDAO.isExistFuncion(user, key);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return false;
+	}
+
 	
 }
