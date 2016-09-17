@@ -288,7 +288,7 @@ create table st_department (
 /*==============================================================*/
 create table st_function (
    id                   int                  not null,
-   name                 varchar(50)         null,
+   name                 varchar(50)          not null,
    parentID		int		    not null,
    functionname         varchar(50)         null,
    description          varchar(200)        null,
