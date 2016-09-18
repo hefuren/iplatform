@@ -16,22 +16,23 @@
 		<result column="companyid" property="companyID" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="functionDataMap" type="java.util.HashMap">
-		<result column="name" property="name"  jdbcType="String"/>
+	<!--  
+		<result column="name" property="key"  jdbcType="VARCHAR"/>-->
 		<collection property="function" ofType="com.bluesky.iplatform.component.function.model.Function">
 			<id column="id" property="id" jdbcType="INTEGER"/>
-			<result column="name" property="name" jdbcType="String"/>
+			<result column="name" property="name" jdbcType="VARCHAR"/>
 			<result column="parentid" property="parentID" jdbcType="INTEGER"/>
-			<result column="functionname" property="functionname" jdbcType="String"/>
-			<result column="description" property="description" jdbcType="String"/>
+			<result column="functionname" property="functionname" jdbcType="VARCHAR"/>
+			<result column="description" property="description" jdbcType="VARCHAR"/>
 			<result column="type" property="type" jdbcType="INTEGER"/>
 			<result column="status" property="status" jdbcType="INTEGER"/>
 			<result column="seqno" property="seqno" jdbcType="INTEGER"/>
 			<result column="applicationid" property="applicationid" jdbcType="INTEGER"/>
-			<result column="policy" property="policy" jdbcType="String"/>
-			<result column="clineturl" property="clineturl" jdbcType="String"/>
-			<result column="folderurl" property="folderurl" jdbcType="String"/>
-			<result column="imageurl" property="imageurl" jdbcType="String"/>
-			<result column="companyid" property="companyid" jdbcType="INTEGER"/>
+			<result column="policy" property="policy" jdbcType="VARCHAR"/>
+			<result column="clineturl" property="clineturl" jdbcType="VARCHAR"/>
+			<result column="folderurl" property="folderurl" jdbcType="VARCHAR"/>
+			<result column="imageurl" property="imageurl" jdbcType="VARCHAR"/>
+			<result column="companyid" property="companyID" jdbcType="INTEGER"/>
 		</collection>
 	</resultMap>
 	<!-- 定义通用的SQL -->
@@ -58,7 +59,7 @@
 		</if>
 	</sql>
 	<!-- 自定义SQL -->
-	<delete id="deleteModesByFunctionID" parameterType="array">
+	<delete id="deleteModesByFunctionID" >
 		delete from  st_functionrelation
 		<where>   
 			<choose>
@@ -108,14 +109,14 @@
 		<foreach collection="list" item="item" index="index" separator="," > 
 		(
 		#{item.id},
-		#{item.roleid},
-		#{item.functionid},
+		#{item.roleID},
+		#{item.functionID},
 		#{item.objectid},
 		#{item.objecttype},
 		#{item.groupid},
 		#{item.status},
 		#{item.type},
-		#{item.companyid})
+		#{item.companyID})
 		</foreach>
 	</insert>
 	
@@ -154,11 +155,11 @@
 			<foreach collection="list" item="item" index="index" open="" close=""  separator=";">
 				update st_functionRelation 
 				<set>
-					<if test="item.roleid != null">
-						roleid = #{item.roleid},
+					<if test="item.roleID != null">
+						roleid = #{item.roleID},
 					</if>
-					<if test="item.functionid != null">
-						functionid = #{item.functionid},
+					<if test="item.functionID != null">
+						functionid = #{item.functionID},
 					</if>
 					<if test="item.objectid != null">
 						objectid = #{item.objectid},
@@ -175,8 +176,8 @@
 					<if test="item.type != null">
 						type=#{item.type},
 					</if>
-					<if test="item.companyid != null">
-						companyid = #{item.companyid}
+					<if test="item.companyID != null">
+						companyid = #{item.companyID}
 					</if>
 				</set>
 				where id = #{item.id}

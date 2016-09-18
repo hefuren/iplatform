@@ -38,5 +38,11 @@ public interface FunctionRelationMapper{
 	 * @return 权限集Map<k,v> k为权限Function Name(Key),v 为Function对象
 	 */
 	public Map<String,Function> selectFunctionByRoleID(int roleID);
+	
+	/**
+	 * 更新权限分配关系
+	 * @param modes
+	 */
+	public void updateModes(List<FunctionRelation> modes);
 
 }

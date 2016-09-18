@@ -1,5 +1,6 @@
 package com.bluesky.iplatform.commons.db.mybatis.dao.impl;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +15,10 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "BaseMyBatisDAOImpl")
 public class BaseMyBatisDAOImpl extends SqlSessionDaoSupport{
 	
+	public static final Logger log = LoggerFactory.getLogger(BaseMyBatisDAOImpl.class);
+	
+	protected SqlSession sqlSession;  
+	
 	@Resource(name = "sqlSessionFactory")  
 	protected SqlSessionFactory sqlSessionFactory;  
 	
@@ -22,9 +27,16 @@ public class BaseMyBatisDAOImpl extends SqlSessionDaoSupport{
 	     super.setSqlSessionTemplate(sqlSessionTemplate);
 	 }
 	
-	protected SqlSession sqlSession;  
+	/**
+	 * 子类可重新该方法，初始化Mapper
+	 */
+	@PostConstruct
+	public void initMapper(){
+		
+	}
 	
-	public static final Logger log = LoggerFactory.getLogger(BaseMyBatisDAOImpl.class);
+	
+	
 
 
 }

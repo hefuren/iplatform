@@ -35,9 +35,10 @@
 	<!-- mybatis配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->  
 		<property name="mapperLocations">
 			<array>
-				<value>classpath:mapper/*.xml</value>
+				<value>classpath*:com/bluesky/iplatform/**/mapping/*.xml</value>
 			</array>
 		</property>
 		<property name="typeAliasesPackage" value="com.isea533.mybatis.model" />

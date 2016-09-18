@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * RoleUser 角色用户分配对象
+ * RoleRelation 角色用户分配对象
  * @author ElwinHe
  *
  */
