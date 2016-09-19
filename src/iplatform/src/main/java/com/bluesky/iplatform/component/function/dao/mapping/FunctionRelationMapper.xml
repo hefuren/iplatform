@@ -15,25 +15,21 @@
 		<result column="type" property="type" jdbcType="INTEGER" />
 		<result column="companyid" property="companyID" jdbcType="INTEGER" />
 	</resultMap>
-	<resultMap id="functionDataMap" type="java.util.HashMap">
-	<!--  
-		<result column="name" property="key"  jdbcType="VARCHAR"/>-->
-		<collection property="function" ofType="com.bluesky.iplatform.component.function.model.Function">
-			<id column="id" property="id" jdbcType="INTEGER"/>
-			<result column="name" property="name" jdbcType="VARCHAR"/>
-			<result column="parentid" property="parentID" jdbcType="INTEGER"/>
-			<result column="functionname" property="functionname" jdbcType="VARCHAR"/>
-			<result column="description" property="description" jdbcType="VARCHAR"/>
-			<result column="type" property="type" jdbcType="INTEGER"/>
-			<result column="status" property="status" jdbcType="INTEGER"/>
-			<result column="seqno" property="seqno" jdbcType="INTEGER"/>
-			<result column="applicationid" property="applicationid" jdbcType="INTEGER"/>
-			<result column="policy" property="policy" jdbcType="VARCHAR"/>
-			<result column="clineturl" property="clineturl" jdbcType="VARCHAR"/>
-			<result column="folderurl" property="folderurl" jdbcType="VARCHAR"/>
-			<result column="imageurl" property="imageurl" jdbcType="VARCHAR"/>
-			<result column="companyid" property="companyID" jdbcType="INTEGER"/>
-		</collection>
+	<resultMap id="functionDataMap" type="com.bluesky.iplatform.component.function.model.Function">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="parentid" property="parentID" jdbcType="INTEGER"/>
+		<result column="functionname" property="functionname" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<result column="seqno" property="seqno" jdbcType="INTEGER"/>
+		<result column="applicationid" property="applicationid" jdbcType="INTEGER"/>
+		<result column="policy" property="policy" jdbcType="VARCHAR"/>
+		<result column="clineturl" property="clineturl" jdbcType="VARCHAR"/>
+		<result column="folderurl" property="folderurl" jdbcType="VARCHAR"/>
+		<result column="imageurl" property="imageurl" jdbcType="VARCHAR"/>
+		<result column="companyid" property="companyID" jdbcType="INTEGER"/>
 	</resultMap>
 	<!-- 定义通用的SQL -->
 	<sql id="Table">

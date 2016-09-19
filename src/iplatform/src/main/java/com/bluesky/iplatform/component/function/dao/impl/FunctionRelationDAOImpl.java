@@ -1,5 +1,6 @@
 package com.bluesky.iplatform.component.function.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,7 +93,15 @@ public class FunctionRelationDAOImpl extends BaseMyBatisDAOImpl implements Funct
 		log.debug("slect FunctionRelation modes by roleID ");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			Map<String, Function> dataMap = this.mapper.selectFunctionByRoleID(roleID);
+			Map<String, Function> dataMap = null;
+			List<Function> list = this.mapper.selectFunctionByRoleID(roleID);
+			if(list != null && list.size()>0){
+				dataMap = new HashMap<String, Function>();
+				for(Function item : list){
+					dataMap.put(item.getName(), item);
+				}
+			}
+			
 			return dataMap;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
