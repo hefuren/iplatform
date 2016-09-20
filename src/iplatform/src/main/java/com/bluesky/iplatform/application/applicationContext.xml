@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	 http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
 	 http://www.springframework.org/schema/context 
@@ -20,7 +19,7 @@
 
 	<!-- 设置动态代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	
+
 	<bean id="dataSourcetarget" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/BSDataSource"></property>
 	</bean>
@@ -30,12 +29,17 @@
 			<ref bean="dataSourcetarget" />
 		</property>
 	</bean>
-
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
 
 	<!-- mybatis配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<!-- 自动扫描mapping.xml文件 -->  
+		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations">
 			<array>
 				<value>classpath*:com/bluesky/iplatform/**/mapping/*.xml</value>
@@ -47,14 +51,14 @@
 				<bean class="com.github.pagehelper.PageHelper">
 					<property name="properties">
 						<value>
-						 dialect=PostgreSql
-						 offsetAsPageNum=true
-						 rowBoundsWithCount=true
-						 pageSizeZero=true
-						 reasonable=false
-						 params=pageNum=pageHelperStart;pageSize=pageHelperRows;
-						 supportMethodsArguments=false
-						 returnPageInfo=none
+							dialect=PostgreSql
+							offsetAsPageNum=true
+							rowBoundsWithCount=true
+							pageSizeZero=true
+							reasonable=false
+							params=pageNum=pageHelperStart;pageSize=pageHelperRows;
+							supportMethodsArguments=false
+							returnPageInfo=none
 						</value>
 					</property>
 				</bean>
@@ -70,23 +74,45 @@
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.bluesky.iplatform.**.dao,com.bluesky.iplatform.**.mapper" />
+		<property name="basePackage"
+			value="com.bluesky.iplatform.**.dao,com.bluesky.iplatform.**.mapper" />
 		<property name="properties">
 			<value>
 				mappers=tk.mybatis.mapper.common.Mapper
 			</value>
 		</property>
 	</bean>
+	<!-- End Mybatis 配置 -->
 
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
+	<!-- 会话Cookie 模板 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid" />
+		<property name="httpOnly" value="true" />
+		<property name="maxAge" value="180000" />
 	</bean>
-	
-	
+	<!-- 会话管理器 -->
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1800000" />
+		<property name="deleteInvalidSessions" value="true" />
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<!-- 
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
+		<property name="sessionDAO" ref="sessionDAO" /> 
+		-->
+		<property name="sessionIdCookieEnabled" value="true" />
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+	</bean>
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="sessionManager" ref="sessionManager" />
+		<!--  
+		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+		-->
+	</bean>
+
 	<!-- 配置其他的模块 -->
 	<import resource="transactionalContext.xml" />
-	
+
 </beans>
