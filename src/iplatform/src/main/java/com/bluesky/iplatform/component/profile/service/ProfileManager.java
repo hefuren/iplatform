@@ -122,12 +122,12 @@ public interface ProfileManager {
 	public User getUserFormCache(int companyID, int userID);
 	
 	/**
-	 * 通过用户名获取
-	 * @param user
+	 *  通过用户名获取
 	 * @param username
-	 * @
+	 * @param companyID
+	 * @return
 	 */
-	public User getUser(User user, String username);
+	public User getUser(String username, int companyID);
 	
 	/**
 	 * 通过PageInfo获取用户

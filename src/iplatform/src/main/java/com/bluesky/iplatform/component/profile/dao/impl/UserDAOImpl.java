@@ -1,5 +1,7 @@
 package com.bluesky.iplatform.component.profile.dao.impl;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -7,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
 
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
 import com.bluesky.iplatform.commons.utils.BaseContext;
@@ -60,6 +63,29 @@ public class UserDAOImpl  extends BaseSingleMyBatisDAOImpl<User> implements User
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
+		}
+	}
+
+
+	@Override
+	public User getUser(String username, int companyID) {
+		log.debug("finding all " + className + " instances");
+		sqlSession = sqlSessionFactory.openSession();
+		try {
+			Example example = new Example(entityClass);
+			example.createCriteria().andEqualTo("name", username);
+			example.createCriteria().andEqualTo("companyID", companyID);
+			List<User> modes = mapper.selectByExample(example);
+			User mode = null;
+			if(modes.size()>0 && modes.size()==1){
+				mode = modes.get(0); 
+			}
+			return mode;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}finally{
+			sqlSession.close();
 		}
 	}
 }

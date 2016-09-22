@@ -1,14 +1,21 @@
 package com.bluesky.iplatform.component.function.shiro.token;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.springframework.stereotype.Component;
+
+import com.bluesky.iplatform.commons.utils.CipherUtils;
+import com.bluesky.iplatform.component.profile.model.User;
+import com.bluesky.iplatform.component.profile.service.ProfileManager;
+import com.bluesky.iplatform.component.utils.ComponentFactory;
 
 @Component(value = "SimpleRealm")
 public class SimpleRealm extends AuthorizingRealm{
@@ -25,22 +32,29 @@ public class SimpleRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
 		
+		ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");
+//		User sysAdmin = manager.getAdminUser();
+		
 		ShiroToken shiroToken = (ShiroToken) token;
-//		UUser user = userService.login(token.getUsername(),token.getPswd());
-//		if(null == user){
-//			throw new AccountException("帐号或密码不正确！");
-//		/**
-//		 * 如果用户的status为禁用。那么就抛出<code>DisabledAccountException</code>
-//		 */
-//		}else if(UUser._0.equals(user.getStatus())){
-//			throw new DisabledAccountException("帐号已经禁止登录！");
-//		}else{
-//			//更新登录时间 last login time
-//			user.setLastLoginTime(new Date());
-//			userService.updateByPrimaryKeySelective(user);
-//		}
-//		return new SimpleAuthenticationInfo(user,user.getPswd(), getName());
-		return null;
+		String username = shiroToken.getUsername();
+		String password = shiroToken.getPswd();
+	    int companyID = shiroToken.getCompanyID();
+//		String host = shiroToken.getHost();
+		
+		User user = manager.getUser(username,companyID);
+		if(user == null){
+			throw new AccountException("用户不存在！");
+		}else{
+			String newPwd = user.getPassword();
+			if(!newPwd.equals(CipherUtils.toMD5(password))){
+				throw new AccountException("帐号或密码不正确！");
+			}else {
+				//更新登录时间 last login time
+//				user.setLastLoginTime(new Date());
+			}
+		}
+		
+		return new SimpleAuthenticationInfo(user,user.getPassword(), getName());
 	}
 
 	/**

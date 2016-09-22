@@ -161,10 +161,9 @@ public class ProfileManagerService implements ProfileManager {
 	}
 
 	@Override
-	public User getUser(User user, String username) {
+	public User getUser(String username, int companyID) {
 		try {
-			 User mode = (User)this.userDAO.getModeByProperty("name",
-			 username);
+			 User mode = (User)this.userDAO.getUser(username, companyID);
 			 return mode;
 		} catch (Exception ex) {
 			ex.printStackTrace();

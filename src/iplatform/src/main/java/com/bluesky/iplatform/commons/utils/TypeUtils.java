@@ -95,6 +95,27 @@ public class TypeUtils {
 		return "";
 	}
 	
+	/**
+	 * 将char[] 转换成 String
+	 * @param charAry
+	 * @return
+	 */
+	public static String charArrayToString(Object charAry){
+		String result = "";
+		try {
+			if(charAry != null){
+				char[] array = (char[])charAry;
+				for(char charString : array){
+					result += charString;
+				}
+				return result;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public static boolean stringToBoolean(Object inObject){
 		boolean result = false;
 		try{
