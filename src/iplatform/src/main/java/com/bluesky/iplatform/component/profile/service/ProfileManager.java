@@ -1,9 +1,11 @@
 package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.component.profile.model.Company;
+import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.model.UserProfile;
 
@@ -136,6 +138,12 @@ public interface ProfileManager {
 	 */
 	public PageInfo getUsers(User user, PageInfo pageInfo) ;
 	
+	/**
+	 * 根据用户查找其角色
+	 * @param user 当前用户对象
+	 * @return
+	 */
+	public Set<Role> getRoles(User user);	
 	
 	/**
 	 * 通过UserID获取 UserProfile信息

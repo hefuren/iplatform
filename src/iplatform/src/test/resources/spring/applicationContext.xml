@@ -19,7 +19,7 @@
 
 	<!-- 设置动态代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<!--  
+
 	<bean id="dataSourcetarget" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/BSDataSource"></property>
 	</bean>
@@ -29,20 +29,17 @@
 			<ref bean="dataSourcetarget" />
 		</property>
 	</bean>
-	-->
-	<!-- 测试专用数据源配置 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost/platform" />
-		<property name="username" value="easytrack" />
-		<property name="password" value="easytrack" />
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
 	</bean>
-
 
 	<!-- mybatis配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations">
 			<array>
 				<value>classpath*:com/bluesky/iplatform/**/mapping/*.xml</value>
@@ -85,11 +82,42 @@
 			</value>
 		</property>
 	</bean>
+	<!-- End Mybatis 配置 -->
 
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
+	<!-- Shiro 会话Cookie 模板 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid" />
+		<property name="httpOnly" value="true" />
+		<property name="maxAge" value="180000" />
 	</bean>
+	<!-- Shiro 会话管理器 -->
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1800000" />
+		<property name="deleteInvalidSessions" value="true" />
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<!-- 
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
+		<property name="sessionDAO" ref="sessionDAO" /> 
+		-->
+		<property name="sessionIdCookieEnabled" value="true" />
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+	</bean>
+	<!-- Shiro 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="sessionManager" ref="sessionManager" />
+		<!--  
+		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+		-->
+	</bean>
+	<!-- Shiro生命周期处理器-->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	
+	<!-- End Shiro 配置 -->
+
+
+	<!-- 配置其他的模块 -->
+	<import resource="transactionalContext.xml" />
+
 </beans>

@@ -84,13 +84,13 @@
 	</bean>
 	<!-- End Mybatis 配置 -->
 
-	<!-- 会话Cookie 模板 -->
+	<!-- Shiro 会话Cookie 模板 -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<constructor-arg value="sid" />
 		<property name="httpOnly" value="true" />
 		<property name="maxAge" value="180000" />
 	</bean>
-	<!-- 会话管理器 -->
+	<!-- Shiro 会话管理器 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="globalSessionTimeout" value="1800000" />
@@ -103,7 +103,7 @@
 		<property name="sessionIdCookieEnabled" value="true" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
 	</bean>
-	<!-- 安全管理器 -->
+	<!-- Shiro 安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="sessionManager" ref="sessionManager" />
 		<!--  
@@ -111,6 +111,11 @@
 		<property name="cacheManager" ref="cacheManager" />
 		-->
 	</bean>
+	<!-- Shiro生命周期处理器-->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	
+	<!-- End Shiro 配置 -->
+
 
 	<!-- 配置其他的模块 -->
 	<import resource="transactionalContext.xml" />

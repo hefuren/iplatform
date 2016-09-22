@@ -1,6 +1,7 @@
 package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import com.bluesky.iplatform.component.profile.dao.CompanyDAO;
 import com.bluesky.iplatform.component.profile.dao.UserDAO;
 import com.bluesky.iplatform.component.profile.dao.UserProfileDAO;
 import com.bluesky.iplatform.component.profile.model.Company;
+import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.model.UserProfile;
 
@@ -26,13 +28,6 @@ public class ProfileManagerService implements ProfileManager {
 	@Resource(name="UserProfileDAOImpl")
 	private UserProfileDAO userProfileDAO;
 	
-//	@PostConstruct  
-//	public void initDAO(){
-//		companyDAO = ProfileDAOFactory.getCompanyDAO();
-//		userDAO = ProfileDAOFactory.getUserDAO();
-//		userProfileDAO = ProfileDAOFactory.getUserProfileDAO();
-//	}
-
 	@Override
 	public void newCompany(Company company) {
 		try {
@@ -261,6 +256,12 @@ public class ProfileManagerService implements ProfileManager {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public Set<Role> getRoles(User user) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
