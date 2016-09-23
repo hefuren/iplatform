@@ -124,7 +124,7 @@ public class UserTest extends BaseUnitlsTest {
 			mode.setLastUpdateTime(CalendarUtils.getCurrentDate());
 			manager.updateUser(mode);
 			
-			User user = manager.getUser(null, userID);
+			User user = manager.getUser(systemAdmin, userID);
 			assertEquals("Name 属性更新失败", username, user.getName());
 			assertEquals("displayName 属性更新失败", displayName, user.getDisplayname());
 			assertEquals("status 属性更新失败", new Integer(status), user.getStatus());
@@ -278,7 +278,7 @@ public class UserTest extends BaseUnitlsTest {
 			ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");
 			
 			String username = "ElwinHe";
-			User user = manager.getUser(systemAdmin, username);
+			User user = manager.getUser(username, 1000);
 			assertNotNull("查询失败！", user);
 			if(user != null){
 				System.out.println("	id :	"+user.getId());
