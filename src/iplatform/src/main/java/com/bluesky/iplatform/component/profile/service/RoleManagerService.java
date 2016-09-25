@@ -64,7 +64,7 @@ public class RoleManagerService implements RoleManager {
 	@Override
 	public Set<Role> getRoles(User user) {
 		try {
-			return this.roleDAO.
+			return this.roleDAO.getRoles(user);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

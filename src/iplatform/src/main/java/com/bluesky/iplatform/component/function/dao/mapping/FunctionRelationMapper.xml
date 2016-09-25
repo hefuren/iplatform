@@ -166,7 +166,7 @@
 		left join st_functionRelation b on a.id=b.functionid 
 		<where>
 			b.roleID in 
-			<foreach item="roleid" index="index" collection="roleIDs" open="(" separator="," close=")">
+			<foreach item="roleid" index="index" collection="array" open="(" separator="," close=")">
             #{roleid}
         </foreach>
 		</where>

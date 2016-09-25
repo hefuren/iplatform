@@ -16,7 +16,7 @@
 		type="com.bluesky.iplatform.component.profile.model.Role">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="name" property="name" jdbcType="INTEGER" />
-		<result column="description" property="roleid" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
 		<result column="parentid" property="parentID" jdbcType="INTEGER" />
 		<result column="seqno" property="seqno" jdbcType="INTEGER" />
 		<result column="companyid" property="companyID" jdbcType="INTEGER" />
