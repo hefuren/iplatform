@@ -145,6 +145,32 @@
 			b.roleID = #{roleID}
 		</where>
 	</select>
+	
+	<select id="selectFunctionByRoleIDArray" parameterType="java.lang.Integer" resultMap="functionDataMap">
+		select 
+		a.id,
+		a.name,
+		a.parentid,
+		a.functionname,
+		a.description,
+		a.type,
+		a.status,
+		a.seqno,
+		a.applicationid,
+		a.policy,
+		a.clienturl,
+		a.folderurl,
+		a.imageurl,
+		a.companyid 
+		from st_function a 
+		left join st_functionRelation b on a.id=b.functionid 
+		<where>
+			b.roleID in 
+			<foreach item="roleid" index="index" collection="roleIDs" open="(" separator="," close=")">
+            #{roleid}
+        </foreach>
+		</where>
+	</select>
 
 	<update id="updateModes" parameterType="list">
 		<if test="list != null and list.size() &lt; 0 ">

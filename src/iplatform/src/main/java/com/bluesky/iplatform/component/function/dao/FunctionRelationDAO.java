@@ -51,5 +51,12 @@ public interface FunctionRelationDAO{
 	 * @return 权限集Map<k,v> k为权限Function Name(Key),v 为Function对象
 	 */
 	public Map<String,Function> selectFunctionByRoleID(int roleID);
+	
+	/**
+	 * 通过RoeID数组获取该角色的权限集
+	 * @param RoleIDs 角色ID数组
+	 * @return 权限集Map<k,v> k为权限Function Name(Key),v 为Function对象
+	 */
+	public Map<String,Function> selectFunctionByRoleID(int[] roleID);
 
 }

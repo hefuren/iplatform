@@ -57,6 +57,18 @@ public class FunctionManagerService implements FunctionManager {
 		}
 		return null;
 	}
+	
+	@Override
+	public Map<String, Function> getFunctionsByRoleID(User user, int[] roleIDs) {
+		try {
+			Map<String, Function> functionMap = this.relationDao.selectFunctionByRoleID(roleIDs);
+			return functionMap;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
 
 	@Override
 	public void newFunction(User user, Function function) {
@@ -129,5 +141,4 @@ public class FunctionManagerService implements FunctionManager {
 		return false;
 	}
 
-	
 }

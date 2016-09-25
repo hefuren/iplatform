@@ -1,7 +1,6 @@
 package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -12,7 +11,6 @@ import com.bluesky.iplatform.component.profile.dao.CompanyDAO;
 import com.bluesky.iplatform.component.profile.dao.UserDAO;
 import com.bluesky.iplatform.component.profile.dao.UserProfileDAO;
 import com.bluesky.iplatform.component.profile.model.Company;
-import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.model.UserProfile;
 

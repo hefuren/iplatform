@@ -1,11 +1,9 @@
 package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
-import java.util.Set;
 
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.component.profile.model.Company;
-import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.model.UserProfile;
 

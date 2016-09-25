@@ -12,6 +12,22 @@
 		<result column="type" property="type" jdbcType="INTEGER" />
 		<result column="companyid" property="companyid" jdbcType="INTEGER" />
 	</resultMap>
+	<resultMap id="RoleResultMap"
+		type="com.bluesky.iplatform.component.profile.model.Role">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="INTEGER" />
+		<result column="description" property="roleid" jdbcType="VARCHAR" />
+		<result column="parentid" property="parentID" jdbcType="INTEGER" />
+		<result column="seqno" property="seqno" jdbcType="INTEGER" />
+		<result column="companyid" property="companyID" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="createby" property="createBy" jdbcType="INTEGER" />
+		<result column="createtime" property="createTime" jdbcType="TIME" />
+		<result column="lastupdateby" property="lastUpdateBy" jdbcType="INTEGER" />
+		<result column="lastupdatetime" property="lastUpdateTime" jdbcType="TIME" />
+	</resultMap>
+	
 	<!-- 定义通用的SQL -->
 	<sql id="Table">
 		st_rolerelation
@@ -32,6 +48,26 @@
 		delete from st_rolerelation
 		where roleID = #{roleID,jdbcType=INTEGER}
 	</delete>
+	<select id="selectRolesByUser" resultMap="RoleResultMap" parameterType="com.bluesky.iplatform.component.profile.model.User" >
+		select a.id, 
+		a.name,
+		a.description,
+		a.parentid,
+		a.seqno,
+		a.companyid,
+		a.type,
+		a.status,
+		a.createby,
+		a.createtime,
+		a.lastupdateby,
+		a.lastupdatetime 
+		from st_role a 
+		left outer join st_rolerelation b 
+		on a.id = b.roleid 
+		and a.companyid = b.companyid 
+		where b.userid = #{id, jdbcType=INTEGER} 
+		and b.companyid = #{companyID,jdbcType=INTEGER}
+	</select>
 
 	<!-- 以下是自动生成 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"

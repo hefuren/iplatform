@@ -1,7 +1,7 @@
 package com.bluesky.iplatform.component.function.shiro.token;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.shiro.SecurityUtils;
@@ -19,9 +19,12 @@ import org.springframework.stereotype.Component;
 
 import com.bluesky.iplatform.commons.utils.CipherUtils;
 import com.bluesky.iplatform.commons.utils.TypeUtils;
+import com.bluesky.iplatform.component.function.model.Function;
+import com.bluesky.iplatform.component.function.service.FunctionManager;
 import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.service.ProfileManager;
+import com.bluesky.iplatform.component.profile.service.RoleManager;
 import com.bluesky.iplatform.component.utils.ComponentFactory;
 
 @Component(value = "SimpleRealm")
@@ -76,22 +79,39 @@ public class SimpleRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
 		
-		ProfileManager manager = (ProfileManager) ComponentFactory.getManager("ProfileManager");
+		RoleManager roleManager = (RoleManager) ComponentFactory.getManager("RoleManager");
 		User user = (User)principals.getPrimaryPrincipal();
 
 		 SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		 //根据用户ID查询角色（role），放入到Authorization里
-		 Set<Role> roleList = manager.getRoles(user);
+		 Set<Role> roleSet = roleManager.getRoles(user);
 		 
 		 //Role对象中ID是唯一的，避免名称重复，roles Set 中保存 roleID
 		 Set<String> roles = new HashSet<String>();
-		 for(Role role : roleList){
+		 for(Role role : roleSet){
 			 int roleID = role.getId();
 			 roles.add(TypeUtils.nullToString(roleID));
 		 }
 		 info.setRoles(roles);
 		 //根据用户ID查询权限（permission），放入到Authorization里。
-		 Set<String> permissions =  new HashSet<String>();
+		 FunctionManager functionManager = (FunctionManager)ComponentFactory.getManager("FunctionManager");
+		 int[] roleidArray = null;
+		 if(roleSet != null && roleSet.size() > 0){
+			 roleidArray = new int[roleSet.size()];
+			 int index = 0;
+			 for(Role role : roleSet){
+				 roleidArray[index++] = role.getId();
+			 }
+		 }
+		 Map<String, Function>  functionMaps = functionManager.getFunctionsByRoleID(user, roleidArray);
+		
+		Set<String> permissions =  new HashSet<String>();
+		if(functionMaps != null && functionMaps.size()>0){
+			Set<String> keys = functionMaps.keySet();
+			for(String key : keys){
+				permissions.add(key);
+			}
+		}
 		 info.setStringPermissions(permissions);
 		 return info;
 	}

@@ -1,6 +1,8 @@
 package com.bluesky.iplatform.component.profile.dao.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -84,6 +86,30 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 			sqlSession.close();
 		}	
 		
+	}
+
+	@Override
+	public Set<Role> getRoles(User user) {
+		log.debug(" get " + className + " by user object begin");
+		sqlSession = sqlSessionFactory.openSession();
+		try {
+			Set<Role> roleSet = null;
+			RoleRelationMapper relationMap = sqlSession.getMapper(RoleRelationMapper.class);
+			List<Role> roleList = relationMap.selectRolesByUser(user);
+			if(roleList != null && roleList.size() > 0){
+				roleSet = new HashSet<Role>();
+				for(Role role : roleList){
+					roleSet.add(role);
+				}
+			}
+			return roleSet;
+		} catch (RuntimeException re) {
+			log.error("get Role by user object failed", re);
+			throw re;
+		}finally{
+			sqlSession.close();
+		}
+
 	}
 
 }

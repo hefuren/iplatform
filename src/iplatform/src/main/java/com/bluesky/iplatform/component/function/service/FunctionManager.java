@@ -68,10 +68,18 @@ public interface FunctionManager {
 	 * @param user
 	 * @param roleID
 	 * @return
-	 * @throws Exception
 	 * Map<String, Function> Key 为权限的Key, Function 为权限对象
 	 */
 	public Map<String, Function> getFunctionsByRoleID(User user, int roleID) ;
+	
+	/**
+	 * 通过RoleID 数组获取权限Map
+	 * @param user
+	 * @param roleIDs
+	 * @return
+	 *  Map<String, Function> Key 为权限的Key, Function 为权限对象
+	 */
+	public Map<String, Function> getFunctionsByRoleID(User user, int[] roleIDs) ;
 	
 	/**
 	 * 通过Function Key (Name) 判断权限是否存在

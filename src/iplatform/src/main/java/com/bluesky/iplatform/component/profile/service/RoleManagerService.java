@@ -63,7 +63,12 @@ public class RoleManagerService implements RoleManager {
 	
 	@Override
 	public Set<Role> getRoles(User user) {
-		// TODO Auto-generated method stub
+		try {
+			return this.roleDAO.
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return null;
 	}
 

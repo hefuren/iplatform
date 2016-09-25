@@ -110,6 +110,29 @@ public class FunctionRelationDAOImpl extends BaseMyBatisDAOImpl implements Funct
 			sqlSession.close();
 		}
 	}
+	
+
+	@Override
+	public Map<String, Function> selectFunctionByRoleID(int[] roleIDs) {
+		log.debug("slect FunctionRelation modes by roleID ");
+		sqlSession = sqlSessionFactory.openSession();
+		try {
+			Map<String, Function> dataMap = null;
+			List<Function> list = this.mapper.selectFunctionByRoleIDArray(roleIDs);
+			if(list != null && list.size()>0){
+				dataMap = new HashMap<String, Function>();
+				for(Function item : list){
+					dataMap.put(item.getName(), item);
+				}
+			}
+			return dataMap;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}finally{
+			sqlSession.close();
+		}
+	}
 
 	@Override
 	public void deleteModes(List<FunctionRelation> modes) {
@@ -148,6 +171,5 @@ public class FunctionRelationDAOImpl extends BaseMyBatisDAOImpl implements Funct
 		}
 		
 	}
-
 	
 }

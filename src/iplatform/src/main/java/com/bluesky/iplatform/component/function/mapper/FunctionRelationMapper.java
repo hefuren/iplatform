@@ -40,6 +40,14 @@ public interface FunctionRelationMapper{
 	public List<Function> selectFunctionByRoleID(int roleID);
 	
 	/**
+	 * 通过RoeID获取该角色的权限集
+	 * @param RoleID 角色ID
+	 * @return 权限集Map<k,v> k为权限Function Name(Key),v 为Function对象
+	 */
+	public List<Function> selectFunctionByRoleIDArray(int[] roleID);
+
+	
+	/**
 	 * 更新权限分配关系
 	 * @param modes
 	 */
