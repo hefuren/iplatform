@@ -24,6 +24,7 @@
 		<result column="type" property="type" jdbcType="INTEGER"/>
 		<result column="status" property="status" jdbcType="INTEGER"/>
 		<result column="seqno" property="seqno" jdbcType="INTEGER"/>
+		<result column="systemid" property="systemID" jdbcType="INTEGER"/>
 		<result column="applicationid" property="applicationid" jdbcType="INTEGER"/>
 		<result column="policy" property="policy" jdbcType="VARCHAR"/>
 		<result column="clineturl" property="clineturl" jdbcType="VARCHAR"/>
@@ -133,6 +134,7 @@
 		a.type,
 		a.status,
 		a.seqno,
+		a.systemid,
 		a.applicationid,
 		a.policy,
 		a.clienturl,
@@ -156,6 +158,7 @@
 		a.type,
 		a.status,
 		a.seqno,
+		a.systemid,
 		a.applicationid,
 		a.policy,
 		a.clienturl,

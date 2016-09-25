@@ -604,3 +604,6 @@ from ST_CodeTableField a, PM_Company b
 where a.companyID = 1 and b.id != 1 and a.tableID = 400;
 
 */
+
+/*2016-09-25 by elwin 修改权限表，增加systemID*/
+alter table  st_function add column systemid integer; 

@@ -39,17 +39,6 @@ public class SimpleRealmTest extends BaseUnitlsTest{
         // 是否认证通过
         boolean isAuthenticated = subject.isAuthenticated();
         System.out.println("是否认证通过：" + isAuthenticated);
-        
-//        
-//        
-//    	RoleManager manager = (RoleManager)ComponentFactory.getManager("RoleManager");
-//		Role role = manager.getRole(systemAdmin, 1000);
-//		boolean result = FunctionUtils.checkRole(role);
-//		if (result) {  
-//			System.out.println("权限校验说明：当前用户具有\" " + role.getName() + "\" 角色");
-//		} else {  
-//			System.out.println("权限校验说明：当前用户不具备\" " + role.getName() + "\" 权限");
-//		}
 	}
 	
 	@Test

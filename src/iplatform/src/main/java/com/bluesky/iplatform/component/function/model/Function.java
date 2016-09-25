@@ -27,6 +27,8 @@ import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
 @Table(name = "st_function", schema = "public")
 public class Function implements Hierarchyable,java.io.Serializable {
 
+	private static final long serialVersionUID = -4909557358691726718L;
+
 	// Fields
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
@@ -56,6 +58,9 @@ public class Function implements Hierarchyable,java.io.Serializable {
 	@Column(name = "seqno")
 	private Integer seqno;
 	
+	/**
+	 * 应用模块ID
+	 */
 	@Column(name = "applicationid")
 	private Integer applicationid;
 
