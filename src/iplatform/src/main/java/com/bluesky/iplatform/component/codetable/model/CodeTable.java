@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.Data;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -31,12 +33,16 @@ import com.bluesky.iplatform.commons.object.BaseObject;
  * 
  * @author ElwinHe
  */
+@Data
 @Component(value = "CodeTable")
 @Entity
 @Scope(value = "prototype")
 @Table(name = "st_codetable", schema = "public")
 public class CodeTable extends BaseObject implements Hierarchyable,
 		Serializable {
+
+	private static final long serialVersionUID = 5382330577081526330L;
+
 
 	public static SerializableComparator NameComparator = new SerializableComparator() {
 		private static final long serialVersionUID = -5996256934150540497L;
@@ -66,27 +72,53 @@ public class CodeTable extends BaseObject implements Hierarchyable,
 	
 	
 	// Fields
-
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "tablename", nullable = false, length = 120)
 	private String tablename;
+	
+	@Column(name = "name", length = 120)
 	private String name;
+	
+	@Column(name = "description", length = 500)
 	private String description;
+	
+	@Column(name = "status")
 	private Integer status;
+	
+	@Column(name = "idRule")
 	private Integer idRule;
+	
+	@Column(name = "category")
 	private Integer category;
+	
+	@Column(name = "source")
 	private Integer source;
+	
+	@Column(name = "type")
 	private Integer type;
+	
+	@Column(name = "parentid")
 	private Integer parentID;
+	
+	@Column(name = "sortby", length = 50)
 	private String sortby;
-	private Timestamp createTime;
-	private Integer createBy;
-	private Timestamp lastUpdateTime;
-	private Integer lastUpdateBy;
+	
+	@Column(name = "owner")
 	private Integer owner;
-	private Integer companyID;
+	
+	@Column(name = "name1", length = 120)
 	private String name1;
+	
+	@Column(name = "description1", length = 500)
 	private String description1;
+	
+	@Transient
 	private Set<CodeTableField> codeTableFields = new HashSet<CodeTableField>(0);
+	
+	@Transient
 	private List<CommonCode> codeList = new ArrayList<CommonCode>();
 
 	// Constructors
@@ -133,179 +165,6 @@ public class CodeTable extends BaseObject implements Hierarchyable,
 	}
 
 	// Property accessors
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Column(name = "tablename", nullable = false, length = 120)
-	public String getTablename() {
-		return this.tablename;
-	}
-
-	public void setTablename(String tablename) {
-		this.tablename = tablename;
-	}
-
-	@Column(name = "name", length = 120)
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "description", length = 500)
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Column(name = "status")
-	public Integer getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
-	@Column(name = "idRule")
-	public Integer getIdRule() {
-		return this.idRule;
-	}
-
-	public void setIdRule(Integer idRule) {
-		this.idRule = idRule;
-	}
-
-	@Column(name = "category")
-	public Integer getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(Integer category) {
-		this.category = category;
-	}
-
-	@Column(name = "source")
-	public Integer getSource() {
-		return this.source;
-	}
-
-	public void setSource(Integer source) {
-		this.source = source;
-	}
-
-	@Column(name = "type")
-	public Integer getType() {
-		return this.type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	@Column(name = "parentid")
-	public Integer getParentID() {
-		return this.parentID;
-	}
-
-	public void setParentID(Integer parentID) {
-		this.parentID = parentID;
-	}
-
-	@Column(name = "sortby", length = 50)
-	public String getSortby() {
-		return this.sortby;
-	}
-
-	public void setSortby(String sortby) {
-		this.sortby = sortby;
-	}
-
-	@Column(name = "createtime")
-	public Timestamp getCreateTime() {
-		return this.createTime;
-	}
-
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
-
-	@Column(name = "createby")
-	public Integer getCreateBy() {
-		return this.createBy;
-	}
-
-	public void setCreateBy(Integer createBy) {
-		this.createBy = createBy;
-	}
-
-	@Column(name = "lastupdatetime")
-	public Timestamp getLastUpdateTime() {
-		return this.lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(Timestamp lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
-
-	@Column(name = "lastupdateby")
-	public Integer getLastUpdateBy() {
-		return this.lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(Integer lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	@Column(name = "owner")
-	public Integer getOwner() {
-		return this.owner;
-	}
-
-	public void setOwner(Integer owner) {
-		this.owner = owner;
-	}
-
-	@Column(name = "companyid", nullable = false)
-	public Integer getCompanyID() {
-		return this.companyID;
-	}
-
-	public void setCompanyID(Integer companyid) {
-		this.companyID = companyid;
-	}
-
-	@Column(name = "name1", length = 120)
-	public String getName1() {
-		return this.name1;
-	}
-
-	public void setName1(String name1) {
-		this.name1 = name1;
-	}
-
-	@Column(name = "description1", length = 500)
-	public String getDescription1() {
-		return this.description1;
-	}
-
-	public void setDescription1(String description1) {
-		this.description1 = description1;
-	}
-
-	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "codeTable")
 	public Set<CodeTableField> getCodeTableFields() {
 		return this.codeTableFields;
 	}
@@ -314,8 +173,8 @@ public class CodeTable extends BaseObject implements Hierarchyable,
 		this.codeTableFields = codeTableFields;
 	}
 
-	@Transient
 	// 表示该属性并非一个到数据库表的字段的映射,ORM框架将忽略该属性
+	@Transient
 	public List<CommonCode> getCodeList() {
 		return codeList;
 	}
@@ -351,6 +210,7 @@ public class CodeTable extends BaseObject implements Hierarchyable,
 	 * @param codeID
 	 * @return
 	 */
+	@Transient
 	public CommonCode getCommonCode(int codeID){
 		List<CommonCode> codes = codeList;
 		for(CommonCode code : codes){

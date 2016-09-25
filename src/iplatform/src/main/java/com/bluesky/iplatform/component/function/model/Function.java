@@ -77,6 +77,9 @@ public class Function implements Hierarchyable,java.io.Serializable {
 	private String imageurl;
 	
 	@Column(name = "companyID", nullable = false)
+	private Integer systemID;
+	
+	@Column(name = "companyID", nullable = false)
 	private Integer companyID;
 	
 	@Transient
