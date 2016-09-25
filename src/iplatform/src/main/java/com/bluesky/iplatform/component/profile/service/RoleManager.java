@@ -1,6 +1,7 @@
 package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.RoleRelation;
@@ -69,7 +70,15 @@ public interface RoleManager {
 	 * @return
 	 * @
 	 */
-	public List<User> getRoleUser(User user, Role role) ;
+	public List<User> getUsersByRole(User user, Role role) ;
+	
+	/**
+	 * 根据用户查找其角色
+	 * @param user 当前用户对象
+	 * @return
+	 */
+	public Set<Role> getRoles(User user);	
+
 	
 	/**
 	 * 为角色分配用户
@@ -77,7 +86,7 @@ public interface RoleManager {
 	 * @param modes
 	 * @
 	 */
-	public void assignRoleUser(User user, Role role, List<RoleRelation> modes);
+	public void assignUsers(User user, Role role, List<RoleRelation> modes);
 
 
 }

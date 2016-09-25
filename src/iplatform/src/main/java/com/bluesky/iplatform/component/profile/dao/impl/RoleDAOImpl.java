@@ -33,7 +33,7 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 		this.mapper  = (Mapper<Role>) sqlSession.getMapper(RoleMapper.class);
 	}
 	
-	public void assignRoleUser(User user, Role role, List<RoleRelation> modes){
+	public void assignUsers(User user, Role role, List<RoleRelation> modes){
 		log.debug("saving " + className + " instance");
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);  
     	try {

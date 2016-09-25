@@ -258,12 +258,5 @@ public class ProfileManagerService implements ProfileManager {
 		return null;
 	}
 
-	@Override
-	public Set<Role> getRoles(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 
 }

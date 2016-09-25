@@ -1,6 +1,7 @@
 package com.bluesky.iplatform.component.profile.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -51,18 +52,23 @@ public class RoleManagerService implements RoleManager {
 	}
 
 	@Override
-	public List<User> getRoleUser(User user, Role role) {
+	public List<User> getUsersByRole(User user, Role role) {
 		try {
-			return this.roleDAO.getModesByProperty("roleID",
-					new Integer(role.getId()));
+			return this.roleDAO.getModesByProperty("roleID", new Integer(role.getId()));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return null;
 	}
+	
+	@Override
+	public Set<Role> getRoles(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public void assignRoleUser(User user, Role role, List<RoleRelation> modes) {
+	public void assignUsers(User user, Role role, List<RoleRelation> modes) {
 		try {
 			this.roleDAO.batchNewModes(user, modes);
 		} catch (Exception ex) {

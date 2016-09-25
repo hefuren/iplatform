@@ -122,9 +122,9 @@ public interface ProfileManager {
 	public User getUserFormCache(int companyID, int userID);
 	
 	/**
-	 *  通过用户名获取
-	 * @param username
-	 * @param companyID
+	 *  通过用户名获取用户
+	 * @param username 用户名
+	 * @param companyID 公司ID（同一个公司/租户不允许用户名重复）
 	 * @return
 	 */
 	public User getUser(String username, int companyID);
@@ -138,13 +138,7 @@ public interface ProfileManager {
 	 */
 	public PageInfo getUsers(User user, PageInfo pageInfo) ;
 	
-	/**
-	 * 根据用户查找其角色
-	 * @param user 当前用户对象
-	 * @return
-	 */
-	public Set<Role> getRoles(User user);	
-	
+		
 	/**
 	 * 通过UserID获取 UserProfile信息
 	 * @param user

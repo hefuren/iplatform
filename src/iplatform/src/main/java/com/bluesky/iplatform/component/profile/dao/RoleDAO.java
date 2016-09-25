@@ -15,7 +15,7 @@ public interface RoleDAO<T> extends BaseSingleMyBatisDAO<T> {
 	 * @param role
 	 * @param modes
 	 */
-	public void assignRoleUser(User user, Role role, List<RoleRelation> modes);
+	public void assignUsers(User user, Role role, List<RoleRelation> modes);
 	
 	/**
 	 * 激活角色
