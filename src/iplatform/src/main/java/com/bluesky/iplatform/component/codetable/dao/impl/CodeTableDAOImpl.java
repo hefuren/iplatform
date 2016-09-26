@@ -22,10 +22,10 @@ import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.commons.utils.TypeUtils;
 import com.bluesky.iplatform.component.codetable.dao.CodeTableDAO;
 import com.bluesky.iplatform.component.codetable.mapper.CodeTableFieldMapper;
+import com.bluesky.iplatform.component.codetable.mapper.CodeTableMapper;
 import com.bluesky.iplatform.component.codetable.model.CodeTable;
 import com.bluesky.iplatform.component.codetable.model.CodeTableField;
 import com.bluesky.iplatform.component.codetable.model.CommonCode;
-import com.bluesky.iplatform.component.codetable.service.CodeTableManager;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.github.abel533.sql.SqlMapper;
 
@@ -39,7 +39,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	public void initMapper(){
     	ApplicationContext ctx = BaseContext.getApplicationContext();
     	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-		this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableManager.class);
+//		this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableMapper.class);
 	}
 
 	/**
@@ -51,15 +51,16 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		log.debug("saving " + className + " instance");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		String tableName = codeTable.getTablename();
-		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);  
+		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
 			//动态更新CodeTable Sequence Cache
 			SequenceUtils.dynamicUpdateSequenceCache(codeTable.getTablename());
 			//插入主表
+			this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableMapper.class);
 			this.mapper.insert(codeTable);
 			//插入子表
 			Set<CodeTableField> fields = codeTable.getCodeTableFields();
-			CodeTableFieldMapper fieldMap = sqlSession.getMapper(CodeTableFieldMapper.class);
+			Mapper<CodeTableField> fieldMap = (Mapper<CodeTableField>) sqlSession.getMapper(CodeTableFieldMapper.class);
 			for (CodeTableField t : fields) {
 				// 设置循环批量插入数据
 				fieldMap.insert(t);
@@ -86,10 +87,10 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
-			dorpErrorCodeTable(tableName);
+			//dorpErrorCodeTable(tableName);
 			throw re;
 		} finally{
-			sqlSession.close();
+//			sqlSession.close();
 		}
 	}
 	
@@ -126,7 +127,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	public void batchDeleteModes(User user, int[] ids){
 		log.debug("deleting " + className +" instance");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
-		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);  
+		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
 			List<CodeTable> tables = this.getModes(user, ids);
 			Map<Integer,CodeTable> tableMaps = new HashMap();
@@ -201,7 +202,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	 */
 	private void batchSaveCommonCodes(String tableName, List<CommonCode> codes){
 		log.debug("saving or updating " + className + " instance");
-		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);  
 		try {
 			for(CommonCode code : codes){
 				//自动设置
@@ -241,8 +241,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch (RuntimeException re) {
 			log.error("saving or updating failed", re);
 			throw re;
-		} finally{
-			sqlSession.close();
 		}
 	}
 	

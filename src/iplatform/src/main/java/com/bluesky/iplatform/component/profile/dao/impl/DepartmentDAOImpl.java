@@ -53,7 +53,7 @@ public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> impl
 	@Override
 	public void saveDepartment(User user, Hierarchy hierarchy) throws Exception {
 		log.debug("saving Department instance");
-		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH); 
+		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try{
 			//查询数据库获取该公司的所有组织结构
 			List<Department> departments = this.getCompanyAllModes(user);

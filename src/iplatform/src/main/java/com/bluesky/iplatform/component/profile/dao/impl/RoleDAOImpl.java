@@ -37,7 +37,7 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 	
 	public void assignUsers(User user, Role role, List<RoleRelation> modes){
 		log.debug("saving " + className + " instance");
-		SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);  
+		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
     	try {
     		RoleRelationMapper relationMap = sqlSession.getMapper(RoleRelationMapper.class);
     		relationMap.deleteByRoleID(new Integer(role.getId()));

@@ -33,7 +33,7 @@ public class CodeTableField implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tableid")
-	private Integer tableid;
+	private Integer tableID;
 	
 	@Column(name = "name", length = 120)
 	private String name;
@@ -101,7 +101,7 @@ public class CodeTableField implements java.io.Serializable {
 			Integer seqno, Integer fieldlevel, Integer usecount,
 			Integer companyID) {
 		this.id = id;
-		this.tableid = tableid;
+		this.tableID = tableid;
 		this.name = name;
 		this.description = description;
 		this.fieldid = fieldid;
