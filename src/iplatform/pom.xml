@@ -122,6 +122,8 @@
 			<artifactId>spring-oxm</artifactId>
 			<version>4.1.0.RELEASE</version>
 		</dependency>
+		<!--  spring security 框架 -->
+		<!-- 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -177,6 +179,9 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>3.2.5.RELEASE</version>
 		</dependency>
+		-->
+		<!-- spring webflow 框架 -->
+		<!--  
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-webflow</artifactId>
@@ -197,6 +202,7 @@
 			<artifactId>spring-js-resources</artifactId>
 			<version>2.4.0.RELEASE</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>ognl</artifactId>
@@ -213,7 +219,7 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-		<!--  
+		<!--  通用Mapper （已经修改了源代码，屏蔽lib引用）
 		<dependency>
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper</artifactId>
