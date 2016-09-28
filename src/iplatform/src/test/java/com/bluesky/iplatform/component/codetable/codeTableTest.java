@@ -72,18 +72,79 @@ public class codeTableTest extends BaseUnitlsTest{
 					code.setSeqNo(TypeUtils.nullToInt(seqNo));
 					code.setNew(TypeUtils.stringToBoolean(isNew[index]));
 					code.setStatus(CommonCode.STATUS_ACTIVE);
-					code.setCompanyID(systemAdmin.getCompanyID());
+					code.setCompanyID(1000);
 					codes.add(code);
 					index++;
 				}
 			}
 			codeTable.setCodeList(codes);
-			
 			manager.newCodeTable(systemAdmin, codeTable);
+			System.out.println("新增系统代码表成功！");
 		} catch (Exception e) {
 			fail("Not yet implemented");
 		}
 		
+	}
+	
+	@Test
+	public void testUpdateCodeTable(){
+		try {
+			ApplicationContext ctx = BaseContext.getApplicationContext();
+			CodeTableManager manager = (CodeTableManager)ComponentFactory.getManager("CodeTableManager");
+			
+			String name = "项目优先级";
+			String description = "定义项目的优先级：高中低；用于设置项目的优先级。";
+			int idRule = 0;
+			int tableID = 1000;
+			String tableName = "codeTable_"+tableID;
+			
+			String[] seqNos = new String[]{"1","2","3"};
+			String[] isModified = new String[]{"true","true","true"};
+			String[] codeID = new String[]{"1000","10001","1002"};
+			String[] codeName = new String[]{"高","中","低"};
+			String[] codeDesp = new String[]{"高","中","低"};
+			
+			CodeTable codeTable = ctx.getBean("CodeTable", CodeTable.class);
+			codeTable.setId(tableID);
+			codeTable.setTablename(tableName);
+			codeTable.setName(name);
+			codeTable.setDescription(description);
+			codeTable.setStatus(CodeTable.STATUS_ACTIVE);
+			codeTable.setType(CodeTable.TYPE_OWN);
+			codeTable.setIdRule(idRule);
+			codeTable.setCompanyID(systemAdmin.getCompanyID());
+			codeTable.setCreateBy(systemAdmin.getId());
+			codeTable.setCreateTime(CalendarUtils.getCurrentDate());
+			codeTable.setLastUpdateBy(systemAdmin.getId());
+			codeTable.setLastUpdateTime(CalendarUtils.getCurrentDate());
+			Set<CodeTableField> filedSet = initCodeTableFieldSet(codeTable);
+			codeTable.setCodeTableFields(filedSet);
+			
+			List<CommonCode> codes = new ArrayList<CommonCode>();
+			int index = 0;
+			if(seqNos != null && seqNos.length > 0){
+				for(String seqNo : seqNos){
+					CommonCode code = ctx.getBean("CommonCode", CommonCode.class);
+					if(idRule == CodeTable.ID_RULE_MANUL){
+						//手动设置
+						code.setId(TypeUtils.nullToInt(codeID[index]));
+					}
+					code.setName(codeName[index]);
+					code.setDescription(codeDesp[index]);
+					code.setSeqNo(TypeUtils.nullToInt(seqNo));
+					code.setModified(TypeUtils.stringToBoolean(isModified[index]));
+					code.setStatus(CommonCode.STATUS_ACTIVE);
+					code.setCompanyID(1000);
+					codes.add(code);
+					index++;
+				}
+			}
+			codeTable.setCodeList(codes);
+			manager.updateCodeTable(systemAdmin, codeTable);
+			System.out.println("修改系统代码表成功！");
+		} catch (Exception e) {
+			fail("Not yet implemented");
+		}
 		
 	}
 	
@@ -96,7 +157,7 @@ public class codeTableTest extends BaseUnitlsTest{
 		CodeTableField name = ctx.getBean("CodeTableField", CodeTableField.class);
 		name.setTableID(table.getId());
 		name.setId(fieldID++);
-		name.setDescription("名称");
+		name.setDescription("名称1");
 		name.setFieldid(0);
 		name.setStatus(1);
 		name.setType(0);
@@ -115,7 +176,7 @@ public class codeTableTest extends BaseUnitlsTest{
 		CodeTableField description = ctx.getBean("CodeTableField", CodeTableField.class);
 		description.setTableID(table.getId());
 		description.setId(fieldID++);
-		description.setDescription("描述");
+		description.setDescription("描述1");
 		description.setFieldid(0);
 		description.setStatus(1);
 		description.setType(0);

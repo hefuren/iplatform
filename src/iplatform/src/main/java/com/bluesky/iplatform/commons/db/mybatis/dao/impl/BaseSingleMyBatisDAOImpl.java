@@ -67,10 +67,10 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		className = entityClass.getName();
 	}
     
-    @PostConstruct  
-    public void SqlSessionFactory() {  
-        super.setSqlSessionFactory(sqlSessionFactory);  
-    }  
+//    @PostConstruct  
+//    public void SqlSessionFactory() {  
+//        super.setSqlSessionFactory(sqlSessionFactory);  
+//    }  
     
     /**
      * 初始化通用的Mapper

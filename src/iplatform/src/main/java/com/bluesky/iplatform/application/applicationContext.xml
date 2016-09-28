@@ -67,12 +67,20 @@
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<!--更新采用批量模式 -->  
+		<constructor-arg index="1" value="BATCH"/> 
 	</bean>
 
 	<bean id="sqlMapper" class="com.github.abel533.sql.SqlMapper"
 		scope="prototype">
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
+	
+	<bean id="baseSqlMapper" class="com.bluesky.iplatform.commons.db.mybatis.BaseSqlMapper"
+		scope="prototype">
+		<constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
 	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage"
 			value="com.bluesky.iplatform.**.dao,com.bluesky.iplatform.**.mapper" />

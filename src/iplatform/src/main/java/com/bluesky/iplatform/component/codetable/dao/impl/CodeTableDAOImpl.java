@@ -38,8 +38,8 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	@PostConstruct 
 	public void initMapper(){
     	ApplicationContext ctx = BaseContext.getApplicationContext();
-    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-//		this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableMapper.class);
+//    	SqlSessionTemplate sqlSessionTemplate = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
+//		this.mapper  = (Mapper<CodeTable>) sqlSessionTemplate.getMapper(CodeTableMapper.class);
 	}
 
 	/**
@@ -52,11 +52,12 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		String tableName = codeTable.getTablename();
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
+		
+		this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableMapper.class);
 		try {
 			//动态更新CodeTable Sequence Cache
 			SequenceUtils.dynamicUpdateSequenceCache(codeTable.getTablename());
 			//插入主表
-			this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableMapper.class);
 			this.mapper.insert(codeTable);
 			//插入子表
 			Set<CodeTableField> fields = codeTable.getCodeTableFields();
@@ -87,7 +88,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
-			//dorpErrorCodeTable(tableName);
+			dorpErrorCodeTable(tableName);
 			throw re;
 		} finally{
 //			sqlSession.close();
@@ -203,6 +204,14 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	private void batchSaveCommonCodes(String tableName, List<CommonCode> codes){
 		log.debug("saving or updating " + className + " instance");
 		try {
+			//原生SQL也必须按照mybatis规范写
+			String newSQL = "insert into "+ tableName +" (id,name,parentID,description,seqno,status,companyID) values (#{id},#{name},#{parentID},#{description}"
+					+ ",#{seqno},#{status},#{companyID})";
+			String updateSQL = "update "+ tableName +" set name = #{name}, parentID = #{parentID}, description = #{description}, seqno = #{seqno}, "
+					+ "status = #{status}, companyID = #{companyID} where id = #{id} ";
+			
+			ApplicationContext ctx = BaseContext.getApplicationContext();
+			
 			for(CommonCode code : codes){
 				//自动设置
 				if(TypeUtils.nullToInt(code.getId()) == 0){
@@ -210,30 +219,26 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 					Long sequence = SequenceUtils.getSequence(tableName);
 					code.setId(TypeUtils.nullToInt(sequence));
 				}
-				String newSQL = "insert into "+ tableName +" (id,name,parentID,description,seqno,status,companyID) values (?,?,?,?,?,?,?)";
-				String updateSQL = "update "+ tableName +" set name = ?, parentID = ?, description = ?, seqno = ?, status = ?, companyID = ? " +
-						"where id = ? ";
 				
-				ApplicationContext ctx = BaseContext.getApplicationContext();
 				SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
-				List<Object> parameter = new ArrayList<Object>();
+				Map<String, Object> parameter = new HashMap<String, Object>();
 				if(code.isNew()){
-					parameter.add(new Integer(code.getId()));
-					parameter.add(code.getName());
-					parameter.add(new Integer(code.getParentID()));
-					parameter.add(code.getDescription());
-					parameter.add(new Integer(code.getSeqNo()));
-					parameter.add(new Integer(code.getStatus()));
-					parameter.add(new Integer(code.getCompanyID()));
+					parameter.put("id", new Integer(code.getId()));
+					parameter.put("name", code.getName());
+					parameter.put("parentID", new Integer(code.getParentID()));
+					parameter.put("description", code.getDescription());
+					parameter.put("seqno", new Integer(code.getSeqNo()));
+					parameter.put("status", new Integer(code.getStatus()));
+					parameter.put("companyID", new Integer(code.getCompanyID()));
 					sqlMapper.insert(newSQL, parameter);
 				}else{
-					parameter.add(code.getName());
-					parameter.add(new Integer(code.getParentID()));
-					parameter.add(code.getDescription());
-					parameter.add(new Integer(code.getSeqNo()));
-					parameter.add(new Integer(code.getStatus()));
-					parameter.add(new Integer(code.getCompanyID()));
-					parameter.add(new Integer(code.getId()));
+					parameter.put("name", code.getName());
+					parameter.put("parentID", new Integer(code.getParentID()));
+					parameter.put("description", code.getDescription());
+					parameter.put("seqno", new Integer(code.getSeqNo()));
+					parameter.put("status", new Integer(code.getStatus()));
+					parameter.put("companyID", new Integer(code.getCompanyID()));
+					parameter.put("id", new Integer(code.getId()));
 					sqlMapper.update(updateSQL, parameter);
 				}
 			}
