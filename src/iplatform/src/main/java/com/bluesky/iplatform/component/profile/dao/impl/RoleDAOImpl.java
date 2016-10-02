@@ -18,6 +18,7 @@ import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.component.profile.dao.RoleDAO;
 import com.bluesky.iplatform.component.profile.mapper.RoleMapper;
 import com.bluesky.iplatform.component.profile.mapper.RoleRelationMapper;
+import com.bluesky.iplatform.component.profile.model.Department;
 import com.bluesky.iplatform.component.profile.model.Role;
 import com.bluesky.iplatform.component.profile.model.RoleRelation;
 import com.bluesky.iplatform.component.profile.model.User;
@@ -25,14 +26,20 @@ import com.bluesky.iplatform.component.profile.model.User;
 @Repository(value = "RoleDAOImpl")
 public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleDAO<Role> {
 	
-	/**
-     * 初始化通用的Mapper
-     */
-	@PostConstruct 
-	public void initMapper(){
-    	ApplicationContext ctx = BaseContext.getApplicationContext();
-    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-		this.mapper  = (Mapper<Role>) sqlSession.getMapper(RoleMapper.class);
+//	/**
+//     * 初始化通用的Mapper
+//     */
+//	@PostConstruct 
+//	public void initMapper(){
+//    	ApplicationContext ctx = BaseContext.getApplicationContext();
+//    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
+//		this.mapper  = (Mapper<Role>) sqlSession.getMapper(RoleMapper.class);
+//	}
+	
+	@Override
+	public void initMapperType() {
+		mapperType = RoleMapper.class;
+		
 	}
 	
 	public void assignUsers(User user, Role role, List<RoleRelation> modes){
@@ -59,6 +66,7 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 		log.debug("updating " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<Role> mapper = this.getMapper(sqlSession, mapperType);
 			role.setStatus(Role.STATUS_ACTIVE);
 			mapper.updateByPrimaryKey(role);
 			log.debug("update successful");
@@ -76,6 +84,7 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 		log.debug("updating " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<Role> mapper = this.getMapper(sqlSession, mapperType);
 			role.setStatus(Role.STATUS_INACTIVE);
 			mapper.updateByPrimaryKey(role);
 			log.debug("update successful");
@@ -111,5 +120,7 @@ public class RoleDAOImpl extends BaseSingleMyBatisDAOImpl<Role> implements RoleD
 		}
 
 	}
+
+	
 
 }

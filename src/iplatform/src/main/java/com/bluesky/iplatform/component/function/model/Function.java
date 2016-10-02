@@ -76,7 +76,7 @@ public class Function implements Hierarchyable,java.io.Serializable {
 	@Column(name = "imageurl", length = 100)
 	private String imageurl;
 	
-	@Column(name = "companyID", nullable = false)
+	@Column(name = "systemID")
 	private Integer systemID;
 	
 	@Column(name = "companyID", nullable = false)

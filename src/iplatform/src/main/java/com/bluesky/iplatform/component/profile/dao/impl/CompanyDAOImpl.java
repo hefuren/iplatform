@@ -18,14 +18,20 @@ import com.bluesky.iplatform.component.profile.model.User;
 @Repository(value = "CompanyDAOImpl")
 public class CompanyDAOImpl extends BaseSingleMyBatisDAOImpl<Company> implements CompanyDAO<Company>{
 
-	 /**
-     * 初始化通用的Mapper
-     */
-	@PostConstruct 
-	public void initMapper(){
-    	ApplicationContext ctx = BaseContext.getApplicationContext();
-    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-		this.mapper  = (Mapper<Company>) sqlSession.getMapper(CompanyMapper.class);
+//	 /**
+//     * 初始化通用的Mapper
+//     */
+//	@PostConstruct 
+//	public void initMapper(){
+//    	ApplicationContext ctx = BaseContext.getApplicationContext();
+//    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
+//		this.mapper  = (Mapper<Company>) sqlSession.getMapper(CompanyMapper.class);
+//	}
+	
+	@Override
+	public void initMapperType() {
+		// TODO Auto-generated method stub
+		mapperType = CompanyMapper.class;
 	}
 	
 	/**
@@ -42,6 +48,7 @@ public class CompanyDAOImpl extends BaseSingleMyBatisDAOImpl<Company> implements
 		log.debug("Active company begining...");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<Company> mapper = this.getMapper(sqlSession, mapperType);
 			mode.setStatus(Company.STATUS_ACTIVATED);
 			mapper.updateByPrimaryKey(mode);
 			log.debug("Active company  successful");
@@ -59,6 +66,7 @@ public class CompanyDAOImpl extends BaseSingleMyBatisDAOImpl<Company> implements
 		log.debug("expire company begining...");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<Company> mapper = this.getMapper(sqlSession, mapperType);
 			mode.setStatus(Company.STATUS_UNACTIVATED);
 			mapper.updateByPrimaryKey(mode);
 			log.debug("expire company successful");

@@ -122,87 +122,37 @@
 			<artifactId>spring-oxm</artifactId>
 			<version>4.1.0.RELEASE</version>
 		</dependency>
-		<!--  spring security 框架 -->
-		<!-- 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-acl</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-aspects</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-cas</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-ldap</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-openid</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-remoting</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		-->
+		<!-- spring security 框架 -->
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-web</artifactId> 
+			<version>3.2.5.RELEASE</version> </dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-core</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-acl</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-aspects</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-cas</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-config</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-crypto</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-ldap</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-openid</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-remoting</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-taglibs</artifactId> <version>3.2.5.RELEASE</version> 
+			</dependency> -->
 		<!-- spring webflow 框架 -->
-		<!--  
-		<dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-webflow</artifactId>
-			<version>2.4.0.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-binding</artifactId>
-			<version>2.4.0.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-js</artifactId>
-			<version>2.4.0.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-js-resources</artifactId>
-			<version>2.4.0.RELEASE</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.springframework.webflow</groupId> <artifactId>spring-webflow</artifactId> 
+			<version>2.4.0.RELEASE</version> </dependency> <dependency> <groupId>org.springframework.webflow</groupId> 
+			<artifactId>spring-binding</artifactId> <version>2.4.0.RELEASE</version> 
+			</dependency> <dependency> <groupId>org.springframework.webflow</groupId> 
+			<artifactId>spring-js</artifactId> <version>2.4.0.RELEASE</version> </dependency> 
+			<dependency> <groupId>org.springframework.webflow</groupId> <artifactId>spring-js-resources</artifactId> 
+			<version>2.4.0.RELEASE</version> </dependency> -->
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>ognl</artifactId>
@@ -219,13 +169,8 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-		<!--  通用Mapper （已经修改了源代码，屏蔽lib引用）
-		<dependency>
-			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper</artifactId>
-			<version>3.3.8</version>
-		</dependency>
-		-->
+		<!-- 通用Mapper （已经修改了源代码，屏蔽lib引用） <dependency> <groupId>tk.mybatis</groupId> 
+			<artifactId>mapper</artifactId> <version>3.3.8</version> </dependency> -->
 		<dependency>
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-core</artifactId>
@@ -362,6 +307,27 @@
 			<version>1.16.10</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+		<dependency>
+			<groupId>bluesky</groupId>
+			<artifactId>xml-apis-xerces</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.xerces</artifactId>
+			<version>2.11.0_1</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

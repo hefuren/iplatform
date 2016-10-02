@@ -76,7 +76,7 @@ public class Config {
 		String sHomeDir = System.getProperty("HOMEDIR");
 		System.out.println("sHomeDir===================" + sHomeDir);
 		if ((sHomeDir == null) || ("".equals(sHomeDir))) {
-			sHomeDir = "D:\\develop\\myProjects\\config";
+			sHomeDir = "F:\\myProjects\\config";
 		}
 
 		Hashtable sysConfig = new Hashtable();

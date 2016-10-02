@@ -20,6 +20,7 @@ import com.bluesky.iplatform.commons.hierarchy.Hierarchy;
 import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
 import com.bluesky.iplatform.component.profile.dao.DepartmentDAO;
 import com.bluesky.iplatform.component.profile.mapper.DepartmentMapper;
+import com.bluesky.iplatform.component.profile.model.Company;
 import com.bluesky.iplatform.component.profile.model.Department;
 import com.bluesky.iplatform.component.profile.model.User;
 
@@ -27,14 +28,19 @@ import com.bluesky.iplatform.component.profile.model.User;
 public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> implements
 		DepartmentDAO<Department> {
 	
-	 /**
-     * 初始化通用的Mapper
-     */
-	@PostConstruct 
-	public void initMapper(){
-    	ApplicationContext ctx = BaseContext.getApplicationContext();
-    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-		this.mapper  = (Mapper<Department>) sqlSession.getMapper(DepartmentMapper.class);
+//	 /**
+//     * 初始化通用的Mapper
+//     */
+//	@PostConstruct 
+//	public void initMapper(){
+//    	ApplicationContext ctx = BaseContext.getApplicationContext();
+//    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
+//		this.mapper  = (Mapper<Department>) sqlSession.getMapper(DepartmentMapper.class);
+//	}
+	
+	@Override
+	public void initMapperType() {
+		mapperType = DepartmentMapper.class;
 	}
 	
 	@Override
@@ -55,6 +61,7 @@ public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> impl
 		log.debug("saving Department instance");
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try{
+			Mapper<Department> mapper = this.getMapper(sqlSession, mapperType);
 			//查询数据库获取该公司的所有组织结构
 			List<Department> departments = this.getCompanyAllModes(user);
 			Set<Integer> depidSet = new HashSet<Integer>();
@@ -77,15 +84,15 @@ public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> impl
 			Example example = new Example(Department.class);
 			example.createCriteria().andEqualTo("companyID", new Integer(user.getCompanyID()));
 			example.createCriteria().andIn("id", delDepidSet);
-			this.mapper.deleteByExample(example);
+			mapper.deleteByExample(example);
 
 			//新增和更新当前 hierarchy 中的department 对象
 			for(Hierarchyable mode : modes){
 				Department dept = (Department)mode;
 				if(dept.isNew()){
-					this.mapper.insert(dept);
+					mapper.insert(dept);
 				} else {
-					this.mapper.updateByPrimaryKey(dept);
+					mapper.updateByPrimaryKey(dept);
 				}
 			}
 		}catch (RuntimeException re) {

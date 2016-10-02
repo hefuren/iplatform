@@ -26,6 +26,7 @@ import tk.mybatis.mapper.entity.Example;
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.commons.db.mybatis.dao.BaseSingleMyBatisDAO;
 import com.bluesky.iplatform.commons.object.BatchObject;
+import com.bluesky.iplatform.component.profile.mapper.UserMapper;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.github.pagehelper.PageHelper;
 
@@ -41,6 +42,8 @@ import com.github.pagehelper.PageHelper;
 @Repository(value = "BaseSingleMyBatisDAOImpl")
 public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport implements BaseSingleMyBatisDAO<T>{
 	
+	public static final Logger log = LoggerFactory.getLogger(BaseSingleMyBatisDAOImpl.class);
+	
 	/**
 	 * 实体类对象
 	 */
@@ -51,15 +54,21 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	 */
 	protected String className;
 	
-	public static final Logger log = LoggerFactory.getLogger(BaseSingleMyBatisDAOImpl.class);
-
-	
-	protected Mapper<T> mapper;
+	/**
+	 * 当前具体的Mapper对象接口
+	 * 如：UserMapper.class,RoleMapper.class等
+	 */
+	protected Class mapperType;
 	
 	@Resource(name = "sqlSessionFactory")  
 	protected SqlSessionFactory sqlSessionFactory;  
   
 	protected SqlSession sqlSession;  
+	
+	@Autowired
+	 public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate){
+	     super.setSqlSessionTemplate(sqlSessionTemplate);
+	 }
     
     public BaseSingleMyBatisDAOImpl() {
     	entityClass = (Class<T>) ((ParameterizedType) getClass()
@@ -67,30 +76,23 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		className = entityClass.getName();
 	}
     
-//    @PostConstruct  
-//    public void SqlSessionFactory() {  
-//        super.setSqlSessionFactory(sqlSessionFactory);  
-//    }  
-    
     /**
-     * 初始化通用的Mapper
-     * 子类需要重写该方法，注入自己的xxxMapper
+     * 初始化当前MapperType
      */
-    @PostConstruct  
-	public void initMapper(){
-    	//子类需要重写该方法，注入自己的xxxMapper
-	}
+    @PostConstruct
+    public abstract void initMapperType();
     
-	@Autowired
-	 public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate){
-	     super.setSqlSessionTemplate(sqlSessionTemplate);
-	 }
+//	@Autowired
+//	 public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate){
+//	     super.setSqlSessionTemplate(sqlSessionTemplate);
+//	 }
 
 	@Override
 	public T getMode(User user, int id) {
 		log.debug("getting " + className + " instance with id: " + id);
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			T instance = mapper.selectByPrimaryKey(new Integer(id));
 			return instance;
 		} catch (RuntimeException re) {
@@ -112,6 +114,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 				idSet.add(new Integer(id));
 			}
 			example.createCriteria().andIn("id", idSet);
+			
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			List<T> modes = mapper.selectByExample(example);
 			return modes;
 		} catch (RuntimeException re) {
@@ -127,6 +131,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("saving " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.insert(t);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
@@ -143,6 +148,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("saving " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for (T t : modes) {
 				// 设置循环批量插入数据
 				mapper.insert(t);
@@ -161,6 +167,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("updating " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.updateByPrimaryKey(t);
 			log.debug("update successful");
 		} catch (RuntimeException re) {
@@ -176,6 +183,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("batch updating " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for (T t : modes) {
 				mapper.updateByPrimaryKey(t);
 			}
@@ -193,6 +201,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("batch updating " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for (T t : modes) {
 				BatchObject obj = (BatchObject)t;
 				if(obj.isNew()){
@@ -217,6 +226,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("deleting " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.delete(t);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
@@ -233,6 +243,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("deleting " + className + " instance");
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for(int id : ids){
 				mapper.deleteByPrimaryKey(new Integer(id));
 			}
@@ -250,6 +261,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		try {
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo("companyID", new Integer(user.getCompanyID()));
+			
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			List<T> modes = mapper.selectByExample(example);
 			return modes;
 		} catch (RuntimeException re) {
@@ -267,6 +280,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		try {
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo(propertyName, value);
+			
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			List<T> modes = mapper.selectByExample(example);
 			T mode = null;
 			if(modes.size()>0 && modes.size()==1){
@@ -288,6 +303,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		try {
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo(propertyName, value);
+			
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			List<T> modes = mapper.selectByExample(example);
 			return modes;
 		} catch (RuntimeException re) {
@@ -303,6 +320,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("finding all " + className + " instances");
 		sqlSession = sqlSessionFactory.openSession();
 		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			List<T> modes = mapper.select(t);
 			return modes;
 		} catch (RuntimeException re) {
@@ -331,6 +349,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 			}
 			
 			sqlSession = sqlSessionFactory.openSession();
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			if (pageInfo.isPaged()) {
 				// 分页查询
 				int totalRows = mapper.selectCountByExample(example);
@@ -356,6 +375,17 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		}finally{
 			sqlSession.close();
 		}
+	}
+	
+	/**
+	 * 获取当前的XxxMapper对象
+	 * @param sqlSession 当前SqlSession
+	 * @param type Mapper的具体类型，如: UserMapper,RoleMapper,DepartmentMapper,...
+	 * @return
+	 */
+	protected Mapper<T> getMapper(SqlSession sqlSession, Class type){
+		Mapper<T> mapper = (Mapper<T>) sqlSession.getMapper(type);
+		return mapper;
 	}
 	
 }

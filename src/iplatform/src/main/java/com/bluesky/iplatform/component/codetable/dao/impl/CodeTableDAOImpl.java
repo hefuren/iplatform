@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.ibatis.session.ExecutorType;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
@@ -32,14 +29,10 @@ import com.github.abel533.sql.SqlMapper;
 @Repository(value="CodeTableDAOImpl")
 public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implements CodeTableDAO<CodeTable> {
 	
-	 /**
-     * 初始化通用的Mapper
-     */
-	@PostConstruct 
-	public void initMapper(){
-    	ApplicationContext ctx = BaseContext.getApplicationContext();
-//    	SqlSessionTemplate sqlSessionTemplate = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-//		this.mapper  = (Mapper<CodeTable>) sqlSessionTemplate.getMapper(CodeTableMapper.class);
+	
+	@Override
+	public void initMapperType() {
+		mapperType = CodeTableMapper.class;
 	}
 
 	/**
@@ -53,12 +46,12 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		String tableName = codeTable.getTablename();
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		
-		this.mapper  = (Mapper<CodeTable>) sqlSession.getMapper(CodeTableMapper.class);
+		Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 		try {
 			//动态更新CodeTable Sequence Cache
 			SequenceUtils.dynamicUpdateSequenceCache(codeTable.getTablename());
 			//插入主表
-			this.mapper.insert(codeTable);
+			mapper.insert(codeTable);
 			//插入子表
 			Set<CodeTableField> fields = codeTable.getCodeTableFields();
 			Mapper<CodeTableField> fieldMap = (Mapper<CodeTableField>) sqlSession.getMapper(CodeTableFieldMapper.class);
@@ -91,7 +84,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			dorpErrorCodeTable(tableName);
 			throw re;
 		} finally{
-//			sqlSession.close();
+			sqlSession.close();
 		}
 	}
 	
@@ -105,7 +98,8 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			this.mapper.delete(codeTable);
+			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
+			mapper.delete(codeTable);
 			//删除系统代码表
 			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 			String tableName = codeTable.getName();
@@ -130,6 +124,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
+			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			List<CodeTable> tables = this.getModes(user, ids);
 			Map<Integer,CodeTable> tableMaps = new HashMap();
 			for(CodeTable table : tables){
@@ -137,7 +132,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			}
 			for (int id : ids) {
 				// 循环批量删除数据
-				this.mapper.deleteByPrimaryKey(new Integer(id));
+				mapper.deleteByPrimaryKey(new Integer(id));
 				//删除codeTable
 				SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 				CodeTable table = tableMaps.get(new Integer(id));
@@ -160,7 +155,8 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		CodeTable codeTable = null;
 		sqlSession = sqlSessionFactory.openSession();
 		try {
-			codeTable = this.mapper.selectByPrimaryKey(id);
+			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
+			codeTable = mapper.selectByPrimaryKey(id);
 			final String tableName = codeTable.getTablename();
 			final User tempUser = user;
 			List<CommonCode> codesList = getCommonCodes(tempUser, tableName);
@@ -310,5 +306,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		}
 		return codeList;
 	}
+
+	
 
 }

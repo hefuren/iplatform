@@ -35,6 +35,7 @@ public class FunctionTest extends BaseUnitlsTest {
 			mode.setDescription("设置该权限后，该角色可以在系统中新建项目。");
 			mode.setParentID(100);
 			mode.setFunctionname("新建项目");
+			mode.setSystemID(100);
 			mode.setCompanyID(1000);
 			mode.setSeqno(100);
 			mode.setApplicationid(100);
@@ -70,7 +71,7 @@ public class FunctionTest extends BaseUnitlsTest {
 		try {
 			FunctionManager manager = (FunctionManager)ComponentFactory.getManager("FunctionManager");	
 			
-			int id = 1000;
+			int id = 1002;
 			Function mode = manager.getFunction(systemAdmin, id);
 			if(mode != null){
 				manager.deleteFunction(systemAdmin, mode);
@@ -91,7 +92,7 @@ public class FunctionTest extends BaseUnitlsTest {
 		try {
 			FunctionManager manager = (FunctionManager)ComponentFactory.getManager("FunctionManager");	
 			
-			String name = "SYS_NEW_PROJECT";
+			String name = "SYS_NEW_PRODUCT";
 			Function mode = manager.getFunction(systemAdmin, name);
 			if(mode != null){
 				System.out.println("查找权限对象成功 ！");

@@ -34,6 +34,12 @@ public class MenuDAOImpl extends BaseSingleMyBatisDAOImpl<Menu> implements MenuD
 		
 		return menus;
 	}
+
+	@Override
+	public void initMapperType() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	/**

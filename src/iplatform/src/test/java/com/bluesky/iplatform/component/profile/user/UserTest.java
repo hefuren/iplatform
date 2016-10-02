@@ -10,8 +10,6 @@ import java.util.Map;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
-import tk.mybatis.mapper.entity.Example;
-
 import com.bluesky.iplatform.common.BaseUnitlsTest;
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.commons.db.SequenceUtils;
@@ -86,7 +84,7 @@ public class UserTest extends BaseUnitlsTest {
 		try {
 			ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");	
 			
-			int userID = 1001;
+			int userID = 1009;
 			User mode = manager.getUser(systemAdmin, userID);
 			
 			String displayName = "张飞1";

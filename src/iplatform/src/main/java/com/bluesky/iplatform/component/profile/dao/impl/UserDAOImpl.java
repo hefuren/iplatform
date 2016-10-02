@@ -20,14 +20,23 @@ import com.bluesky.iplatform.component.profile.model.User;
 @Repository(value = "UserDAOImpl")
 public class UserDAOImpl  extends BaseSingleMyBatisDAOImpl<User> implements UserDAO<User>{
 	
+//	/**
+//     * 初始化通用的Mapper
+//     */
+//	@PostConstruct 
+//	public void initMapper(){
+//    	ApplicationContext ctx = BaseContext.getApplicationContext();
+//    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
+//		this.mapper  = (Mapper<User>) sqlSession.getMapper(UserMapper.class);
+//	}
+	
 	/**
-     * 初始化通用的Mapper
+     * 初始化通用的MapperType
      */
-	@PostConstruct 
-	public void initMapper(){
-    	ApplicationContext ctx = BaseContext.getApplicationContext();
-    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-		this.mapper  = (Mapper<User>) sqlSession.getMapper(UserMapper.class);
+	@Override
+	public void initMapperType() {
+		mapperType = UserMapper.class;
+		
 	}
 	
 	
@@ -42,7 +51,8 @@ public class UserDAOImpl  extends BaseSingleMyBatisDAOImpl<User> implements User
 		sqlSession = sqlSessionFactory.openSession();
 		try {
 			model.setStatus(User.STATUS_DELETED);
-			this.mapper.updateByPrimaryKey(model);
+			Mapper<User> mapper = this.getMapper(sqlSession, mapperType);
+			mapper.updateByPrimaryKey(model);
 			log.debug("delete User successful");
 		} catch (RuntimeException re) {
 			log.error("delete User failed", re);
@@ -55,14 +65,19 @@ public class UserDAOImpl  extends BaseSingleMyBatisDAOImpl<User> implements User
 	@Override
 	public User getAdminUser() {
 		log.debug("getting " + className + " instance with ids. ");
+		sqlSession = sqlSessionFactory.openSession();
 		try {
 			User adminUser = null;
 			Object value = new Integer(User.SYS_ADMIN_ID);//系统管理员ID
-			adminUser = this.mapper.selectByPrimaryKey(value);
+			
+			Mapper<User> mapper = this.getMapper(sqlSession, mapperType);
+			adminUser = mapper.selectByPrimaryKey(value);
 			return adminUser;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
+		}finally{
+			sqlSession.close();
 		}
 	}
 
@@ -75,6 +90,8 @@ public class UserDAOImpl  extends BaseSingleMyBatisDAOImpl<User> implements User
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo("name", username);
 			example.createCriteria().andEqualTo("companyID", companyID);
+			
+			Mapper<User> mapper = this.getMapper(sqlSession, mapperType);
 			List<User> modes = mapper.selectByExample(example);
 			User mode = null;
 			if(modes.size()>0 && modes.size()==1){
@@ -88,4 +105,7 @@ public class UserDAOImpl  extends BaseSingleMyBatisDAOImpl<User> implements User
 			sqlSession.close();
 		}
 	}
+
+
+	
 }
