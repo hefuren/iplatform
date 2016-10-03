@@ -156,6 +156,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("batch updating " + className + " instance");
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
+//			AllMapper<T> mapper = this.getBatchMapper(sqlSession, mapperType);
+//			mapper.updateList(modes);
 			for (T t : modes) {
 				mapper.updateByPrimaryKey(t);
 			}

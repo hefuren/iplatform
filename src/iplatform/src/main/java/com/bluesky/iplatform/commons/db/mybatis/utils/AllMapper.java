@@ -8,6 +8,6 @@ import tk.mybatis.mapper.common.Mapper;
  *
  * @param <T>
  */
-public interface AllMapper<T> extends Mapper<T>, BatchInsertMapper<T> {
+public interface AllMapper<T> extends Mapper<T>, BatchInsertMapper<T>,BatchUpdateMapper<T> {
 
 }

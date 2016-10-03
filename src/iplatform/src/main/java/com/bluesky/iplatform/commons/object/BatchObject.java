@@ -30,7 +30,7 @@ public class BatchObject implements Serializable, CacheObject {
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer id;
 	
-	@Column(name = "companyID", nullable = false)
+	@Column(name = "companyid", nullable = false)
 	public Integer companyID;
 
 	public CacheKey getKey() {

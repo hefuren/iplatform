@@ -84,7 +84,7 @@ public class UserTest extends BaseUnitlsTest {
 		try {
 			ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");	
 			
-			int userID = 1009;
+			int userID = 1002;
 			User mode = manager.getUser(systemAdmin, userID);
 			
 			String displayName = "张飞1";
