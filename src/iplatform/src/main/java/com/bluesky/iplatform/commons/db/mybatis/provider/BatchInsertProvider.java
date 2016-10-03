@@ -37,7 +37,6 @@ public class BatchInsertProvider extends MapperTemplate {
 	        }
 	        sql.append("</trim>");
 	        sql.append("</foreach>");
-	        System.out.println("batchSQL : "+ sql.toString());
 	        return sql.toString();
 	    }
 

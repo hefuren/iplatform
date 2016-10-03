@@ -15,6 +15,7 @@ import tk.mybatis.mapper.common.Mapper;
 
 import com.bluesky.iplatform.commons.db.mybatis.SqlMapper;
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
+import com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper;
 import com.bluesky.iplatform.commons.db.SequenceUtils;
 import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.commons.utils.TypeUtils;
@@ -44,7 +45,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		log.debug("saving " + className + " instance");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		String tableName = codeTable.getTablename();
-//		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);//用于批量操作
 		try {
 			//动态更新CodeTable Sequence Cache
 			SequenceUtils.dynamicUpdateSequenceCache(codeTable.getTablename());
@@ -53,30 +53,33 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			mapper.insert(codeTable);
 			//插入子表
 			Set<CodeTableField> fields = codeTable.getCodeTableFields();
-			Mapper<CodeTableField> fieldMap = (Mapper<CodeTableField>) sqlSession.getMapper(CodeTableFieldMapper.class);
-			for (CodeTableField t : fields) {
-				// 设置循环批量插入数据
-				fieldMap.insert(t);
-			}
-//			//创建系统代码表
-//			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
-//			final String sql ="create table " + tableName + "(" +
-//					"	id		int		not null," +
-//					"	name	varchar(100)	null," +
-//					"	parentID	int		null," +
-//					"	description varchar(500)	null," +
-//					"	companyID	int		not null," +
-//					"	seqno		int		null," +
-//					"	status		int		null," +
-//					"	constraint pk_"+tableName+" primary key (id)" +
-//					")";
-//			
-//			sqlMapper.update(sql);
-//			
-//			//插入代码值
-//			final String codeTableName = tableName;
-//			final List codeList = codeTable.getCodeList();
-//			batchSaveCommonCodes(codeTableName, codeList);
+			AllMapper<CodeTableField> fieldMap = (AllMapper<CodeTableField>) sqlSession.getMapper(CodeTableFieldMapper.class);
+			List<CodeTableField> modes = new ArrayList<CodeTableField>();
+			modes.addAll(fields);
+			fieldMap.insertList(modes);
+//			for (CodeTableField t : fields) {
+//				// 设置循环批量插入数据
+//				fieldMap.insert(t);
+//			}
+			//创建系统代码表
+			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
+			final String sql ="create table " + tableName + "(" +
+					"	id		int		not null," +
+					"	name	varchar(100)	null," +
+					"	parentID	int		null," +
+					"	description varchar(500)	null," +
+					"	companyID	int		not null," +
+					"	seqno		int		null," +
+					"	status		int		null," +
+					"	constraint pk_"+tableName+" primary key (id)" +
+					")";
+			
+			sqlMapper.update(sql);
+			
+			//插入代码值
+			final String codeTableName = tableName;
+			final List codeList = codeTable.getCodeList();
+			batchSaveCommonCodes(codeTableName, codeList);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
