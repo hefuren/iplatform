@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import tk.mybatis.mapper.common.Mapper;
 
+import com.bluesky.iplatform.commons.db.mybatis.SqlMapper;
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
 import com.bluesky.iplatform.commons.db.SequenceUtils;
 import com.bluesky.iplatform.commons.utils.BaseContext;
@@ -24,7 +25,6 @@ import com.bluesky.iplatform.component.codetable.model.CodeTable;
 import com.bluesky.iplatform.component.codetable.model.CodeTableField;
 import com.bluesky.iplatform.component.codetable.model.CommonCode;
 import com.bluesky.iplatform.component.profile.model.User;
-import com.github.abel533.sql.SqlMapper;
 
 @Repository(value="CodeTableDAOImpl")
 public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implements CodeTableDAO<CodeTable> {
@@ -44,13 +44,12 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		log.debug("saving " + className + " instance");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		String tableName = codeTable.getTablename();
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
-		
-		Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
+//		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);//用于批量操作
 		try {
 			//动态更新CodeTable Sequence Cache
 			SequenceUtils.dynamicUpdateSequenceCache(codeTable.getTablename());
 			//插入主表
+			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.insert(codeTable);
 			//插入子表
 			Set<CodeTableField> fields = codeTable.getCodeTableFields();
@@ -59,33 +58,31 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 				// 设置循环批量插入数据
 				fieldMap.insert(t);
 			}
-			//创建系统代码表
-			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
-			final String sql ="create table " + tableName + "(" +
-					"	id		int		not null," +
-					"	name	varchar(100)	null," +
-					"	parentID	int		null," +
-					"	description varchar(500)	null," +
-					"	companyID	int		not null," +
-					"	seqno		int		null," +
-					"	status		int		null," +
-					"	constraint pk_"+tableName+" primary key (id)" +
-					")";
-			
-			sqlMapper.update(sql);
-			
-			//插入代码值
-			final String codeTableName = tableName;
-			final List codeList = codeTable.getCodeList();
-			batchSaveCommonCodes(codeTableName, codeList);
+//			//创建系统代码表
+//			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
+//			final String sql ="create table " + tableName + "(" +
+//					"	id		int		not null," +
+//					"	name	varchar(100)	null," +
+//					"	parentID	int		null," +
+//					"	description varchar(500)	null," +
+//					"	companyID	int		not null," +
+//					"	seqno		int		null," +
+//					"	status		int		null," +
+//					"	constraint pk_"+tableName+" primary key (id)" +
+//					")";
+//			
+//			sqlMapper.update(sql);
+//			
+//			//插入代码值
+//			final String codeTableName = tableName;
+//			final List codeList = codeTable.getCodeList();
+//			batchSaveCommonCodes(codeTableName, codeList);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
-			dorpErrorCodeTable(tableName);
+			//dorpErrorCodeTable(tableName);
 			throw re;
-		} finally{
-			sqlSession.close();
-		}
+		} 
 	}
 	
 	/**
@@ -96,7 +93,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	public void deleteMode(User user, CodeTable codeTable){
 		log.debug("deleting " + className + " instance");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.delete(codeTable);
@@ -109,9 +105,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
 			throw re;
-		} finally{
-			sqlSession.close();
-		}
+		} 
 	}
 	
 	/**
@@ -122,7 +116,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	public void batchDeleteModes(User user, int[] ids){
 		log.debug("deleting " + className +" instance");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
 			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			List<CodeTable> tables = this.getModes(user, ids);
@@ -144,16 +137,13 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch (RuntimeException re) {
 			log.error("batch delete failed", re);
 			throw re;
-		} finally{
-			sqlSession.close();
-		}
+		} 
 	}
 	
 	@Override
 	public CodeTable getMode(User user, int id) {
 		log.debug("getting " + className + " instance with id: " + id);
 		CodeTable codeTable = null;
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			codeTable = mapper.selectByPrimaryKey(id);
@@ -165,9 +155,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		} finally{
-			sqlSession.close();
-		}
+		} 
 		return codeTable;
 	}
 	
@@ -175,7 +163,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	public CodeTable getCodeTalbe(User user, String codeTalbeName) {
 		log.debug("getting " + className + " instance with Name: " + codeTalbeName);
 		CodeTable codeTable = null;
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			codeTable = this.getModeByProperty("tablename", codeTalbeName);
 			final String tableName = codeTable.getTablename();
@@ -184,8 +171,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		} finally{
-			sqlSession.close();
 		}
 		return codeTable;
 	}
@@ -253,7 +238,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 	private void dorpErrorCodeTable(String tablename){
 		log.debug("drop table " + tablename + " ");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 			String sql = "drop table "+tablename;
@@ -263,9 +247,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch (RuntimeException re) {
 			log.error("drop table failed", re);
 			throw re;
-		} finally{
-			sqlSession.close();
-		}
+		} 
 	}
 
 	
@@ -280,7 +262,6 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		log.debug("get codes form the "+ tableName+" codeTable");
 		ApplicationContext ctx = BaseContext.getApplicationContext();
 		List<CommonCode> codeList = new ArrayList();
-		sqlSession = sqlSessionFactory.openSession();
 		try{
 			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 			String sql = "select id,name,parentID,description,seqno,status,companyID from " + tableName + " where companyID = ? order by id asc";
@@ -301,9 +282,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		} catch(RuntimeException ex){
 			log.error("get failed", ex);
 			throw ex;
-		} finally{
-			sqlSession.close();
-		}
+		} 
 		return codeList;
 	}
 

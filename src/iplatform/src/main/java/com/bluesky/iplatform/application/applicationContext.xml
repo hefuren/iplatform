@@ -71,12 +71,7 @@
 		<constructor-arg index="1" value="BATCH"/> 
 	</bean>
 
-	<bean id="sqlMapper" class="com.github.abel533.sql.SqlMapper"
-		scope="prototype">
-		<constructor-arg ref="sqlSessionTemplate" />
-	</bean>
-	
-	<bean id="baseSqlMapper" class="com.bluesky.iplatform.commons.db.mybatis.BaseSqlMapper"
+	<bean id="sqlMapper" class="com.bluesky.iplatform.commons.db.mybatis.SqlMapper"
 		scope="prototype">
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.bluesky.iplatform.component.profile.mapper.RoleRelationMapper">
+	<!-- 定义ResultMap -->
+	<resultMap id="BaseResultMap"
+		type="com.bluesky.iplatform.component.profile.model.RoleRelation">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userid" property="userid" jdbcType="INTEGER" />
+		<result column="roleid" property="roleid" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="companyid" property="companyid" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 以下是自动生成 -->
+	<insert id="insert"
+		parameterType="com.bluesky.iplatform.component.profile.model.RoleRelation">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		id,companyID,createby,lastupdateby,createtime,lastupdatetime,name,password,displayname,firstname,lastname,seqno,
+		type,status,email,mobile,tel,zip,jobnumber,sex,birthday,departmentid,sourcetype,sourcename,sourceid,
+		</trim>
+		VALUES
+		<foreach collection="list" item="record" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{record.companyID,javaType=java.lang.Integer},#{record.createBy,javaType=java.lang.Integer},#{record.lastUpdateBy,javaType=java.lang.Integer},#{record.createTime,javaType=java.util.Date},#{record.lastUpdateTime,javaType=java.util.Date},#{record.name,javaType=java.lang.String},#{record.password,javaType=java.lang.String},#{record.displayname,javaType=java.lang.String},#{record.firstname,javaType=java.lang.String},#{record.lastname,javaType=java.lang.String},#{record.seqno,javaType=java.lang.Integer},#{record.type,javaType=java.lang.Integer},#{record.status,javaType=java.lang.Integer},#{record.email,javaType=java.lang.String},#{record.mobile,javaType=java.lang.String},#{record.tel,javaType=java.lang.String},#{record.zip,javaType=java.lang.String},#{record.jobnumber,javaType=java.lang.String},#{record.sex,javaType=java.lang.Integer},#{record.birthday,javaType=java.sql.Timestamp},#{record.departmentid,javaType=java.lang.Integer},#{record.sourcetype,javaType=java.lang.Integer},#{record.sourcename,javaType=java.lang.String},#{record.sourceid,javaType=java.lang.Integer},
+			</trim>
+		</foreach>
+
+
+	</insert>
+
+</mapper>

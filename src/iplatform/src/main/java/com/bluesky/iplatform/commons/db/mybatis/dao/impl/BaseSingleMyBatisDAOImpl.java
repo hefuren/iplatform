@@ -1,7 +1,6 @@
 package com.bluesky.iplatform.commons.db.mybatis.dao.impl;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -10,9 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -25,8 +22,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.commons.db.mybatis.dao.BaseSingleMyBatisDAO;
+import com.bluesky.iplatform.commons.db.mybatis.utils.BatchMapper;
 import com.bluesky.iplatform.commons.object.BatchObject;
-import com.bluesky.iplatform.component.profile.mapper.UserMapper;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.github.pagehelper.PageHelper;
 
@@ -60,14 +57,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	 */
 	protected Class mapperType;
 	
-	@Resource(name = "sqlSessionFactory")  
-	protected SqlSessionFactory sqlSessionFactory;  
-  
 	protected SqlSession sqlSession;  
 	
 	@Autowired
 	 public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate){
 	     super.setSqlSessionTemplate(sqlSessionTemplate);
+	     sqlSession = this.getSqlSession();
 	 }
     
     public BaseSingleMyBatisDAOImpl() {
@@ -82,15 +77,10 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
     @PostConstruct
     public abstract void initMapperType();
     
-//	@Autowired
-//	 public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate){
-//	     super.setSqlSessionTemplate(sqlSessionTemplate);
-//	 }
 
 	@Override
 	public T getMode(User user, int id) {
 		log.debug("getting " + className + " instance with id: " + id);
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			T instance = mapper.selectByPrimaryKey(new Integer(id));
@@ -98,15 +88,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
 	@Override
 	public List<T> getModes(User user, int[] ids) {
 		log.debug("getting " + className + " instance with ids. ");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Example example = new Example(entityClass);
 			Set idSet = new HashSet<>();
@@ -121,15 +108,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
 	@Override
 	public void newMode(User user, T t) {
 		log.debug("saving " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.insert(t);
@@ -137,8 +121,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 		
 	}
@@ -146,26 +128,24 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	@Override
 	public void batchNewModes(User user, List<T> modes) {
 		log.debug("saving " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
-			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
+			BatchMapper<T> mapper = this.getBatchMapper(sqlSession, mapperType);
+			mapper.insertList(modes);
 			for (T t : modes) {
 				// 设置循环批量插入数据
-				mapper.insert(t);
+//				mapper.insert(t);
+				
 			}
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
 	@Override
 	public void updateMode(User user, T t) {
 		log.debug("updating " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.updateByPrimaryKey(t);
@@ -173,15 +153,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("update failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
-		}		
+		}	
 	}
 
 	@Override
 	public void batchUpdateModes(User user, List<T> modes) {
 		log.debug("batch updating " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for (T t : modes) {
@@ -191,15 +168,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("batch update failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
-		}		
+		}	
 	}
 
 	@Override
 	public void saveOrUpdateModes(User user, List<T> modes) {
 		log.debug("batch updating " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for (T t : modes) {
@@ -216,15 +190,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("batch update failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}		
 	}
 
 	@Override
 	public void deleteMode(User user, T t) {
 		log.debug("deleting " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.delete(t);
@@ -232,8 +203,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 		
 	}
@@ -241,7 +210,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	@Override
 	public void batchDeleteModes(User user, int[] ids) {
 		log.debug("deleting " + className + " instance");
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			for(int id : ids){
@@ -257,7 +225,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	@Override
 	public List<T> getCompanyAllModes(User user) {
 		log.debug("finding all " + className + " instances");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo("companyID", new Integer(user.getCompanyID()));
@@ -268,15 +235,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
 	@Override
 	public T getModeByProperty(String propertyName, Object value) {
 		log.debug("finding all " + className + " instances");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo(propertyName, value);
@@ -291,15 +255,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
 	@Override
 	public List<T> getModesByProperty(String propertyName, Object value) {
 		log.debug("finding all " + className + " instances");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Example example = new Example(entityClass);
 			example.createCriteria().andEqualTo(propertyName, value);
@@ -310,15 +271,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
 	@Override
 	public List<T> getModesByExample(T t) {
 		log.debug("finding all " + className + " instances");
-		sqlSession = sqlSessionFactory.openSession();
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			List<T> modes = mapper.select(t);
@@ -326,8 +284,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 
@@ -348,7 +304,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 				}
 			}
 			
-			sqlSession = sqlSessionFactory.openSession();
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
 			if (pageInfo.isPaged()) {
 				// 分页查询
@@ -372,8 +327,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 	}
 	
@@ -388,4 +341,14 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		return mapper;
 	}
 	
+	/**
+	 * 获取当前的XxxMapper对象
+	 * @param sqlSession 当前SqlSession
+	 * @param type Mapper的具体类型，如: UserMapper,RoleMapper,DepartmentMapper,...
+	 * @return
+	 */
+	protected BatchMapper<T> getBatchMapper(SqlSession sqlSession, Class type){
+		BatchMapper<T> mapper = (BatchMapper<T>) sqlSession.getMapper(type);
+		return mapper;
+	}
 }

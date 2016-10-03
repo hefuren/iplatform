@@ -15,6 +15,7 @@ import com.bluesky.iplatform.commons.db.SequenceUtils;
 import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.commons.utils.CalendarUtils;
 import com.bluesky.iplatform.commons.utils.TypeUtils;
+import com.bluesky.iplatform.component.codetable.dao.impl.CodeTableDAOImpl;
 import com.bluesky.iplatform.component.codetable.model.CodeTable;
 import com.bluesky.iplatform.component.codetable.model.CodeTableField;
 import com.bluesky.iplatform.component.codetable.model.CommonCode;
@@ -22,6 +23,66 @@ import com.bluesky.iplatform.component.codetable.service.CodeTableManager;
 import com.bluesky.iplatform.component.utils.ComponentFactory;
 
 public class codeTableTest extends BaseUnitlsTest{
+	
+	@Test
+	public void testOnlyNewCodeTable(){
+		try {
+			ApplicationContext ctx = BaseContext.getApplicationContext();
+			CodeTableManager manager = (CodeTableManager)ComponentFactory.getManager("CodeTableManager");
+			
+			String name = "项目优先级";
+			String description = "定义项目的优先级：高中低";
+			int idRule = 0;
+			int tableID = TypeUtils.nullToInt(SequenceUtils.getSequence("st_codetable"));
+			String tableName = "codeTable_"+tableID;
+			
+			String[] seqNos = new String[]{"1","2","3"};
+			String[] isNew = new String[]{"true","true","true"};
+			String[] codeID = new String[]{"1000","10001","1002"};
+			String[] codeName = new String[]{"高","中","低"};
+			String[] codeDesp = new String[]{"高","中","低"};
+			
+			CodeTable mode_1 = ctx.getBean("CodeTable", CodeTable.class);
+			mode_1.setId(tableID);
+			mode_1.setTablename(tableName);
+			mode_1.setName(name);
+			mode_1.setDescription(description);
+			mode_1.setStatus(CodeTable.STATUS_ACTIVE);
+			mode_1.setType(CodeTable.TYPE_OWN);
+			mode_1.setIdRule(idRule);
+			mode_1.setCompanyID(systemAdmin.getCompanyID());
+			mode_1.setCreateBy(systemAdmin.getId());
+			mode_1.setCreateTime(CalendarUtils.getCurrentDate());
+			mode_1.setLastUpdateBy(systemAdmin.getId());
+			mode_1.setLastUpdateTime(CalendarUtils.getCurrentDate());
+			
+			CodeTable mode_2 = ctx.getBean("CodeTable", CodeTable.class);
+			mode_2.setId(tableID+1);
+			mode_2.setTablename(tableName);
+			mode_2.setName(name);
+			mode_2.setDescription(description);
+			mode_2.setStatus(CodeTable.STATUS_ACTIVE);
+			mode_2.setType(CodeTable.TYPE_OWN);
+			mode_2.setIdRule(idRule);
+			mode_2.setCompanyID(systemAdmin.getCompanyID());
+			mode_2.setCreateBy(systemAdmin.getId());
+			mode_2.setCreateTime(CalendarUtils.getCurrentDate());
+			mode_2.setLastUpdateBy(systemAdmin.getId());
+			mode_2.setLastUpdateTime(CalendarUtils.getCurrentDate());
+			
+			
+			List<CodeTable> modes = new ArrayList<CodeTable>();
+			modes.add(mode_1);
+			modes.add(mode_2);
+			CodeTableDAOImpl daoImpl = ctx.getBean("CodeTableDAOImpl", CodeTableDAOImpl.class);
+			
+			
+			daoImpl.batchNewModes(systemAdmin, modes);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 
 	@Test
 	public void testNewCodeTable() {

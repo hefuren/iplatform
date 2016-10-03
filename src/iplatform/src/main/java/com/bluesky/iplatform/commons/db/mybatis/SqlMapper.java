@@ -21,7 +21,7 @@ import java.util.Map;
  * @author liuzh
  * @since 2015-03-10
  */
-public class BaseSqlMapper {
+public class SqlMapper {
     private final MSUtils msUtils;
     private final SqlSession sqlSession;
 
@@ -30,7 +30,7 @@ public class BaseSqlMapper {
      *
      * @param sqlSession
      */
-    public BaseSqlMapper(SqlSession sqlSession) {
+    public SqlMapper(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
         this.msUtils = new MSUtils(sqlSession.getConfiguration());
     }

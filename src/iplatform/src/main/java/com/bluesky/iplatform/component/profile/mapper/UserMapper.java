@@ -1,9 +1,8 @@
 package com.bluesky.iplatform.component.profile.mapper;
 
-import tk.mybatis.mapper.common.Mapper;
-
+import com.bluesky.iplatform.commons.db.mybatis.utils.BatchMapper;
 import com.bluesky.iplatform.component.profile.model.User;
 
-public interface UserMapper extends Mapper<User>{
+public interface UserMapper extends BatchMapper<User>{
 
 }

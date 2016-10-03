@@ -1,10 +1,8 @@
 package com.bluesky.iplatform.commons.db.mybatis.dao.impl;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
@@ -18,9 +16,6 @@ public class BaseMyBatisDAOImpl extends SqlSessionDaoSupport{
 	public static final Logger log = LoggerFactory.getLogger(BaseMyBatisDAOImpl.class);
 	
 	protected SqlSession sqlSession;  
-	
-	@Resource(name = "sqlSessionFactory")  
-	protected SqlSessionFactory sqlSessionFactory;  
 	
 	@Autowired
 	 public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate){

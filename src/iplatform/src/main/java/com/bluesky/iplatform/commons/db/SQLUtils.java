@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
+import com.bluesky.iplatform.commons.db.mybatis.SqlMapper;
 import com.bluesky.iplatform.commons.utils.BaseContext;
-import com.github.abel533.sql.SqlMapper;
 
 
 @Repository(value = "SQLUtils")

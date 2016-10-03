@@ -2,10 +2,7 @@ package com.bluesky.iplatform.component.codetable.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -31,8 +28,7 @@ public class CodeTableField implements java.io.Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tableid")
+	@Column(name = "tableid")
 	private Integer tableID;
 	
 	@Column(name = "name", length = 120)

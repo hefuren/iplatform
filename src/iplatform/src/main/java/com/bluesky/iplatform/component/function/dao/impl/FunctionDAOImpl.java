@@ -15,15 +15,6 @@ import com.bluesky.iplatform.component.profile.model.User;
 @Repository(value = "FunctionDAOImpl")
 public class FunctionDAOImpl extends BaseSingleMyBatisDAOImpl<Function> implements FunctionDAO<Function>{
 
-//	/**
-//     * 初始化通用的Mapper
-//     */
-//	@PostConstruct 
-//	public void initMapper(){
-//    	ApplicationContext ctx = BaseContext.getApplicationContext();
-//    	SqlSessionTemplate sqlSession = (SqlSessionTemplate)ctx.getBean("sqlSessionTemplate");    	
-//		this.mapper  = (Mapper<Function>) sqlSession.getMapper(FunctionMapper.class);
-//	}
 	
 	@Override
 	public void initMapperType() {
@@ -34,7 +25,6 @@ public class FunctionDAOImpl extends BaseSingleMyBatisDAOImpl<Function> implemen
 	@Override
 	public boolean isExistFuncion(User user, String key) {
 		log.debug("getting " + className + " instance with ids. ");
-		sqlSession = sqlSessionFactory.openSession();
 		boolean result = false;
 		try {
 			Function mode = this.getModeByProperty("name", key);
@@ -45,8 +35,6 @@ public class FunctionDAOImpl extends BaseSingleMyBatisDAOImpl<Function> implemen
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 		
 	}
