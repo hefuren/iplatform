@@ -568,7 +568,7 @@ create table st_codetablefield (
 ;
 
 alter table st_codetablefield
-   add constraint fk_st_ctfield foreign key (tableid)
+   add constraint fk_st_codetablefield foreign key (tableid)
       references st_codetable (id)
          on delete cascade
 ;
