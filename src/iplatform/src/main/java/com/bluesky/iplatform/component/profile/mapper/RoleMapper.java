@@ -1,9 +1,8 @@
 package com.bluesky.iplatform.component.profile.mapper;
 
+import com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper;
 import com.bluesky.iplatform.component.profile.model.Role;
 
-import tk.mybatis.mapper.common.Mapper;
-
-public interface RoleMapper extends Mapper<Role>{
+public interface RoleMapper extends AllMapper<Role>{
 
 }

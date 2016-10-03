@@ -38,7 +38,6 @@ public interface BaseSingleMyBatisDAO<T>  {
 	
 	/**
 	 * 批量保存对象
-	 * (建议批量保存对象重构该方法，直接通过JDBC实现提高性能)
 	 * @param user
 	 * @param modes
 	 */
@@ -53,7 +52,6 @@ public interface BaseSingleMyBatisDAO<T>  {
 	
 	/**
 	 * 批量更新对象
-	 *  (建议批量更新对象重构该方法，直接通过JDBC实现提高性能)
 	 * @param user
 	 * @param modes
 	 */

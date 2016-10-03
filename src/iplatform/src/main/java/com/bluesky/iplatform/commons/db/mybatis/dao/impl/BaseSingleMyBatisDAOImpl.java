@@ -22,7 +22,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.commons.db.mybatis.dao.BaseSingleMyBatisDAO;
-import com.bluesky.iplatform.commons.db.mybatis.utils.BatchMapper;
+import com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper;
 import com.bluesky.iplatform.commons.object.BatchObject;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.github.pagehelper.PageHelper;
@@ -129,13 +129,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	public void batchNewModes(User user, List<T> modes) {
 		log.debug("saving " + className + " instance");
 		try {
-			BatchMapper<T> mapper = this.getBatchMapper(sqlSession, mapperType);
+			AllMapper<T> mapper = this.getBatchMapper(sqlSession, mapperType);
 			mapper.insertList(modes);
-			for (T t : modes) {
-				// 设置循环批量插入数据
-//				mapper.insert(t);
-				
-			}
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -347,8 +342,8 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	 * @param type Mapper的具体类型，如: UserMapper,RoleMapper,DepartmentMapper,...
 	 * @return
 	 */
-	protected BatchMapper<T> getBatchMapper(SqlSession sqlSession, Class type){
-		BatchMapper<T> mapper = (BatchMapper<T>) sqlSession.getMapper(type);
+	protected AllMapper<T> getBatchMapper(SqlSession sqlSession, Class type){
+		AllMapper<T> mapper = (AllMapper<T>) sqlSession.getMapper(type);
 		return mapper;
 	}
 }

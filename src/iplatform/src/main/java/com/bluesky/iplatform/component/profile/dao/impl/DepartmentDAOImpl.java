@@ -4,23 +4,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.ibatis.session.ExecutorType;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
-import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.commons.hierarchy.Hierarchy;
 import com.bluesky.iplatform.commons.hierarchy.Hierarchyable;
 import com.bluesky.iplatform.component.profile.dao.DepartmentDAO;
 import com.bluesky.iplatform.component.profile.mapper.DepartmentMapper;
-import com.bluesky.iplatform.component.profile.model.Company;
 import com.bluesky.iplatform.component.profile.model.Department;
 import com.bluesky.iplatform.component.profile.model.User;
 
@@ -59,7 +52,6 @@ public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> impl
 	@Override
 	public void saveDepartment(User user, Hierarchy hierarchy) throws Exception {
 		log.debug("saving Department instance");
-		sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);//用于批量操作
 		try{
 			Mapper<Department> mapper = this.getMapper(sqlSession, mapperType);
 			//查询数据库获取该公司的所有组织结构
@@ -98,8 +90,6 @@ public class DepartmentDAOImpl extends BaseSingleMyBatisDAOImpl<Department> impl
 		}catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
-		}finally{
-			sqlSession.close();
 		}
 		
 	}

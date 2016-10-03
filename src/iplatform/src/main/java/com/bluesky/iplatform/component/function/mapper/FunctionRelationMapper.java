@@ -1,6 +1,5 @@
 package com.bluesky.iplatform.component.function.mapper;
 import java.util.List;
-import java.util.Map;
 
 import com.bluesky.iplatform.component.function.model.Function;
 import com.bluesky.iplatform.component.function.model.FunctionRelation;

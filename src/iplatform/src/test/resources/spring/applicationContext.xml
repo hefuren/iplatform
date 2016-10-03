@@ -95,7 +95,7 @@
 			value="com.bluesky.iplatform.**.dao,com.bluesky.iplatform.**.mapper" />
 		<property name="properties">
 			<value>
-				mappers=tk.mybatis.mapper.common.Mapper,com.bluesky.iplatform.commons.db.mybatis.utils.BatchMapper
+				mappers=tk.mybatis.mapper.common.Mapper,com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper
 			</value>
 		</property>
 	</bean>

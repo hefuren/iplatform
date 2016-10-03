@@ -2,10 +2,6 @@ package com.bluesky.iplatform.component.function.dao.impl;
 
 import org.springframework.stereotype.Repository;
 
-
-
-import tk.mybatis.mapper.common.Mapper;
-
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
 import com.bluesky.iplatform.component.function.dao.FunctionDAO;
 import com.bluesky.iplatform.component.function.mapper.FunctionMapper;
@@ -18,7 +14,6 @@ public class FunctionDAOImpl extends BaseSingleMyBatisDAOImpl<Function> implemen
 	
 	@Override
 	public void initMapperType() {
-		// TODO Auto-generated method stub
 		mapperType = FunctionMapper.class;
 	}
 

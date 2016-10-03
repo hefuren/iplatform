@@ -1,9 +1,8 @@
 package com.bluesky.iplatform.component.function.mapper;
 
+import com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper;
 import com.bluesky.iplatform.component.function.model.Function;
 
-import tk.mybatis.mapper.common.Mapper;
-
-public interface FunctionMapper extends Mapper<Function>{
+public interface FunctionMapper extends AllMapper<Function>{
 
 }

@@ -33,9 +33,7 @@ public class BatchInsertProvider extends MapperTemplate {
 	        //获取全部列
 	        Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
 	        for (EntityColumn column : columnList) {
-	            if (!column.isId() && column.isInsertable()) {
-	                sql.append(column.getColumnHolder("record") + ",");
-	            }
+	            sql.append(column.getColumnHolder("record") + ",");
 	        }
 	        sql.append("</trim>");
 	        sql.append("</foreach>");

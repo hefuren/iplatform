@@ -1,10 +1,8 @@
 package com.bluesky.iplatform.component.codetable.mapper;
 
+import com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper;
 import com.bluesky.iplatform.component.codetable.model.CodeTable;
 
-import tk.mybatis.mapper.common.Mapper;
-
-
-public interface CodeTableMapper extends Mapper<CodeTable>{
+public interface CodeTableMapper extends AllMapper<CodeTable>{
 
 }
