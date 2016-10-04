@@ -22,11 +22,19 @@ public interface FormManager {
 	
 	/**
 	 * 删除FormSchema
+	 * (删除Form时，需要删除对应的其它对象)
 	 * @param user
 	 * @param ids (对象ID数组)
 	 * @
 	 */
 	public void deleteFormSchemas(User user, int[] ids) ;
+	
+	/**
+	 * 修改Form对象
+	 * @param user
+	 * @param form
+	 */
+	public void updateFormSchema(User user, FormSchema form);
 	
 	/**
 	 * 获取FormSchema List
@@ -45,6 +53,8 @@ public interface FormManager {
 	 */
 	public FormSchema getFormSchema(User user, int id) ;
 	
+	
+	
 	/**
 	 * 获取 Schema 字段列表
 	 * @param user
@@ -52,7 +62,7 @@ public interface FormManager {
 	 * @return
 	 * @
 	 */
-	public List<FormField> getSchemaFormFields(User user, FormSchema formSchema) ;
+	public List<FormField> getFormFields(User user, FormSchema formSchema) ;
 	
 	/**
 	 * 保存 Schema 字段
@@ -62,7 +72,7 @@ public interface FormManager {
 	 * @return
 	 * @
 	 */
-	public void saveSchemaFormFields(User user, List<FormField> fields) ;
+	public void saveFormFields(User user, List<FormField> fields) ;
 
 	/**
 	 * 获取 Schema 视图列表
@@ -71,18 +81,52 @@ public interface FormManager {
 	 * @return
 	 * @
 	 */
-	public List<FormView> getSchemaFormViews(User user, FormSchema formSchema) ;
+	public List<FormView> getFormViews(User user, FormSchema formSchema) ;
 	
+	/**
+	 * 新增表单视图对象
+	 * （新增View,包括对ViewItem新增）
+	 * @param user
+	 * @param view
+	 */
+	public void newFormView(User user, FormView view);
 	
+	/**
+	 * 修改表单视图对象
+	 * @param user
+	 * @param view
+	 */
+	public void updateFormView(User user, FormView view);
+	
+	/**
+	 * 删除表单视图
+	 * @param user
+	 * @param view
+	 */
+	public void deleteFormView(User user, FormView view);
+
+	/**
+	 * 删除表单视图
+	 * @param user
+	 * @param ids
+	 */
+	public void deleteFormViews(User user, int[] ids);
+	
+	/**
+	 * 获取FormView对象
+	 * @param user
+	 * @param id
+	 * @return
+	 */
+	public FormView getFormView(User user, int id);
 	
 	/**
 	 * 获取视图的字段
 	 * @param user
 	 * @param formView
 	 * @return
-	 * @
 	 */
-	public List<FormViewItem> getFormViewItem(User user, FormView formView) ;
+	public List<FormViewItem> getFormViewItems(User user, FormView formView) ;
 	
 	/**
 	 * 获取Schema 列表
@@ -96,19 +140,39 @@ public interface FormManager {
 	/**
 	 * 新建FormList 
 	 * @param user
-	 * @param formList
-	 * @
+	 * @param formList（包含formListItem时，一起保存）
 	 */
 	public void newFormList(User user, FormList formList) ;
+
+	/**
+	 * 修改表单列表信息
+	 * @param user
+	 * @param formList
+	 */
+	public void updateFormList(User user, FormList formList) ;
 	
 	/**
-	 * 保存表单过滤器
+	 * 新建表单过滤器
 	 * @param user
 	 * @param formFilter
 	 * @return
-	 * @
 	 */
-	public void saveFormFilter(User user, FormFilter formFilter) ;
+	public void newFormFilter(User user, FormFilter formFilter) ;
+	
+	/**
+	 * 修改表单过滤器
+	 * @param user
+	 * @param formFilter
+	 * @return
+	 */
+	public void updateFormFilter(User user, FormFilter formFilter) ;
+	
+	/**
+	 * 删除表单过滤器
+	 * @param user
+	 * @param formFilter
+	 */
+	public void deleteFormFilter(User user, FormFilter formFilter);
 	
 	/**
 	 * 获取表单过滤器
