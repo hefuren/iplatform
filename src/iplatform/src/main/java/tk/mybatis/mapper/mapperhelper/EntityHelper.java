@@ -326,7 +326,8 @@ public class EntityHelper {
         Set<EntityColumn> columnsSet = entityTable.getEntityClassColumns();
         boolean flag = false;
         for(EntityColumn column : columnsSet){
-        	if(column.getColumn().equals(entityColumn.getColumn())){
+        	String cname = column.getColumn().toLowerCase();
+        	if(cname.equals(entityColumn.getColumn().toLowerCase())){
         		flag = true;
         		break;
         	}
