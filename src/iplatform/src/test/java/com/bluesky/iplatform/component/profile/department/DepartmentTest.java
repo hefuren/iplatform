@@ -61,7 +61,7 @@ public class DepartmentTest extends BaseUnitlsTest {
 	public void testDeleteDepartment(){
 		try {
 			StructureManager manager = (StructureManager)ComponentFactory.getManager("StructureManager");	
-			int departmentID = 1000;
+			int departmentID = 1001;
 			Department mode = manager.getDepartment(systemAdmin, departmentID);
 			
 			manager.deleteDepartment(systemAdmin, mode);

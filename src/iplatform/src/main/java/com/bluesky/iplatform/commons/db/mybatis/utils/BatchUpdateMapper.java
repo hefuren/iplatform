@@ -8,7 +8,12 @@ import com.bluesky.iplatform.commons.db.mybatis.provider.BatchUpdateProvider;
 
 public interface BatchUpdateMapper<T> {
 	
-	 @UpdateProvider(type = BatchUpdateProvider.class, method = "dynamicSQL")
-	 int updateList(List<T> list);
+	/**
+	 * 批量更新对象方法
+	 * @param list
+	 * @return
+	 */
+//	 @UpdateProvider(type = BatchUpdateProvider.class, method = "dynamicSQL")
+//	 public int updateList(List<T> list);
 
 }

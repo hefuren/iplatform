@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.ibatis.session.ExecutorType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
 
 import com.bluesky.iplatform.commons.db.mybatis.SqlMapper;
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
@@ -83,33 +83,62 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
-			//dorpErrorCodeTable(tableName);
+			dorpErrorCodeTable(tableName);
 			throw re;
 		} 
 	}
 	
 	/**
-	 * 删除CodeTable
-	 * （删除对应的CodeTable表）
+	 * 保存CodeTable
+	 * @param user
+	 * @param t
 	 */
 	@Override
-	public void deleteMode(User user, CodeTable codeTable){
-		log.debug("deleting " + className + " instance");
-		ApplicationContext ctx = BaseContext.getApplicationContext();
+	public void updateMode(User user, CodeTable codeTable) {
+		log.debug("updating " + className + " instance");
 		try {
+			//更新主表
+			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
+			mapper.updateByPrimaryKey(codeTable);
+			//更新CommonCode
+			//插入代码值
+			final String codeTableName = codeTable.getTablename();
+			final List codeList = codeTable.getCodeList();
+			batchSaveCommonCodes(codeTableName, codeList);
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			log.error("update failed", re);
+			throw re;
+		}	
+	}
+	
+	
+	@Override
+	public void deleteMode(User user, CodeTable codeTable) {
+		log.debug("deleting " + className + " instance");
+		try {
+			ApplicationContext ctx = BaseContext.getApplicationContext();
+			//删除st_codetable , st_codetablefield主表和子表的语句
+			Mapper<CodeTableField> fieldMap =  sqlSession.getMapper(CodeTableFieldMapper.class);
+			Example example = new Example(CodeTableField.class);
+			example.createCriteria().andEqualTo("tableID", new Integer(codeTable.getId()));
+			fieldMap.deleteByExample(example);
+			
 			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			mapper.delete(codeTable);
-			//删除系统代码表
+			
 			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
-			String tableName = codeTable.getName();
+			String tableName = codeTable.getTablename();
 			String sql = "drop table " + tableName +"";
 			sqlMapper.update(sql);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
 			throw re;
-		} 
+		}
+		
 	}
+	
 	
 	/**
 	 * 批量删除CodeTable
@@ -126,13 +155,28 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			for(CodeTable table : tables){
 				tableMaps.put(new Integer(table.getId()), table);
 			}
+			
+			// 循环批量删除数据
+			List<Integer> idsList = new ArrayList<Integer>();
+			for(int tableID : ids){
+				idsList.add(new Integer(tableID));
+			}
+			//删除st_codetablefield 子表
+			Example example_1 = new Example(CodeTableField.class);
+			example_1.createCriteria().andIn("tableID", idsList);
+			Mapper<CodeTableField> fieldMap =  sqlSession.getMapper(CodeTableFieldMapper.class);
+			fieldMap.deleteByExample(example_1);
+			
+			//删除st_codetable主表
+			Example example_2 = new Example(CodeTable.class);
+			example_2.createCriteria().andIn("id", idsList);
+			mapper.deleteByExample(example_2);
+			
+			//删除codeTable
+			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 			for (int id : ids) {
-				// 循环批量删除数据
-				mapper.deleteByPrimaryKey(new Integer(id));
-				//删除codeTable
-				SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 				CodeTable table = tableMaps.get(new Integer(id));
-				String tableName = TypeUtils.nullToString(table.getName());
+				String tableName = TypeUtils.nullToString(table.getTablename());
 				String sql = "drop table " + tableName +"";
 				sqlMapper.update(sql);
 			}
@@ -150,11 +194,12 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		try {
 			Mapper<CodeTable> mapper = this.getMapper(sqlSession, mapperType);
 			codeTable = mapper.selectByPrimaryKey(id);
-			final String tableName = codeTable.getTablename();
-			final User tempUser = user;
-			List<CommonCode> codesList = getCommonCodes(tempUser, tableName);
-			codeTable.setCodeList(codesList);
-			
+			if(codeTable != null){
+				String tableName = codeTable.getTablename();
+				User tempUser = user;
+				List<CommonCode> codesList = getCommonCodes(tempUser, tableName);
+				codeTable.setCodeList(codesList);
+			}
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
@@ -191,11 +236,13 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 			//原生SQL也必须按照mybatis规范写
 			String newSQL = "insert into "+ tableName +" (id,name,parentID,description,seqno,status,companyID) values (#{id},#{name},#{parentID},#{description}"
 					+ ",#{seqno},#{status},#{companyID})";
+			
 			String updateSQL = "update "+ tableName +" set name = #{name}, parentID = #{parentID}, description = #{description}, seqno = #{seqno}, "
 					+ "status = #{status}, companyID = #{companyID} where id = #{id} ";
 			
-			ApplicationContext ctx = BaseContext.getApplicationContext();
+			String deleteSQL = "delete from " + tableName + " a where a.id =  #{id} and a.companyID = #{companyID}";
 			
+			ApplicationContext ctx = BaseContext.getApplicationContext();
 			for(CommonCode code : codes){
 				//自动设置
 				if(TypeUtils.nullToInt(code.getId()) == 0){
@@ -203,7 +250,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 					Long sequence = SequenceUtils.getSequence(tableName);
 					code.setId(TypeUtils.nullToInt(sequence));
 				}
-				
+				//如果性能慢，按Mybatis动态SQL，组织批量操作的SQL
 				SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
 				Map<String, Object> parameter = new HashMap<String, Object>();
 				if(code.isNew()){
@@ -215,7 +262,7 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 					parameter.put("status", new Integer(code.getStatus()));
 					parameter.put("companyID", new Integer(code.getCompanyID()));
 					sqlMapper.insert(newSQL, parameter);
-				}else{
+				}else if(code.isModified()){
 					parameter.put("name", code.getName());
 					parameter.put("parentID", new Integer(code.getParentID()));
 					parameter.put("description", code.getDescription());
@@ -224,6 +271,10 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 					parameter.put("companyID", new Integer(code.getCompanyID()));
 					parameter.put("id", new Integer(code.getId()));
 					sqlMapper.update(updateSQL, parameter);
+				}else if(code.isDeleted()){
+					parameter.put("id", new Integer(code.getId()));
+					parameter.put("companyID", new Integer(code.getCompanyID()));
+					sqlMapper.delete(deleteSQL, parameter);
 				}
 			}
 			log.debug("saving or updating successful");
@@ -267,19 +318,22 @@ public class CodeTableDAOImpl extends BaseSingleMyBatisDAOImpl<CodeTable> implem
 		List<CommonCode> codeList = new ArrayList();
 		try{
 			SqlMapper sqlMapper = ctx.getBean("sqlMapper", SqlMapper.class);
-			String sql = "select id,name,parentID,description,seqno,status,companyID from " + tableName + " where companyID = ? order by id asc";
-			List<Map<String, Object>> result = sqlMapper.selectList(sql, new Integer(user.getCompanyID()));
+			String sql = "select id,name,parentID,description,seqno,status,companyID from " + tableName + " where companyID = #{companyID} order by id asc";
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			parameter.put("companyID", new Integer(user.getCompanyID()));
+			List<Map<String, Object>> result = sqlMapper.selectList(sql, parameter);
 
+			
 			for(Iterator iterator = result.iterator();iterator.hasNext();){
-				Object[] values = (Object[]) iterator.next(); 
+				Map<String,Object> values = (Map<String,Object>) iterator.next(); 
 				CommonCode code = ctx.getBean("CommonCode", CommonCode.class);
-				code.setId(TypeUtils.nullToInt(values[0]));
-				code.setName(TypeUtils.nullToString(values[1]));
-				code.setParentID(TypeUtils.nullToInt(values[2]));
-				code.setDescription(TypeUtils.nullToString(values[3]));
-				code.setSeqNo(TypeUtils.nullToInt(values[4]));
-				code.setStatus(TypeUtils.nullToInt(values[5]));
-				code.setCompanyID(TypeUtils.nullToInt(values[6]));
+				code.setId(TypeUtils.nullToInt(values.get("id")));
+				code.setName(TypeUtils.nullToString(values.get("name")));
+				code.setParentID(TypeUtils.nullToInt(values.get("parentid")));
+				code.setDescription(TypeUtils.nullToString(values.get("description")));
+				code.setSeqNo(TypeUtils.nullToInt(values.get("seqno")));
+				code.setStatus(TypeUtils.nullToInt(values.get("status")));
+				code.setCompanyID(TypeUtils.nullToInt(values.get("companyid")));
 				codeList.add(code);
 			}
 		} catch(RuntimeException ex){

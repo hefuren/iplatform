@@ -201,7 +201,6 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 			log.error("delete failed", re);
 			throw re;
 		}
-		
 	}
 
 	@Override

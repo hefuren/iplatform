@@ -28,7 +28,7 @@ public class BaseObject extends BatchObject implements Serializable,
 	@Column(name = "lastupdatetime")
 	protected Date lastUpdateTime;
 	
-	@Column(name = "companyid", nullable = false)
+	@Column(name = "companyID", nullable = false)
 	protected Integer companyID;
 	
 	@Transient

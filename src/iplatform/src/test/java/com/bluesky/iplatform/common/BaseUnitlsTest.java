@@ -7,6 +7,7 @@ import org.unitils.spring.annotation.SpringApplicationContext;
 
 import com.bluesky.iplatform.commons.cache.EhcacheUtils;
 import com.bluesky.iplatform.commons.db.SequenceUtils;
+import com.bluesky.iplatform.commons.utils.BaseContext;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.service.ProfileManager;
 import com.bluesky.iplatform.component.utils.ComponentFactory;
@@ -45,6 +46,20 @@ public class BaseUnitlsTest extends UnitilsJUnit4 {
 	private void setAdminUser(){
 		ProfileManager manager = (ProfileManager)ComponentFactory.getManager("ProfileManager");	
 		systemAdmin = manager.getAdminUser();
+	}
+	
+	/**
+	 * 初始化并返回User对象
+	 * （该对象仅包括id, companyID两个属性）
+	 * @param userID
+	 * @param companyID
+	 */
+	public User getUser(int userID, int companyID){
+		ApplicationContext ctx = BaseContext.getApplicationContext();
+		User user = ctx.getBean("User",User.class);
+		user.setId(userID);
+		user.setCompanyID(companyID);
+		return user;
 	}
 
 }
