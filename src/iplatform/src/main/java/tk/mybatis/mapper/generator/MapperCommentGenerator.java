@@ -222,4 +222,11 @@ public class MapperCommentGenerator implements CommentGenerator {
      */
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable, boolean markAsDoNotDelete) {
     }
+
+	@Override
+	public void addModelClassComment(TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		
+	}
 }
