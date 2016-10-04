@@ -72,7 +72,7 @@ create table fm_formListItem (
    id                   int                  not null,
    listID               int                  null,
    fieldID              varchar(50)          null,
-   widht                int                  null,
+   width                int                  null,
    align                int                  null,
    orderType            int                  null,
    seqno                int                  null,
