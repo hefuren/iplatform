@@ -63,7 +63,7 @@ public interface BaseSingleMyBatisDAO<T>  {
 	 * @param user
 	 * @param modes
 	 */
-	public void saveOrUpdateModes(User user, List<T> modes);
+	public void saveModes(User user, List<T> modes);
 	
 	/**
 	 * 删除对象

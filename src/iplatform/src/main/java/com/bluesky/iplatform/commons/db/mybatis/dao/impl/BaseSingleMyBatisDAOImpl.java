@@ -169,7 +169,7 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	}
 
 	@Override
-	public void saveOrUpdateModes(User user, List<T> modes) {
+	public void saveModes(User user, List<T> modes) {
 		log.debug("batch updating " + className + " instance");
 		try {
 			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
