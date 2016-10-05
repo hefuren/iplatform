@@ -63,7 +63,7 @@ public class SequenceUtils {
 		EhcacheUtils cacheUtils = EhcacheUtils.getInstance(EhcacheUtils.EHCACHE_KEY_PLATFORM);
 		Cache sequenceEhcache = cacheUtils.getEhcache(EhcacheUtils.EHCACHE_KEY_SEQUENCE);		
 		Map map = (Map)cacheUtils.get(sequenceEhcache, SEQUENCECACHE_KEY);
-		Long maxID = (Long)map.get(table.toLowerCase());
+		Long maxID = TypeUtils.nullToLong(map.get(table.toLowerCase()));
 		for(int i=0; i<iCount; i++){
 			maxID = (maxID < 1000) ? 1000 : maxID + 1;
 			seq[i] = maxID;

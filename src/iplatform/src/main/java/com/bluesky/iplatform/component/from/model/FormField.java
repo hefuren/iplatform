@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.bluesky.iplatform.commons.object.BatchObject;
+
 import lombok.Data;
 
 @Data
@@ -15,8 +17,10 @@ import lombok.Data;
 @Entity
 @Scope(value = "prototype")
 @Table(name = "fm_formfield", schema = "public")
-public class FormField  {
+public class FormField  extends BatchObject{
 	
+	private static final long serialVersionUID = 2035178939612371444L;
+
 	/**
 	 * 数据类型：字符串 50
 	 */
@@ -97,7 +101,7 @@ public class FormField  {
 	 * 标签名
 	 */
 	@Column(name = "lablename", length = 50)
-	private String lablename;
+	private String lableName;
 
 	/**
 	 * 状态
@@ -158,4 +162,5 @@ public class FormField  {
 	 */
 	@Column(name = "companyid", nullable = false)
 	private Integer companyID;
+	
 }
