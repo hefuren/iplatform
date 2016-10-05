@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import tk.mybatis.mapper.entity.Example;
+
 @Component(value = "PageInfo")
 @Scope(value = "prototype")
 public class PageInfo implements java.io.Serializable {
@@ -24,8 +26,11 @@ public class PageInfo implements java.io.Serializable {
 	private int rowCount = 0;
 	private int columnCount = 0;
 
-	// 查询条件 Map<String,Object> key 为参数, value 为参数值
+	// 查询条件 Map<String,Object> key 为参数, value 为参数值(只支持属性相等的查询)
 	private Map<String, Object> conditions = new HashMap<String, Object>();
+	
+	//查询条件，根据Example查询，支持equal,in,not in 等查询
+	private Example example;
 
 	// 数据排序
 	private boolean ordered = false;
@@ -266,5 +271,13 @@ public class PageInfo implements java.io.Serializable {
 	 */
 	public void setItems(List items) {
 		this.items = items;
+	}
+	
+	public Example getExample() {
+		return example;
+	}
+
+	public void setExample(Example example) {
+		this.example = example;
 	}
 }

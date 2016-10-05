@@ -8,8 +8,10 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TypeUtils {
 
@@ -93,6 +95,46 @@ public class TypeUtils {
 		} catch (Exception e) {
 		}
 		return "";
+	}
+	
+	/**
+	 * 将数组转换成List
+	 * @param array
+	 * @return
+	 */
+	public static List<Object> arrayToList(Object[] array){
+		List<Object> result = new ArrayList<Object>();
+		try {
+			if(array != null){
+				for(Object object : array){
+					result.add(object);
+				}
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 将数组转换成List
+	 * @param array
+	 * @return
+	 */
+	public static List<Object> arrayToList(int[] array){
+		List<Object> result = new ArrayList<Object>();
+		try {
+			if(array != null){
+				for(Object object : array){
+					result.add(object);
+				}
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	/**

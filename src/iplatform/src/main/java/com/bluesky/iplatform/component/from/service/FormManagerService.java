@@ -6,6 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import tk.mybatis.mapper.entity.Example;
+
+import com.bluesky.iplatform.commons.utils.TypeUtils;
 import com.bluesky.iplatform.component.from.dao.FormFieldDAO;
 import com.bluesky.iplatform.component.from.dao.FormFilterDAO;
 import com.bluesky.iplatform.component.from.dao.FormFilterItemDAO;
@@ -16,7 +19,9 @@ import com.bluesky.iplatform.component.from.dao.FormViewDAO;
 import com.bluesky.iplatform.component.from.dao.FormViewItemDAO;
 import com.bluesky.iplatform.component.from.model.FormField;
 import com.bluesky.iplatform.component.from.model.FormFilter;
+import com.bluesky.iplatform.component.from.model.FormFilterItem;
 import com.bluesky.iplatform.component.from.model.FormList;
+import com.bluesky.iplatform.component.from.model.FormListItem;
 import com.bluesky.iplatform.component.from.model.FormSchema;
 import com.bluesky.iplatform.component.from.model.FormView;
 import com.bluesky.iplatform.component.from.model.FormViewItem;
@@ -71,6 +76,41 @@ public class FormManagerService implements FormManager {
 	@Override
 	public void deleteFormSchemas(User user, int[] ids) {
 		try {
+			//删除Form需要删除对应的对象
+			List<Object> idList = TypeUtils.arrayToList(ids);
+			
+			//删除FormList
+			Example example = new Example(FormListItem.class);
+			example.createCriteria().andIn("schemaid", idList);
+			listItemDAO.deleteModesByExample(user, example);
+			
+			example = new Example(FormList.class);
+			example.createCriteria().andIn("schemaid", idList);
+			listDAO.deleteModesByExample(user, example);
+			
+			//删除FormView
+			example = new Example(FormViewItem.class);
+			example.createCriteria().andIn("schemaid", idList);
+			viewItemDAO.deleteModesByExample(user, example);
+			
+			example = new Example(FormView.class);
+			example.createCriteria().andIn("schemaid", idList);
+			viewDAO.deleteModesByExample(user, example);
+			
+			//删除FormFilter
+			example = new Example(FormFilterItem.class);
+			example.createCriteria().andIn("schemaid", idList);
+			filterItemDAO.deleteModesByExample(user, example);
+			
+			example = new Example(FormFilter.class);
+			example.createCriteria().andIn("schemaid", idList);
+			filterDAO.deleteModesByExample(user, example);
+			
+			//删除FormField
+			example = new Example(FormField.class);
+			example.createCriteria().andIn("schemaid", idList);
+			fieldDAO.deleteModesByExample(user, example);
+			
 			schemaDAO.batchDeleteModes(user, ids);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,6 +189,7 @@ public class FormManagerService implements FormManager {
 	@Override
 	public void deleteFormView(User user, FormView view) {
 		try {
+			//已通过数据外键关联自动删除viewItem
 			viewDAO.deleteMode(user, view);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -47,6 +47,9 @@ public class FormListItem {
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	
+	@Column(name = "schemaid", nullable = false)
+	private Integer schemaID;
+	
 	@Column(name = "listid", nullable = false)
 	private Integer listID;
 	

@@ -105,14 +105,13 @@ public class FormViewItem {
 	 */
 	public static final int EDITFLAG_READ = -1;
 	
-	
-	
-	
-
 	// Fields
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "schemaid", nullable = false)
+	private Integer schemaID;
 	
 	@Column(name = "viewid", nullable = false)
 	private Integer viewID;

@@ -24,6 +24,7 @@ import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.commons.db.mybatis.dao.BaseSingleMyBatisDAO;
 import com.bluesky.iplatform.commons.db.mybatis.utils.AllMapper;
 import com.bluesky.iplatform.commons.object.BatchObject;
+import com.bluesky.iplatform.commons.utils.TypeUtils;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.github.pagehelper.PageHelper;
 
@@ -170,22 +171,34 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 
 	@Override
 	public void saveModes(User user, List<T> modes) {
-		log.debug("batch updating " + className + " instance");
+		log.debug("batch save " + className + " instance");
 		try {
-			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
+			List<T> newList = new ArrayList<T>();
+			List<T> updateList = new ArrayList<T>();
+			Set<Integer> delSet = new HashSet<Integer>();
+			
 			for (T t : modes) {
 				BatchObject obj = (BatchObject)t;
 				if(obj.isNew()){
-					mapper.insert(t);
+					newList.add(t);
 				}else if(obj.isDeleted()){
-					mapper.delete(t);
-				}else {
-					mapper.updateByPrimaryKey(t);
+					delSet.add(new Integer(obj.getId()));
+				}else if(obj.isModified()) {
+					updateList.add(t);
 				}
 			}
-			log.debug("update successful");
+			//批量新增、修改和删除
+			batchNewModes(user, newList);
+			batchUpdateModes(user, updateList);
+			int[] ids = new int[delSet.size()];
+			int count = 0;
+			for(Integer v : delSet){
+				ids[count++] = TypeUtils.nullToInt(v);
+			}
+			batchDeleteModes(user, ids);
+			log.debug("batch save successful");
 		} catch (RuntimeException re) {
-			log.error("batch update failed", re);
+			log.error("batch save failed", re);
 			throw re;
 		}		
 	}
@@ -201,6 +214,20 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 			log.error("delete failed", re);
 			throw re;
 		}
+	}
+	
+	@Override
+	public void deleteModesByExample(User user, Example example) {
+		log.debug("deleting " + className + " instance");
+		try {
+			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
+			mapper.deleteByExample(example);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+		
 	}
 
 	@Override
@@ -290,7 +317,12 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 			Map<String, Object> conditions = (Map<String, Object>) pageInfo.getConditions();
 			List items = new ArrayList();
 			String[] paramNames = null;
-			Example example = new Example(entityClass);
+			
+			Example example = pageInfo.getExample();
+			if(example == null){
+				example = new Example(entityClass);
+			}
+			
 			if (conditions != null && conditions.size() > 0) {
 				// 带条件查询
 				paramNames = new String[conditions.size()];

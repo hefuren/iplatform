@@ -100,6 +100,7 @@ public interface FormManager {
 	
 	/**
 	 * 删除表单视图
+	 * （删除对应的view Item）
 	 * @param user
 	 * @param view
 	 */
@@ -107,6 +108,7 @@ public interface FormManager {
 
 	/**
 	 * 删除表单视图
+	 * （删除对应的view Item）
 	 * @param user
 	 * @param ids
 	 */
@@ -169,6 +171,7 @@ public interface FormManager {
 	
 	/**
 	 * 删除表单过滤器
+	 * （删除对应的formFilterItem）
 	 * @param user
 	 * @param formFilter
 	 */

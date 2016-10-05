@@ -2,6 +2,8 @@ package com.bluesky.iplatform.commons.db.mybatis.dao;
 
 import java.util.List;
 
+import tk.mybatis.mapper.entity.Example;
+
 import com.bluesky.iplatform.commons.db.PageInfo;
 import com.bluesky.iplatform.component.profile.model.User;
 
@@ -71,6 +73,13 @@ public interface BaseSingleMyBatisDAO<T>  {
 	 * @param t
 	 */
 	public void deleteMode(User user,  T t);
+	
+	/**
+	 * 根据example删除对象
+	 * @param user
+	 * @param example
+	 */
+	public void deleteModesByExample(User user, Example example);
 	
 	/**
 	 * 根据ID删除对象

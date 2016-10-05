@@ -50,7 +50,7 @@ public class FormFilterItem {
 	@Column(name = "filterid", nullable = false)
 	private Integer filterID;
 	
-	@Column(name = "schemaid")
+	@Column(name = "schemaid", nullable = false)
 	private Integer schemaID;
 	
 	@Column(name = "fieldid")
