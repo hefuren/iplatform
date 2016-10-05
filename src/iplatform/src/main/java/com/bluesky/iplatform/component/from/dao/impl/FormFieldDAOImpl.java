@@ -29,7 +29,7 @@ implements FormFieldDAO<FormField>{
 		try {
 			List<FormField> modes = null;
 			Example example = new Example(FormField.class);
-			example.createCriteria().andEqualTo("schemaid", form.getId());
+			example.createCriteria().andEqualTo("schemaID", form.getId());
 			Mapper<FormField> mapper = this.getMapper(sqlSession, mapperType);
 			modes = mapper.selectByExample(example);
 			return modes;

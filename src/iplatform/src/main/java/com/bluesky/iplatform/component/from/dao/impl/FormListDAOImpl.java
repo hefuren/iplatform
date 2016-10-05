@@ -31,9 +31,9 @@ implements FormListDAO<FormList>{
 	public FormList getMode(User user, FormSchema from) {
 		log.debug("select " + className + " instance");
 		try {
-			FormList mode = getModeByProperty("schemaid", new Integer(from.getId()));
+			FormList mode = getModeByProperty("schemaID", new Integer(from.getId()));
 			//查找 formList 对应的 item 信息
-			List<FormListItem> items = itemDAO.getModesByProperty("listid", new Integer(mode.getId()));
+			List<FormListItem> items = itemDAO.getModesByProperty("listID", new Integer(mode.getId()));
 			mode.setFormListItems(items);
 			return mode;
 		} catch (RuntimeException re) {

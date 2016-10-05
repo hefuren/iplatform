@@ -54,7 +54,7 @@ implements FormViewDAO<FormView>{
 		try {
 			List<FormView> modes = null;
 			Example example = new Example(FormView.class);
-			example.createCriteria().andEqualTo("schemaid", form.getId());
+			example.createCriteria().andEqualTo("schemaID", form.getId());
 			Mapper<FormView> mapper = this.getMapper(sqlSession, mapperType);
 			modes = mapper.selectByExample(example);
 			return modes;

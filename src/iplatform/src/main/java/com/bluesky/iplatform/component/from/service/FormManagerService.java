@@ -81,34 +81,34 @@ public class FormManagerService implements FormManager {
 			
 			//删除FormList
 			Example example = new Example(FormListItem.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			listItemDAO.deleteModesByExample(user, example);
 			
 			example = new Example(FormList.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			listDAO.deleteModesByExample(user, example);
 			
 			//删除FormView
 			example = new Example(FormViewItem.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			viewItemDAO.deleteModesByExample(user, example);
 			
 			example = new Example(FormView.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			viewDAO.deleteModesByExample(user, example);
 			
 			//删除FormFilter
 			example = new Example(FormFilterItem.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			filterItemDAO.deleteModesByExample(user, example);
 			
 			example = new Example(FormFilter.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			filterDAO.deleteModesByExample(user, example);
 			
 			//删除FormField
 			example = new Example(FormField.class);
-			example.createCriteria().andIn("schemaid", idList);
+			example.createCriteria().andIn("schemaID", idList);
 			fieldDAO.deleteModesByExample(user, example);
 			
 			schemaDAO.batchDeleteModes(user, ids);

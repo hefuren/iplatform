@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component(value = "FormFilterItem")
 @Entity
 @Scope(value = "prototype")
-@Table(name = "fm_formfiteritem", schema = "public")
+@Table(name = "fm_formfilteritem", schema = "public")
 public class FormFilterItem {
 	
 	/**
