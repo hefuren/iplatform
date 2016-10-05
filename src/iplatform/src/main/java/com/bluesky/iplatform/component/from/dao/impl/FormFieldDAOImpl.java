@@ -2,6 +2,8 @@ package com.bluesky.iplatform.component.from.dao.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
@@ -12,6 +14,7 @@ import com.bluesky.iplatform.component.from.model.FormField;
 import com.bluesky.iplatform.component.from.model.FormSchema;
 import com.bluesky.iplatform.component.profile.model.User;
 
+@Repository(value = "FormFieldDAOImpl")
 public class FormFieldDAOImpl extends BaseSingleMyBatisDAOImpl<FormField>
 implements FormFieldDAO<FormField>{
 

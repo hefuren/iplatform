@@ -47,7 +47,7 @@ public class SequenceUtils {
 			
 			map = (Map)cacheUtils.get(sequenceEhcache, SEQUENCECACHE_KEY);
 			
-			Long maxID = TypeUtils.nullToLong(map.get(table));
+			Long maxID = TypeUtils.nullToLong(map.get(table.toLowerCase()));
 			maxID = (maxID < 1000) ? 1000 : maxID + 1;
 			map.put(table, new Long(maxID));
 			seq = maxID.longValue();
@@ -63,23 +63,23 @@ public class SequenceUtils {
 		EhcacheUtils cacheUtils = EhcacheUtils.getInstance(EhcacheUtils.EHCACHE_KEY_PLATFORM);
 		Cache sequenceEhcache = cacheUtils.getEhcache(EhcacheUtils.EHCACHE_KEY_SEQUENCE);		
 		Map map = (Map)cacheUtils.get(sequenceEhcache, SEQUENCECACHE_KEY);
-		Long maxID = (Long)map.get(table);
+		Long maxID = (Long)map.get(table.toLowerCase());
 		for(int i=0; i<iCount; i++){
 			maxID = (maxID < 1000) ? 1000 : maxID + 1;
 			seq[i] = maxID;
 		}
-		map.put(table, maxID);
+		map.put(table.toLowerCase(), maxID);
 		return seq;
 	}
 	
 	private static void initTableLists(){
 		//Schema tables
-		tableLists.add("fm_formSchema");
-		tableLists.add("fm_formField");
-		tableLists.add("fm_formList");
-		tableLists.add("fm_formListItem");
-		tableLists.add("fm_formView");
-		tableLists.add("fm_formViewItem");
+		tableLists.add("fm_formschema");
+		tableLists.add("fm_formfield");
+		tableLists.add("fm_formlist");
+		tableLists.add("fm_formlistitem");
+		tableLists.add("fm_formview");
+		tableLists.add("fm_formviewItem");
 		tableLists.add("fm_formfilter");
 		tableLists.add("fm_formfilterItem");
 		
@@ -94,8 +94,8 @@ public class SequenceUtils {
 		
 		
 		//CodeTable 
-//		List<String> codeTables = getCodeTableList();
-//		tableLists.addAll(codeTables);
+		List<String> codeTables = getCodeTableList();
+		tableLists.addAll(codeTables);
 		
 		//hw tables
 		/*

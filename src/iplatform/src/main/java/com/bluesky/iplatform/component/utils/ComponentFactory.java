@@ -31,17 +31,17 @@ public class ComponentFactory {
 		
 	}
 
-	/**
-	 * 获得SecurityManager
-	 * @param configFile  初始化文件
-	 * @return
-	 */
-	public static SecurityManager getSecurityManager(String configFile) {
-		// 1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory(configFile);
-		// 2、得到SecurityManager实例 并绑定给SecurityUtils
-		org.apache.shiro.mgt.SecurityManager securityManager = factory.getInstance();
-		return securityManager;
-	}
+//	/**
+//	 * 获得SecurityManager
+//	 * @param configFile  初始化文件
+//	 * @return
+//	 */
+//	public static SecurityManager getSecurityManager(String configFile) {
+//		// 1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
+//		Factory<SecurityManager> factory = new IniSecurityManagerFactory(configFile);
+//		// 2、得到SecurityManager实例 并绑定给SecurityUtils
+//		org.apache.shiro.mgt.SecurityManager securityManager = factory.getInstance();
+//		return securityManager;
+//	}
 	
 }

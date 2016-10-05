@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Repository;
+
 import com.bluesky.iplatform.commons.db.mybatis.dao.impl.BaseSingleMyBatisDAOImpl;
 import com.bluesky.iplatform.component.from.dao.FormListDAO;
 import com.bluesky.iplatform.component.from.dao.FormListItemDAO;
@@ -13,6 +15,7 @@ import com.bluesky.iplatform.component.from.model.FormListItem;
 import com.bluesky.iplatform.component.from.model.FormSchema;
 import com.bluesky.iplatform.component.profile.model.User;
 
+@Repository(value = "FormListDAOImpl")
 public class FormListDAOImpl extends BaseSingleMyBatisDAOImpl<FormList>
 implements FormListDAO<FormList>{
 	

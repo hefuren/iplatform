@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Repository;
+
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
@@ -17,6 +19,7 @@ import com.bluesky.iplatform.component.from.model.FormView;
 import com.bluesky.iplatform.component.from.model.FormViewItem;
 import com.bluesky.iplatform.component.profile.model.User;
 
+@Repository(value = "FormViewDAOImpl")
 public class FormViewDAOImpl extends BaseSingleMyBatisDAOImpl<FormView>
 implements FormViewDAO<FormView>{
 	

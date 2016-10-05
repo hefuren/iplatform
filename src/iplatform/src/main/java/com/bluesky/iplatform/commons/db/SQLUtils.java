@@ -28,7 +28,7 @@ public class SQLUtils {
 				} else if (object instanceof Long) {
 					maxID = ((Long) object).longValue();
 				}
-				hashMap.put(table, new Long(maxID));
+				hashMap.put(table.toLowerCase(), new Long(maxID));
 			}
 		}
 		return hashMap;

@@ -42,7 +42,7 @@ public interface FormManager {
 	 * @return
 	 * @
 	 */
-	public void getFormSchemas(User user) ;
+	public List<FormSchema> getFormSchemas(User user) ;
 
 	/**
 	 * 获取FormSchema 对象

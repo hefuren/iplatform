@@ -118,18 +118,21 @@ public class FormManagerService implements FormManager {
 	}
 
 	@Override
-	public void getFormSchemas(User user) {
+	public List<FormSchema> getFormSchemas(User user) {
 		try {
-			schemaDAO.getCompanyAllModes(user);
+			List<FormSchema> modes = schemaDAO.getCompanyAllModes(user);
+			return modes;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override
 	public FormSchema getFormSchema(User user, int id) {
 		try {
-			schemaDAO.getMode(user, id);
+			FormSchema mode = (FormSchema)schemaDAO.getMode(user, id);
+			return mode;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -139,7 +142,8 @@ public class FormManagerService implements FormManager {
 	@Override
 	public List<FormField> getFormFields(User user, FormSchema form) {
 		try {
-			fieldDAO.getFormFields(user, form);
+			List<FormField> modes = fieldDAO.getFormFields(user, form);
+			return modes;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Repository;
+
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
@@ -16,6 +18,7 @@ import com.bluesky.iplatform.component.from.model.FormFilterItem;
 import com.bluesky.iplatform.component.from.model.FormSchema;
 import com.bluesky.iplatform.component.profile.model.User;
 
+@Repository(value = "FormFilterDAOImpl")
 public class FormFilterDAOImpl extends BaseSingleMyBatisDAOImpl<FormFilter>
 implements FormFilterDAO<FormFilter>{
 	
