@@ -55,7 +55,7 @@ alter table fm_formField owner to elwin
 /*==============================================================*/
 create table fm_formList (
    id                   int                  not null,
-   schemaID             int                  null,
+   schemaID             int                  not null,
    orderBy              varchar(50)          null,
    orderType            int                  null,
    companyID            int                  not null,
@@ -70,6 +70,7 @@ alter table fm_formList owner to elwin
 /*==============================================================*/
 create table fm_formListItem (
    id                   int                  not null,
+   schemaID             int                  not null,
    listID               int                  null,
    fieldID              varchar(50)          null,
    width                int                  null,
@@ -109,7 +110,7 @@ alter table fm_formSchema owner to elwin
 /*==============================================================*/
 create table fm_formView (
    id                   int                  not null,
-   schemaID             int                  null,
+   schemaID             int                  not null,
    name                 varchar(50)          null,
    applicableRoleID     varchar(500)         null,
    applicableStatus     varchar(200)         null,
@@ -133,6 +134,7 @@ alter table fm_formView owner to elwin
 /*==============================================================*/
 create table fm_formViewItem (
    id                   int                  not null,
+   schemaID             int                  not null,
    viewID               int                  null,
    fieldID              varchar(50)          null,
    controlType          int                  null,
@@ -153,7 +155,7 @@ alter table fm_formViewItem owner to elwin
 /*==============================================================*/
 create table fm_formfilter (
    id                   int                  not null,
-   schemaID             int                  null,
+   schemaID             int                  not null,
    type                 int                  null,
    name                 varchar(50)          null,
    referenceID          int                  null,
@@ -174,7 +176,7 @@ alter table fm_formfilter owner to elwin
 create table fm_formfilterItem (
    id                   int                  not null,
    filterID             int                  not null,
-   schemaID             int                  null,
+   schemaID             int                  not null,
    fieldID              int                  null,
    fieldType            int                  null,
    companyID            int                  not null,
