@@ -32,9 +32,11 @@ implements FormListDAO<FormList>{
 		log.debug("select " + className + " instance");
 		try {
 			FormList mode = getModeByProperty("schemaID", new Integer(from.getId()));
-			//查找 formList 对应的 item 信息
-			List<FormListItem> items = itemDAO.getModesByProperty("listID", new Integer(mode.getId()));
-			mode.setFormListItems(items);
+			if(mode!=null){
+				//查找 formList 对应的 item 信息
+				List<FormListItem> items = itemDAO.getModesByProperty("listID", new Integer(mode.getId()));
+				mode.setFormListItems(items);
+			}
 			return mode;
 		} catch (RuntimeException re) {
 			log.error("select failed", re);

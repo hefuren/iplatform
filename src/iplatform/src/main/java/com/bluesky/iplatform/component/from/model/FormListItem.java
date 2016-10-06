@@ -10,12 +10,14 @@ import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.bluesky.iplatform.commons.object.BatchObject;
+
 @Data
 @Component(value = "FormListItem")
 @Entity
 @Scope(value = "prototype")
 @Table(name = "fm_formlistitem", schema = "public")
-public class FormListItem {
+public class FormListItem extends BatchObject{
 	
 	/**
 	 * 排序方式：ASC 升序排列

@@ -36,9 +36,11 @@ implements FormFilterDAO<FormFilter>{
 		try {
 			Mapper<FormFilter> mapper = this.getMapper(sqlSession, mapperType);
 			FormFilter instance = mapper.selectByPrimaryKey(new Integer(id));
-			//查找过滤器对应的 item 信息
-			List<FormFilterItem> items = itemDAO.getModesByProperty("filterID", new Integer(instance.getId()));
-			instance.setFormFilterItems(items);
+			if(instance != null){
+				//查找过滤器对应的 item 信息
+				List<FormFilterItem> items = itemDAO.getModesByProperty("filterID", new Integer(instance.getId()));
+				instance.setFormFilterItems(items);
+			}
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
