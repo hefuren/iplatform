@@ -268,6 +268,8 @@ public class FormManagerService implements FormManager {
 	public void updateFormList(User user, FormList formList) {
 		try {
 			listDAO.updateMode(user, formList);
+			List<FormListItem> items = formList.getFormListItems();
+			listItemDAO.saveModes(user, items);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

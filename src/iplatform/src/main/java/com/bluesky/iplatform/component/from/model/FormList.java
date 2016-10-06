@@ -29,7 +29,7 @@ public class FormList {
 	/**
 	 * 排序方式：DSEC 升序排列
 	 */
-	public static final int ORDER_TYPE_DSEC = 0;
+	public static final int ORDER_TYPE_DSEC = 1;
 	
 	//Field
 	@Id
