@@ -37,10 +37,11 @@ implements FormViewDAO<FormView>{
 		try {
 			Mapper<FormView> mapper = this.getMapper(sqlSession, mapperType);
 			FormView instance = mapper.selectByPrimaryKey(new Integer(id));
-			//查找 FormView 对应的 item 信息
-			List<FormViewItem> items = this.getFormViewItems(user, instance);
-			instance.setFormViewItems(items);
-			
+			if(instance != null){
+				//查找 FormView 对应的 item 信息
+				List<FormViewItem> items = this.getFormViewItems(user, instance);
+				instance.setFormViewItems(items);
+			}
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -70,7 +71,7 @@ implements FormViewDAO<FormView>{
 		try {
 			List<FormViewItem> modes = null;
 			Example example = new Example(FormViewItem.class);
-			example.createCriteria().andEqualTo("viewid", view.getId());
+			example.createCriteria().andEqualTo("viewID", view.getId());
 			Mapper<FormViewItem> mapper = (Mapper<FormViewItem>) sqlSession.getMapper(FormViewItemMapper.class);
 			modes = mapper.selectByExample(example);
 			return modes;

@@ -175,7 +175,11 @@ public class FormManagerService implements FormManager {
 	@Override
 	public void newFormView(User user, FormView view) {
 		try {
+			//保存表单视图
 			viewDAO.newMode(user, view);
+			//保存表单视图对应的viewItem
+			List<FormViewItem> items = view.getFormViewItems();
+			viewItemDAO.saveModes(user, items);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,7 +188,11 @@ public class FormManagerService implements FormManager {
 	@Override
 	public void updateFormView(User user, FormView view) {
 		try {
+			//保存表单视图信息
 			viewDAO.updateMode(user, view);
+			//保存表单视图对应的viewItem
+			List<FormViewItem> items = view.getFormViewItems();
+			viewItemDAO.saveModes(user, items);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

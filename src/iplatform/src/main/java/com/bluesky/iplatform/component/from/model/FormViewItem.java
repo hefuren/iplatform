@@ -10,12 +10,14 @@ import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.bluesky.iplatform.commons.object.BatchObject;
+
 @Data
 @Component(value = "FormViewItem")
 @Entity
 @Scope(value = "prototype")
 @Table(name = "fm_formviewitem", schema = "public")
-public class FormViewItem {
+public class FormViewItem extends BatchObject{
 	
 	/**
 	 * 控件类型：Select 下拉框
