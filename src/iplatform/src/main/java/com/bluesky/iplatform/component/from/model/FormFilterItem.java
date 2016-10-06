@@ -10,12 +10,14 @@ import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.bluesky.iplatform.commons.object.BatchObject;
+
 @Data
 @Component(value = "FormFilterItem")
 @Entity
 @Scope(value = "prototype")
 @Table(name = "fm_formfilteritem", schema = "public")
-public class FormFilterItem {
+public class FormFilterItem extends BatchObject{
 	
 	/**
 	 * 相等比较

@@ -280,6 +280,8 @@ public class FormManagerService implements FormManager {
 	public void newFormFilter(User user, FormFilter formFilter) {
 		try {
 			filterDAO.newMode(user, formFilter);
+			List<FormFilterItem> items = formFilter.getFormFilterItems();
+			filterItemDAO.saveModes(user, items);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
