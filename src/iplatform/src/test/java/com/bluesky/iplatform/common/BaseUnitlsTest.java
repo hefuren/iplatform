@@ -1,5 +1,8 @@
 package com.bluesky.iplatform.common;
 
+import java.util.Calendar;
+
+import org.junit.After;
 import org.junit.Before;
 import org.springframework.context.ApplicationContext;
 import org.unitils.UnitilsJUnit4;
@@ -8,6 +11,7 @@ import org.unitils.spring.annotation.SpringApplicationContext;
 import com.bluesky.iplatform.commons.cache.EhcacheUtils;
 import com.bluesky.iplatform.commons.db.SequenceUtils;
 import com.bluesky.iplatform.commons.utils.BaseContext;
+import com.bluesky.iplatform.commons.utils.TypeUtils;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.profile.service.ProfileManager;
 import com.bluesky.iplatform.component.utils.ComponentFactory;
@@ -20,6 +24,10 @@ public class BaseUnitlsTest extends UnitilsJUnit4 {
 	public ApplicationContext ctx;
 	
 	protected User systemAdmin;
+	
+	private long startTime;
+	
+	private long endTime;
 	
 	@Before
 	public void setup(){
@@ -60,6 +68,24 @@ public class BaseUnitlsTest extends UnitilsJUnit4 {
 		user.setId(userID);
 		user.setCompanyID(companyID);
 		return user;
+	}
+	
+	protected void setTestStartTime(){
+		Calendar calendar = Calendar.getInstance();
+		this.startTime = calendar.getTimeInMillis();
+//		System.out.println("startTime : "+startTime);
+	}
+	
+	protected void setTestEndTime(){
+		Calendar calendar = Calendar.getInstance();
+		this.endTime = calendar.getTimeInMillis();
+//		System.out.println("endTime : "+endTime);
+	}
+	
+	@After
+	public void printTestExcueTime(){
+		long time = endTime - startTime;
+		System.out.println("测试时长 ： " + time + " ms");
 	}
 
 }

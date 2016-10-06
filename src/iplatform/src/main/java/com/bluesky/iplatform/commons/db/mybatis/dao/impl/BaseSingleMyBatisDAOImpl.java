@@ -131,7 +131,9 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 		log.debug("saving " + className + " instance");
 		try {
 			AllMapper<T> mapper = this.getBatchMapper(sqlSession, mapperType);
-			mapper.insertList(modes);
+			if(modes != null && modes.size()>0){
+				mapper.insertList(modes);
+			}
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -234,11 +236,17 @@ public abstract class BaseSingleMyBatisDAOImpl<T> extends SqlSessionDaoSupport i
 	public void batchDeleteModes(User user, int[] ids) {
 		log.debug("deleting " + className + " instance");
 		try {
-			Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
-			for(int id : ids){
-				mapper.deleteByPrimaryKey(new Integer(id));
+			if(ids != null && ids.length > 0){
+				Mapper<T> mapper = this.getMapper(sqlSession, mapperType);
+				List<Object> idList = TypeUtils.arrayToList(ids);
+				Example example = new Example(entityClass);
+				example.createCriteria().andIn("id", idList);
+				mapper.deleteByExample(example);
+//				for(int id : ids){
+//					mapper.deleteByPrimaryKey(new Integer(id));
+//				}
+				log.debug("delete successful");
 			}
-			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
 			throw re;

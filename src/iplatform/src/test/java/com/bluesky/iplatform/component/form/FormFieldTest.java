@@ -19,12 +19,12 @@ import com.bluesky.iplatform.component.from.model.FormSchema;
 import com.bluesky.iplatform.component.from.service.FormManager;
 import com.bluesky.iplatform.component.profile.model.User;
 import com.bluesky.iplatform.component.utils.ComponentFactory;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class FormFieldTest extends BaseUnitlsTest {
 
 	@Test
 	public void testNew() {
+		this.setTestStartTime();
 		try {
 			ApplicationContext ctx = BaseContext.getApplicationContext();
 			FormManager manager = (FormManager)ComponentFactory.getManager("FormManager");
@@ -81,12 +81,66 @@ public class FormFieldTest extends BaseUnitlsTest {
 			
 			assertEquals("新增字段失败！！！", true, result);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Not yet implemented");
+		}
+		this.setTestEndTime();
+	}
+	
+	@Test
+	public void selectTest(){
+		try {
+			FormManager manager = (FormManager)ComponentFactory.getManager("FormManager");
+			User user = this.getUser(1000, 1000);
+			int schemaID = 1000;
+			
+			FormSchema form = manager.getFormSchema(user, schemaID);
+			List<FormField> formFields = manager.getFormFields(user, form);
+			
+			for(FormField mode : formFields){
+				System.out.println("============= 输出字段信息  =============");
+				System.out.println("id : "+mode.getId());
+				System.out.println("Name : "+mode.getName());
+				System.out.println("fieldID : "+mode.getFieldID());
+				System.out.println("lableName : "+mode.getLableName());
+				System.out.println("companyID : "+mode.getCompanyID());
+				System.out.println();
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Not yet implemented");
 		}
-		
 	}
+	
+	@Test
+	public void testDelete(){
+		try {
+			FormManager manager = (FormManager)ComponentFactory.getManager("FormManager");
+			User user = this.getUser(1000, 1000);
+			int schemaID = 1000;
+			
+			FormSchema form = manager.getFormSchema(user, schemaID);
+			List<FormField> formFields = manager.getFormFields(user, form);
+			int size = formFields.size();
+			for(int i=0;i<size;i++){
+				int temp = size -i;
+				if(temp == 1 || temp == 2){
+					FormField field = formFields.get(i);
+					field.setDeleted(true);
+				}
+			}
+			manager.saveFormFields(user, formFields);
+			List<FormField> fields = manager.getFormFields(user, form);
+			
+			assertEquals("删除字段失败", TypeUtils.nullToLong(size-2), TypeUtils.nullToLong(fields.size()));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Not yet implemented");
+		}
+	}
+	
 
 }
