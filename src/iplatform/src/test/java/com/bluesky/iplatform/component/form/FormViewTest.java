@@ -45,7 +45,7 @@ public class FormViewTest extends BaseUnitlsTest {
 			item1.setId(itemid1);
 			item1.setCompanyID(user.getCompanyID());
 			item1.setEditFlag(FormViewItem.CONTROL_TYPE_CALENDAR);
-			item1.setFieldID("str01");
+			item1.setFieldKey("str01");
 			item1.setHeight(1);
 			item1.setWidth(FormViewItem.WIDTH_HALF_ROW);
 			item1.setViewID(viewid);

@@ -88,8 +88,8 @@ public class FormField  extends BatchObject{
 	/**
 	 * 字段标识(Str01,num01等)
 	 */
-	@Column(name = "fieldid", length = 50)
-	private String fieldID;
+	@Column(name = "fieldkey", length = 50)
+	private String fieldKey;
 
 	/**
 	 * 名称

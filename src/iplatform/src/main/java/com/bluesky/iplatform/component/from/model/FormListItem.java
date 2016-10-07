@@ -55,8 +55,8 @@ public class FormListItem extends BatchObject{
 	@Column(name = "listid", nullable = false)
 	private Integer listID;
 	
-	@Column(name = "fieldid", nullable = false)
-	private String fieldID;
+	@Column(name = "fieldkey", nullable = false)
+	private String fieldKey;
 	
 	@Column(name = "width")
 	private Integer width;

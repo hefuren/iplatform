@@ -55,8 +55,8 @@ public class FormFilterItem extends BatchObject{
 	@Column(name = "schemaid", nullable = false)
 	private Integer schemaID;
 	
-	@Column(name = "fieldid")
-	private Integer fieldID;
+	@Column(name = "fieldkey", length = 50)
+	private String fieldKey;
 	
 	@Column(name = "fieldtype")
 	private Integer fieldType;

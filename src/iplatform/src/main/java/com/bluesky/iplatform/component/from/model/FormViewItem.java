@@ -118,8 +118,8 @@ public class FormViewItem extends BatchObject{
 	@Column(name = "viewid", nullable = false)
 	private Integer viewID;
 	
-	@Column(name = "fieldid", length = 50)
-	private String fieldID;
+	@Column(name = "fieldkey", length = 50)
+	private String fieldKey;
 	
 	/**
 	 * 控件类型（文本、下拉、单选、复选……）

@@ -42,7 +42,7 @@ public class FormFieldTest extends BaseUnitlsTest {
 			field.setId(TypeUtils.nullToInt(ids[0]));
 			field.setSchemaID(schemaID);
 			field.setName(names[0]);
-			field.setFieldID(fieldIDs[0]);
+			field.setFieldKey(fieldIDs[0]);
 			field.setLableName(lableNames[0]);
 			field.setFieldType(fieldTypes[0]);
 			field.setCompanyID(user.getCompanyID());
@@ -52,7 +52,7 @@ public class FormFieldTest extends BaseUnitlsTest {
 			field2.setId(TypeUtils.nullToInt(ids[1]));
 			field2.setSchemaID(schemaID);
 			field2.setName(names[1]);
-			field2.setFieldID(fieldIDs[1]);
+			field2.setFieldKey(fieldIDs[1]);
 			field2.setLableName(lableNames[1]);
 			field2.setFieldType(fieldTypes[1]);
 			field2.setCompanyID(user.getCompanyID());
@@ -102,7 +102,7 @@ public class FormFieldTest extends BaseUnitlsTest {
 				System.out.println("============= 输出字段信息  =============");
 				System.out.println("id : "+mode.getId());
 				System.out.println("Name : "+mode.getName());
-				System.out.println("fieldID : "+mode.getFieldID());
+				System.out.println("fieldID : "+mode.getFieldKey());
 				System.out.println("lableName : "+mode.getLableName());
 				System.out.println("companyID : "+mode.getCompanyID());
 				System.out.println();

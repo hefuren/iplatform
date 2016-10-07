@@ -79,7 +79,7 @@ public class FormListTest extends BaseUnitlsTest {
 			for(FormListItem item : items){
 				item.setModified(true);
 				item.setAlign(FormListItem.ALIGN_RIGHT);
-				item.setFieldID("str01");
+				item.setFieldKey("str01");
 				item.setWidth(100);
 				item.setSeqno(100);
 			}
