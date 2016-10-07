@@ -16,7 +16,6 @@
 	<context:component-scan base-package="com.bluesky">
 	</context:component-scan>
 
-
 	<!-- 设置动态代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
@@ -122,8 +121,9 @@
 
 	<!-- 配置其他的模块 -->
 	<import resource="transactionalContext.xml" />
-	<!--  -->
+	<!-- activiti 工作流  -->
 	<import resource="activitiContext.xml" />
+	
 	
 
 </beans>

@@ -13,34 +13,26 @@
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
 	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="transactionManager" ref="transactionManager"></property>
-		<property name="databaseSchemaUpdate" value="true"></property>
-		<property name="jobExcecutorActivate" value="false"></property>
-		<property name="processDefinitionCacheLimit" value="10"></property>
-		<!-- 缓存支持 
-		<property name="processDefinitionCache">
-			<bean class="com.bluesky.platform.component.activiti.model.ActivitiCache"></bean>
-		</property>
-		-->
-		<!-- 自动部署 -->
+	    <property name="dataSource" ref="dataSource" />
+	    <property name="transactionManager" ref="transactionManager" />
+	    <property name="databaseSchemaUpdate" value="true" />
+	    <property name="jobExecutorActivate" value="false" />
+	    <!-- 自动部署 -->
 		<property name="deploymentResources">
 			<list>
 				<value>classpath*:/deployments/*</value>
 			</list>
 		</property>
-	</bean>	
-	<!-- 配置引擎工厂Bean -->
-	<bean id="processEngineFactory" class="org.activiti.spring.SpringProcessEngineConfiguration">
-		<property name="processEngineConfiguration" ref="processEngineConfiguration"></property>
-	</bean>
-	<bean id="repositoryService" factory-bean="processEngineFactory" factory-method="getRepositoryService"/>
-	<bean id="runtimeService" factory-bean="processEngineFactory" factory-method="geRuntimeService"/>
-	<bean id="formService" factory-bean="processEngineFactory" factory-method="geFormService"/>
-	<bean id="identityService" factory-bean="processEngineFactory" factory-method="geIdentityService"/>
-	<bean id="taskService" factory-bean="processEngineFactory" factory-method="geTaskService"/>
-	<bean id="historyService" factory-bean="processEngineFactory" factory-method="geHistoryService"/>
-	<bean id="managementService" factory-bean="processEngineFactory" factory-method="geManagementService"/>
+	  </bean>
 	
+	  <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+	    <property name="processEngineConfiguration" ref="processEngineConfiguration" />
+	  </bean>
+	
+	  <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
+	  <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
+	  <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+	  <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
+	  <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />	
 
 </beans>
