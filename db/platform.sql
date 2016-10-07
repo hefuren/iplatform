@@ -1,19 +1,19 @@
 /*2014-09-22 by elwin 建表语句*/
 drop table fm_formField;
 
-drop table fm_formList;
-
 drop table fm_formListItem;
 
-drop table fm_formSchema;
-
-drop table fm_formView;
+drop table fm_formList;
 
 drop table fm_formViewItem;
 
-drop table fm_formfilter;
+drop table fm_formView;
 
 drop table fm_formfilterItem;
+
+drop table fm_formfilter;
+
+drop table fm_formSchema;
 
 drop user elwin;
 
@@ -28,7 +28,7 @@ create user elwin;
 create table fm_formField (
    id                   int                  not null,
    schemaID             int                  null,
-   fieldID              varchar(50)          null,
+   fieldkey              varchar(50)          null,
    name                 varchar(50)          null,
    lableName            varchar(50)          null,
    status               int                  null,
@@ -72,7 +72,7 @@ create table fm_formListItem (
    id                   int                  not null,
    schemaID             int                  not null,
    listID               int                  null,
-   fieldID              varchar(50)          null,
+   fieldkey              varchar(50)          null,
    width                int                  null,
    align                int                  null,
    orderType            int                  null,
@@ -136,7 +136,7 @@ create table fm_formViewItem (
    id                   int                  not null,
    schemaID             int                  not null,
    viewID               int                  null,
-   fieldID              varchar(50)          null,
+   fieldkey              varchar(50)          null,
    controlType          int                  null,
    width                int                  null,
    height               int                  null,
@@ -177,7 +177,7 @@ create table fm_formfilterItem (
    id                   int                  not null,
    filterID             int                  not null,
    schemaID             int                  not null,
-   fieldID              int                  null,
+   fieldkey              varchar(50)                  null,
    fieldType            int                  null,
    companyID            int                  not null,
    constraint PK_FM_FORMFILTERITEM primary key (id)
@@ -609,3 +609,5 @@ where a.companyID = 1 and b.id != 1 and a.tableID = 400;
 
 /*2016-09-25 by elwin 修改权限表，增加systemID*/
 alter table  st_function add column systemid integer; 
+
+
