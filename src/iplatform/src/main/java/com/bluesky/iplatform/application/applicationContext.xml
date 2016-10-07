@@ -122,5 +122,8 @@
 
 	<!-- 配置其他的模块 -->
 	<import resource="transactionalContext.xml" />
+	<!--  -->
+	<import resource="activitiContext.xml" />
+	
 
 </beans>
