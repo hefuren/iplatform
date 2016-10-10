@@ -1,11 +1,13 @@
 package com.bluesky.iplatform.component.workflow.utils;
 
 import java.io.FileInputStream;
+import java.util.List;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.DeploymentBuilder;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.context.annotation.Scope;
@@ -100,15 +102,36 @@ public class ActivitiUtils {
 		RuntimeService runtimeService = getRuntimeService();
 		runtimeService.activateProcessInstanceById(processInstanceId);
 	}
+	
+	/**
+	 * 获取已部署的流程定义列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ProcessDefinition> getProcessDefinitions() throws Exception{
+		//get Activiti services
+		RepositoryService repositoryService =  getRepositoryService();
+		List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
+		return list;
+	}
 
 	
-	
+	/**
+	 * 获取流程引擎
+	 * @return
+	 * @throws Exception
+	 */
 	private ProcessEngine getProcessEngine() throws Exception{
 		//Create Activiti process engine
 		ProcessEngine processEngine = SpringProcessEngineConfiguration.createStandaloneProcessEngineConfiguration().buildProcessEngine();
 		return processEngine;
 	}
 	
+	/**
+	 * 获取流程存储服务实例
+	 * @return
+	 * @throws Exception
+	 */
 	private RepositoryService getRepositoryService() throws Exception{
 		//Create Activiti process engine
 		ProcessEngine processEngine = this.getProcessEngine();
