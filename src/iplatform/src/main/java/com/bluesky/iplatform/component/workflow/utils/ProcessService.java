@@ -6,6 +6,7 @@ import java.util.List;
 
 import lombok.Getter;
 
+import org.activiti.engine.FormService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -14,6 +15,11 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 提供对Activiti流程基本的操作方法
+ * @author ElwinHe
+ *
+ */
 @Component(value = "ProcessService")
 public class ProcessService {
 	
@@ -28,6 +34,10 @@ public class ProcessService {
 	@Getter
 	@Autowired
 	private RuntimeService runtimeService;
+	
+	@Getter
+	@Autowired
+	private FormService formService;
 	
 	/**
 	 * 部署工作流
@@ -58,20 +68,22 @@ public class ProcessService {
 	/**
 	 * 挂起流程
 	 * （备注：If a process instance is in state suspended）
-	 * @param processInstanceId
+	 * @param processDefinitionId 流程定义ID
 	 * @throws Exception
 	 */
-	public void suspendProcessInstanceById(String processInstanceId) throws Exception{
-		runtimeService.suspendProcessInstanceById(processInstanceId);
+	public void suspendProcessDefinitionById(String processDefinitionId) throws Exception{
+		//挂起流程，同时挂起该流程对应的实例
+		repositoryService.suspendProcessDefinitionById(processDefinitionId, true, null);
 	}
 	
 	/**
 	 * 激活流程
-	 * @param processInstanceId
+	 * @param processDefinitionId 流程定义ID
 	 * @throws Exception
 	 */
-	public void activateProcessInstanceById(String processInstanceId)throws Exception{
-		runtimeService.activateProcessInstanceById(processInstanceId);
+	public void activateProcessInstanceById(String processDefinitionId)throws Exception{
+		//激活流程，同时激活该流程对应的实例
+		repositoryService.activateProcessDefinitionById(processDefinitionId, true, null);
 	}
 	
 	/**
@@ -90,16 +102,7 @@ public class ProcessService {
 	 * @throws Exception
 	 */
 	public List<ProcessDefinition> getActivateProcessDefinitions() throws Exception{
-		List<ProcessDefinition> list = null;
-		List<ProcessDefinition> allList = getProcessDefinitions();
-		if(allList != null && allList.size() > 0){
-			list = new ArrayList<ProcessDefinition>();
-			for(ProcessDefinition item : allList){
-				if(!item.isSuspended()){
-					list.add(item);
-				}
-			}
-		}
+		List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().active().list();
 		return list;
 	}
 	
@@ -109,16 +112,7 @@ public class ProcessService {
 	 * @throws Exception
 	 */
 	public List<ProcessDefinition> getSuspendProcessDefinitions() throws Exception{
-		List<ProcessDefinition> list = null;
-		List<ProcessDefinition> allList = getProcessDefinitions();
-		if(allList != null && allList.size() > 0){
-			list = new ArrayList<ProcessDefinition>();
-			for(ProcessDefinition item : allList){
-				if(item.isSuspended()){
-					list.add(item);
-				}
-			}
-		}
+		List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().suspended().list();
 		return list;
 	}
 	

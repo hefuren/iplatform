@@ -64,7 +64,7 @@ public class ActivitiUtils {
 	
 	/**
 	 * 启动流程：根据部署的ID启动流程
-	 * @param deploymentId  工作流部署的ID
+	 * @param deploymentId  工作流部署的ID,及processDefinitionId
 	 * @throws Exception
 	 */
 	public ProcessInstance startProcessInstanceById(String deploymentId) throws Exception{
