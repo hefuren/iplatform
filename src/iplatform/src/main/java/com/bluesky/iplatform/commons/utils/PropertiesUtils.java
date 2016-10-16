@@ -4,9 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.Map.Entry;
 
 
 /**
@@ -20,6 +18,13 @@ import java.util.Map.Entry;
  * @version 1.0
  */
 public class PropertiesUtils {
+	
+	/**
+	 * 私有构造器
+	 */
+	private PropertiesUtils(){
+		
+	}
 
 	/**
 	 * 获取属性文件的数据 根据key获取值
@@ -36,23 +41,6 @@ public class PropertiesUtils {
 			return "";
 		}
 		
-	}
-
-	public static void main(String[] args) {
-		Properties prop = new Properties();
-		InputStream in = PropertiesUtils.class
-				.getResourceAsStream("/config.properties");
-		try {
-			prop.load(in);
-			Iterator<Entry<Object, Object>> itr = prop.entrySet().iterator();
-			while (itr.hasNext()) {
-				Entry<Object, Object> e = (Entry<Object, Object>) itr.next();
-				System.err.println((e.getKey().toString() + "" + e.getValue()
-						.toString()));
-			}
-		} catch (Exception e) {
-			
-		}
 	}
 
 	/**
@@ -96,4 +84,21 @@ public class PropertiesUtils {
 		} catch (Exception e) {
 		}
 	}
+	
+//	public static void main(String[] args) {
+//		Properties prop = new Properties();
+//		InputStream in = PropertiesUtils.class
+//				.getResourceAsStream("/config.properties");
+//		try {
+//			prop.load(in);
+//			Iterator<Entry<Object, Object>> itr = prop.entrySet().iterator();
+//			while (itr.hasNext()) {
+//				Entry<Object, Object> e = (Entry<Object, Object>) itr.next();
+//				System.err.println((e.getKey().toString() + "" + e.getValue()
+//						.toString()));
+//			}
+//		} catch (Exception e) {
+//			
+//		}
+//	}
 }

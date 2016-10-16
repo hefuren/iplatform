@@ -53,6 +53,13 @@ public class TypeUtils {
 	public static final String DEFAULT_WORKTIME_FORMAT = "##############0.0";
 
 	public static String DEFAULT_PERCENT_FORMAT = "##############0";
+	
+	/**
+	 * 私有构造器
+	 */
+	private TypeUtils(){
+		
+	}
 
 	public static synchronized long getUniqueID() {
 		return current++;

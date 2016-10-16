@@ -1,6 +1,10 @@
 package com.bluesky.iplatform.commons.utils;
 
 public class CommonUtils {
+	
+	private CommonUtils() {
+
+	}
 
 	/**
 	 * 字符串转换成 int

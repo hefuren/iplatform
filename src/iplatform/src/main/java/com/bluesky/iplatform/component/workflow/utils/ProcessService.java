@@ -4,30 +4,30 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.spring.SpringProcessEngineConfiguration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * Activiti工作流引擎操作通用方法
- * （备注：该类仅仅封装最基本的Activit操作方法，如果不能满足，需要通过Activiti API进行操作）
- * @author ElwinHe
- *
- */
-@Component(value = "ActivitiUtils")
-@Scope(value = "prototype")
-public class ActivitiUtils {
+@Component(value = "ProcessService")
+public class ProcessService {
 	
-//	/**
-//	 * 公共平台工作流引擎名称：iPlatform_Activit_processEngine
-//	 */
-//	public static final String PROCESS_ENGINE_NAME = "IPLATFORM_ACTIVITI_PROCESS_ENGINE";//
+	@Getter
+	@Autowired
+	private ProcessEngine processEngine;
+	
+	@Getter
+	@Autowired
+	private RepositoryService repositoryService;
+	
+	@Getter
+	@Autowired
+	private RuntimeService runtimeService;
 	
 	/**
 	 * 部署工作流
@@ -36,10 +36,6 @@ public class ActivitiUtils {
 	 * @throws Exception
 	 */
 	public void deployProcess(String workflowName, String filePath) throws Exception{
-		
-		//get Activiti services
-		RepositoryService repositoryService =  getRepositoryService();
-		
 		//发布配置对象
 		DeploymentBuilder builder = repositoryService.createDeployment().name("xxx");
 		builder.category("ppm");
@@ -56,32 +52,7 @@ public class ActivitiUtils {
 	 * @throws Exception
 	 */
 	public void deleteDeployment(String deploymentId, boolean arg) throws Exception{
-		//get Activiti services
-		RepositoryService repositoryService =  getRepositoryService();
 		repositoryService.deleteDeployment(deploymentId,arg);
-	}
-	
-	
-	/**
-	 * 启动流程：根据部署的ID启动流程
-	 * @param deploymentId  工作流部署的ID
-	 * @throws Exception
-	 */
-	public ProcessInstance startProcessInstanceById(String deploymentId) throws Exception{
-		RuntimeService runtimeService = getRuntimeService();
-		ProcessInstance processInstance = runtimeService.startProcessInstanceById(deploymentId);
-		return processInstance;
-	}
-	
-	/**
-	 * 启动流程：根据流程Key启动流程
-	 * @param key  工作流Key
-	 * @throws Exception
-	 */
-	public ProcessInstance startProcessInstanceByKey(String key) throws Exception{
-		RuntimeService runtimeService = getRuntimeService();
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(key);
-		return processInstance;
 	}
 	
 	/**
@@ -91,7 +62,6 @@ public class ActivitiUtils {
 	 * @throws Exception
 	 */
 	public void suspendProcessInstanceById(String processInstanceId) throws Exception{
-		RuntimeService runtimeService = getRuntimeService();
 		runtimeService.suspendProcessInstanceById(processInstanceId);
 	}
 	
@@ -101,7 +71,6 @@ public class ActivitiUtils {
 	 * @throws Exception
 	 */
 	public void activateProcessInstanceById(String processInstanceId)throws Exception{
-		RuntimeService runtimeService = getRuntimeService();
 		runtimeService.activateProcessInstanceById(processInstanceId);
 	}
 	
@@ -111,8 +80,6 @@ public class ActivitiUtils {
 	 * @throws Exception
 	 */
 	public List<ProcessDefinition> getProcessDefinitions() throws Exception{
-		//get Activiti services
-		RepositoryService repositoryService =  getRepositoryService();
 		List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
 		return list;
 	}
@@ -154,37 +121,6 @@ public class ActivitiUtils {
 		}
 		return list;
 	}
-
 	
-	/**
-	 * 获取流程引擎
-	 * @return
-	 * @throws Exception
-	 */
-	private ProcessEngine getProcessEngine() throws Exception{
-		//Create Activiti process engine
-		ProcessEngine processEngine = SpringProcessEngineConfiguration.createStandaloneProcessEngineConfiguration().buildProcessEngine();
-		return processEngine;
-	}
-	
-	/**
-	 * 获取流程存储服务实例
-	 * @return
-	 * @throws Exception
-	 */
-	private RepositoryService getRepositoryService() throws Exception{
-		//Create Activiti process engine
-		ProcessEngine processEngine = this.getProcessEngine();
-		//get Activiti services
-		RepositoryService repositoryService =  processEngine.getRepositoryService();
-		return repositoryService;
-	}
-	
-	private RuntimeService getRuntimeService() throws Exception{
-		//Create Activiti process engine
-		ProcessEngine processEngine = this.getProcessEngine();
-		RuntimeService runtimeService = processEngine.getRuntimeService();
-		return runtimeService;
-	}
 
 }
