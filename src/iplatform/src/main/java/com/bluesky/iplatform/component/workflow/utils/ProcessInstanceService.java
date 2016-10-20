@@ -9,6 +9,9 @@ import lombok.Getter;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.pvm.process.TransitionImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
@@ -144,6 +147,55 @@ public class ProcessInstanceService {
 		return allTasks;
 	}
 	
+//	
+//	public void turnTransition(String taskId, String activityId, Map<String, Object> variables) throws Exception{
+//		// 当前节点  
+//        ActivityImpl currActivity = findActivitiImpl(taskId, null);  
+//        // 清空当前流向  
+//        List<PvmTransition> oriPvmTransitionList = clearTransition(currActivity);  
+//  
+//        // 创建新流向  
+//        TransitionImpl newTransition = currActivity.createOutgoingTransition();  
+//        // 目标节点  
+//        ActivityImpl pointActivity = findActivitiImpl(taskId, activityId);  
+//        // 设置新流向的目标节点  
+//        newTransition.setDestination(pointActivity);  
+//  
+//        // 执行转向任务  
+//        taskService.complete(taskId, variables);  
+//        // 删除目标节点新流入  
+//        pointActivity.getIncomingTransitions().remove(newTransition);  
+//  
+//        // 还原以前流向  
+//        restoreTransition(currActivity, oriPvmTransitionList); 
+//	}
+//	
+//	 private ActivityImpl findActivitiImpl(String taskId, String activityId) throws Exception {
+//		// 取得流程定义  
+//         ProcessDefinitionEntity processDefinition = findProcessDefinitionEntityByTaskId(taskId);  
+//   
+//         // 获取当前活动节点ID  
+//         if (StringUtil.isNull(activityId)) {  
+//             activityId = findTaskById(taskId).getTaskDefinitionKey();  
+//         }  
+//   
+//         // 根据流程定义，获取该流程实例的结束节点  
+//         if (activityId.toUpperCase().equals("END")) {  
+//             for (ActivityImpl activityImpl : processDefinition.getActivities()) {  
+//                 List<PvmTransition> pvmTransitionList = activityImpl  
+//                         .getOutgoingTransitions();  
+//                 if (pvmTransitionList.isEmpty()) {  
+//                     return activityImpl;  
+//                 }  
+//             }  
+//         }  
+//   
+//         // 根据节点ID，获取对应的活动节点  
+//         ActivityImpl activityImpl = ((ProcessDefinitionImpl) processDefinition)  
+//                 .findActivity(activityId);  
+//   
+//         return activityImpl;  
+//	 }
 	
 	public void test(){
 		String deploymentId = "";
