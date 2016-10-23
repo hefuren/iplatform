@@ -1,11 +1,24 @@
-package com.bluesky.iplatform.component.workflow;
+/* Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.activiti.rest.editor.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
- 
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
- 
+
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
@@ -26,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
- 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
  
@@ -35,10 +48,10 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
    
   protected static final Logger LOGGER = LoggerFactory.getLogger(ModelSaveRestResource.class);
  
-  @Autowired
+  @Resource(name= "repositoryService")
   private RepositoryService repositoryService;
    
-  @Autowired
+  @Resource(name= "objectMapper")
   private ObjectMapper objectMapper;
    
   @RequestMapping(value="/model/{modelId}/save", method = RequestMethod.PUT)

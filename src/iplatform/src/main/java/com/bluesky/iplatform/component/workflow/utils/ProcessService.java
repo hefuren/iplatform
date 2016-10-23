@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import lombok.Getter;
 
 import org.activiti.engine.FormService;
@@ -24,19 +26,19 @@ import org.springframework.stereotype.Component;
 public class ProcessService {
 	
 	@Getter
-	@Autowired
+	@Resource(name= "processEngine")
 	private ProcessEngine processEngine;
 	
 	@Getter
-	@Autowired
+	@Resource(name= "repositoryService")
 	private RepositoryService repositoryService;
 	
 	@Getter
-	@Autowired
+	@Resource(name= "runtimeService")
 	private RuntimeService runtimeService;
 	
 	@Getter
-	@Autowired
+	@Resource(name= "formService")
 	private FormService formService;
 	
 	/**

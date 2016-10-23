@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ActivitiTaskService {
 	
-	@Autowired
-	private TaskService taskService;
 	
 	public Task newTask() throws Exception{
 		Task task = null;

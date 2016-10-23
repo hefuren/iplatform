@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import lombok.Getter;
 
+import org.activiti.engine.FormService;
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.pvm.PvmTransition;
@@ -30,15 +34,23 @@ import com.bluesky.iplatform.component.profile.model.User;
 public class ProcessInstanceService {
 	
 	@Getter
-	@Autowired
+	@Resource(name= "processEngine")
 	private ProcessEngine processEngine;
 	
 	@Getter
-	@Autowired
+	@Resource(name= "repositoryService")
+	private RepositoryService repositoryService;
+	
+	@Getter
+	@Resource(name= "runtimeService")
 	private RuntimeService runtimeService;
 	
 	@Getter
-	@Autowired
+	@Resource(name= "formService")
+	private FormService formService;
+	
+	@Getter
+	@Resource(name= "taskService")
 	private TaskService taskService;
 	
 	/**
