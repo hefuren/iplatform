@@ -10,9 +10,7 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
    <!-- Spring config -->
-  <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
+ 
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:com/bluesky/iplatform/application/applicationContext.xml</param-value>
@@ -30,7 +28,7 @@
 
     <servlet-mapping>
        <servlet-name>Bluesky-servlet</servlet-name>
-       <url-pattern>*.html</url-pattern>
+       <url-pattern>/</url-pattern>
     </servlet-mapping>
    <filter>
 		<filter-name>characterEncodingFilter</filter-name>
@@ -80,5 +78,8 @@
         org.springframework.web.util.Log4jConfigListener
       </listener-class>
    </listener>
+   <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
   
 </web-app>
