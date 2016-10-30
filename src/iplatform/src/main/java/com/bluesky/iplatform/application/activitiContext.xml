@@ -43,9 +43,11 @@
     <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
     <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
 	
-	<!-- 单例json对象 -->
+	<!-- 单例json对象 
 	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"></bean>	
-	<!-- 引擎内部提供的UUID生成器，依赖fastxml的java-uuid-generator模块 -->
+	-->
+	<!-- 引擎内部提供的UUID生成器，依赖fastxml的java-uuid-generator模块 
     <bean id="uuidGenerator" class="org.activiti.engine.impl.persistence.StrongUuidGenerator" />
+    -->
 
 </beans>

@@ -342,6 +342,7 @@
 			<artifactId>activiti-spring</artifactId>
 			<version>${activiti.version}</version>
 		</dependency>
+		<!--  
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-cxf</artifactId>
@@ -407,13 +408,11 @@
 			<artifactId>activiti-jmx</artifactId>
 			<version>${activiti.version}</version>
 		</dependency>
-		<!--  集成流程设计器，修改源码，屏蔽lib-->
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-modeler</artifactId>
 			<version>${activiti.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-process-validation</artifactId>
@@ -434,12 +433,20 @@
 			<artifactId>activiti-osgi</artifactId>
 			<version>${activiti.version}</version>
 		</dependency>
+		-->
+		
+		
 		<dependency>
 			<groupId>bluesky</groupId>
 			<artifactId>dcharts-widget</artifactId>
 			<version>0.10.0</version>
 		</dependency>
-		 <!-- Activiti Modeler -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+		 <!-- Activiti Modeler 
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
@@ -513,10 +520,11 @@
         <scope>provided</scope>
       </dependency>
 	<dependency>
-    <groupId>javax.enterprise</groupId>
-    <artifactId>cdi-api</artifactId>
-    <version>1.2</version>
-</dependency>
+		<groupId>javax.enterprise</groupId>
+		<artifactId>cdi-api</artifactId>
+		<version>1.2</version>
+	</dependency>
+	-->
 
 	</dependencies>
 	<build>

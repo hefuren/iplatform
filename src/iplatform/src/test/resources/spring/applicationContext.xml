@@ -19,7 +19,7 @@
 
 	<!-- 设置动态代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<!--  
+	<!-- 配置JDNI数据源 
 	<bean id="dataSourcetarget" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/BSDataSource"></property>
 	</bean>
@@ -29,8 +29,9 @@
 			<ref bean="dataSourcetarget" />
 		</property>
 	</bean>
-	-->
-	<!-- 测试专用数据源配置 -->
+	 -->
+	
+	<!-- 测试专用数据源配置-->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
@@ -38,7 +39,7 @@
 		<property name="username" value="easytrack" />
 		<property name="password" value="easytrack" />
 	</bean>
-	
+	 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource">
@@ -135,6 +136,7 @@
 
 
 	<!-- 配置其他的模块 -->
+	<import resource="activitiContext.xml" />
 	<import resource="transactionalContext.xml" />
 
 </beans>
